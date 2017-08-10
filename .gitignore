@@ -8,10 +8,10 @@
 *.jar
 
 # Back-end files
-Kolibri Back-end/target/
-Kolibri Back-end/kolibri.iml
-Kolibri Back-end/.idea
+Kolibri-back-end/target/
+Kolibri-back-end/kolibri.iml
+Kolibri-back-end/.idea
 
 # Front-end files
-Kolibri Front-end/app/bower_components/
-Kolibri Front-end/node_modules/
+Kolibri-front-end/app/bower_components/
+Kolibri-front-end/node_modules/
