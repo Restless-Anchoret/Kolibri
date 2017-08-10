@@ -7,17 +7,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource
 import javax.sql.DataSource
 
 @Configuration
-open class DatabaseConfiguration {
+class DatabaseConfiguration {
 
     @Bean
     fun dataSource(@Value("\${jdbc.url}") url: String,
                    @Value("\${jdbc.username}") username: String,
                    @Value("\${jdbc.password}") password: String,
                    @Value("\${jdbc.driver}") driverClassName: String): DataSource {
-        println(url)
-        println(username)
-        println(password)
-        println(driverClassName)
         val dataSource = DriverManagerDataSource(url, username, password)
         dataSource.setDriverClassName(driverClassName)
         return dataSource

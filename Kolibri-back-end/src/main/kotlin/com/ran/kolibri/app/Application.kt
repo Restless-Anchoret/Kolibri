@@ -2,10 +2,12 @@ package com.ran.kolibri.app
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-class Main
+@ComponentScan(basePackages = arrayOf("com.ran.kolibri"))
+class Application
 
 fun main(args: Array<String>) {
-    SpringApplication.run(Main::class.java, *args)
+    SpringApplication.run(Application::class.java, *args)
 }
