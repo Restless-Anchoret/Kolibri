@@ -1,4 +1,4 @@
-package com.ran.kolibri.configuration
+package com.ran.kolibri.app
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
