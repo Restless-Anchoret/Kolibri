@@ -2,10 +2,7 @@ package com.ran.kolibri.entity.financial
 
 import com.ran.kolibri.entity.base.BaseEntity
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
-import javax.persistence.ManyToOne
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
@@ -13,13 +10,16 @@ import javax.validation.constraints.NotNull
 abstract class Operation : BaseEntity() {
 
     @NotNull
+    @Column(name = "money_amount")
     var moneyAmount: Double = 0.0
 
     @NotNull
+    @Column(name = "operation_date")
     var operationDate: Date? = null
 
-    @ManyToOne
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "operation_strategy")
     var operationCategory: OperationCategory? = null
 
     @NotNull

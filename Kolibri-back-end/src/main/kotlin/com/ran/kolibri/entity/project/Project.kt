@@ -2,10 +2,7 @@ package com.ran.kolibri.entity.project
 
 import com.ran.kolibri.entity.base.NamedEntity
 import com.ran.kolibri.entity.property.ProjectProperty
-import javax.persistence.Entity
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
-import javax.persistence.OneToMany
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
@@ -16,6 +13,7 @@ abstract class Project : NamedEntity() {
     val projectProperties: List<ProjectProperty> = ArrayList()
 
     @NotNull
+    @Column(name = "is_template")
     var isTemplate: Boolean = false
 
 }
