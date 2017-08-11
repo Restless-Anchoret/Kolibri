@@ -11,4 +11,7 @@ class ExpendOperation : Operation() {
     @NotNull
     var expendAccount: Account? = null
 
+    @NotNull
+    var resultMoneyAmount: Double = 0.0
+
 }

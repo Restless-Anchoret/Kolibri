@@ -11,4 +11,7 @@ class IncomeOperation : Operation() {
     @NotNull
     var incomeAccount: Account? = null
 
+    @NotNull
+    var resultMoneyAmount: Double = 0.0
+
 }

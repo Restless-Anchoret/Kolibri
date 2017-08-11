@@ -1,9 +1,10 @@
 package com.ran.kolibri.entity.base
 
-import javax.persistence.*
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.MappedSuperclass
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 abstract class BaseEntity {
 
     @Id

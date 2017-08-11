@@ -16,13 +16,13 @@ abstract class Operation : BaseEntity() {
     var moneyAmount: Double = 0.0
 
     @NotNull
-    var resultMoneyAmount: Double = 0.0
-
-    @NotNull
     var operationDate: Date? = null
 
     @ManyToOne
     @NotNull
     var operationCategory: OperationCategory? = null
+
+    @NotNull
+    var comment: String = ""
 
 }

@@ -11,8 +11,14 @@ class TransferOperation : Operation() {
     @NotNull
     var fromAccount: Account? = null
 
+    @NotNull
+    var fromAccountResultMoneyAmount: Double = 0.0
+
     @ManyToOne
     @NotNull
     var toAccount: Account? = null
+
+    @NotNull
+    var toAccountResultMoneyAmount: Double = 0.0
 
 }
