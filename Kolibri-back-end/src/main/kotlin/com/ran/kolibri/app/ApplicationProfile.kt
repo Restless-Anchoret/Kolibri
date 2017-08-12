@@ -5,7 +5,7 @@ enum class ApplicationProfile (
 ) {
 
     PROD("prod"),
-    DEBUG("debug"),
+    DEV("dev"),
     TEST("test"),
     LIQUIBASE_UPDATE("liquibase_update")
 
