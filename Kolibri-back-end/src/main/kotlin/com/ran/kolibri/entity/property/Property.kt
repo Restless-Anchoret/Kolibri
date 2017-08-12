@@ -12,9 +12,9 @@ import javax.validation.constraints.NotNull
 abstract class Property : BaseEntity() {
 
     @NotEmpty
-    val key: String = ""
+    var key: String = ""
 
     @NotNull
-    val value: String = ""
+    var value: String = ""
 
 }

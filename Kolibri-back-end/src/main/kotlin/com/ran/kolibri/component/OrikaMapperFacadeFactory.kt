@@ -1,5 +1,7 @@
 package com.ran.kolibri.component
 
+import com.ran.kolibri.dto.project.FinancialProjectDTO
+import com.ran.kolibri.entity.project.FinancialProject
 import ma.glasnost.orika.MapperFacade
 import ma.glasnost.orika.MapperFactory
 import ma.glasnost.orika.impl.DefaultMapperFactory
@@ -24,7 +26,7 @@ class OrikaMapperFacadeFactory : FactoryBean<MapperFacade> {
     }
 
     private fun createMappings(mapperFactory: MapperFactory) {
-        // todo: add mappings
+        mapperFactory.classMap(FinancialProject::class.java, FinancialProjectDTO::class.java).byDefault().register()
     }
 
 }
