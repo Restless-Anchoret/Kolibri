@@ -18,8 +18,13 @@ class ProjectService {
     lateinit var financialProjectRepository: FinancialProjectRepository
 
     @Transactional
-    fun getAllProjects(): List<Project> {
-        return projectRepository.findAll().toList()
+    fun getAllActiveProjects(): List<Project> {
+        return projectRepository.findByIsTemplate(false)
+    }
+
+    @Transactional
+    fun getAllTemplateProjects(): List<Project> {
+        return projectRepository.findByIsTemplate(true)
     }
 
     @Transactional

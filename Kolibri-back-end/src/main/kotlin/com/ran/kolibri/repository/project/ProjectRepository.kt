@@ -2,4 +2,8 @@ package com.ran.kolibri.repository.project
 
 import com.ran.kolibri.entity.project.Project
 
-interface ProjectRepository : BaseProjectRepository<Project>
+interface ProjectRepository : BaseProjectRepository<Project> {
+
+    fun findByIsTemplate(isTemplate: Boolean): List<Project>
+
+}

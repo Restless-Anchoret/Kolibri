@@ -1,9 +1,16 @@
 package com.ran.kolibri.dto.project
 
-abstract class ProjectDTO {
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.ran.kolibri.dto.base.NamedEntityDTO
 
-    var id: Long? = null
-    var name: String? = null
-    var description: String? = null
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+              include = JsonTypeInfo.As.PROPERTY,
+              property = "type")
+@JsonSubTypes(
+        JsonSubTypes.Type(value = FinancialProjectDTO::class, name = "financial"))
+abstract class ProjectDTO : NamedEntityDTO() {
+
+    var isTemplate: Boolean? = null
 
 }
