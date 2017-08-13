@@ -75,7 +75,7 @@ class ProjectController {
                            @RequestBody addIncomeOperationDto: AddIncomeOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddIncomeOperationRequestDto(addIncomeOperationDto)
         operationService.addIncomeOperation(projectId,
-                addIncomeOperationDto.accountId!!, addIncomeOperationDto.operationCategoryId!!,
+                addIncomeOperationDto.incomeAccountId!!, addIncomeOperationDto.operationCategoryId!!,
                 addIncomeOperationDto.moneyAmount!!, addIncomeOperationDto.comment!!)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -85,7 +85,7 @@ class ProjectController {
                            @RequestBody addExpendOperationDto: AddExpendOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddExpendOperationRequestDto(addExpendOperationDto)
         operationService.addExpendOperation(projectId,
-                addExpendOperationDto.accountId!!, addExpendOperationDto.operationCategoryId!!,
+                addExpendOperationDto.expendAccountId!!, addExpendOperationDto.operationCategoryId!!,
                 addExpendOperationDto.moneyAmount!!, addExpendOperationDto.comment!!)
         return ResponseEntity(HttpStatus.OK)
     }

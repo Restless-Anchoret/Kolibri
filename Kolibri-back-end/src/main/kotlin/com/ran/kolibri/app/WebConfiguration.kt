@@ -1,21 +1,27 @@
 package com.ran.kolibri.app
 
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
 @Configuration
-class WebConfiguration {
+@EnableWebSecurity
+class WebConfiguration : WebSecurityConfigurerAdapter() {
 
-    @Bean
-    fun corsConfigurer(): WebMvcConfigurer {
-        return object : WebMvcConfigurerAdapter() {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/*").allowedOrigins("/*")
-            }
-        }
+//    @Bean
+//    fun corsConfigurer(): WebMvcConfigurer {
+//        return object : WebMvcConfigurerAdapter() {
+//            override fun addCorsMappings(registry: CorsRegistry) {
+//                registry.addMapping("/*")
+//                        .allowedOrigins("/*")
+//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+//            }
+//        }
+//    }
+
+    override fun configure(http: HttpSecurity) {
+        http.csrf().disable()
     }
 
 }

@@ -15,19 +15,19 @@ class DtoPropertyChecker {
     }
 
     fun checkAddIncomeOperationRequestDto(addIncomeOperationDto: AddIncomeOperationRequestDTO) {
-        checkProperty(addIncomeOperationDto.accountId, "accountId")
+        checkProperty(addIncomeOperationDto.incomeAccountId, "incomeAccountId")
         checkAddOperationRequestDto(addIncomeOperationDto)
     }
 
     fun checkAddExpendOperationRequestDto(addExpendOperationDto: AddExpendOperationRequestDTO) {
-        checkProperty(addExpendOperationDto.accountId, "accountId")
+        checkProperty(addExpendOperationDto.expendAccountId, "expendAccountId")
         checkAddOperationRequestDto(addExpendOperationDto)
     }
 
     fun checkAddTransferOperationRequestDto(addTransferOperationDto: AddTransferOperationRequestDTO) {
         checkProperty(addTransferOperationDto.fromAccountId, "fromAccountId")
         checkProperty(addTransferOperationDto.toAccountId, "toAccountId")
-        checkAddTransferOperationRequestDto(addTransferOperationDto)
+        checkAddOperationRequestDto(addTransferOperationDto)
     }
 
     fun checkAddOperationRequestDto(addOperationDto: AddOperationRequestDTO) {
