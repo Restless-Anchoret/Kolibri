@@ -12,12 +12,12 @@ import javax.persistence.Table
 class FinancialProject : Project() {
 
     @OneToMany
-    val accounts: List<Account> = ArrayList()
+    val accounts: MutableList<Account> = ArrayList()
 
     @OneToMany
-    val operations: List<Operation> = ArrayList()
+    val operations: MutableList<Operation> = ArrayList()
 
     @OneToMany
-    val operationCategories: List<OperationCategory> = ArrayList()
+    val operationCategories: MutableList<OperationCategory> = ArrayList()
 
 }
