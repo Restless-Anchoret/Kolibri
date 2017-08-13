@@ -52,10 +52,10 @@ class OperationService {
     }
 
     @Transactional
-    fun addTransferOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
-                           moneyAmount: Double, comment: String) {
-        val fromAccount = accountService.changeAccountMoney(accountId, -moneyAmount)
-        val toAccount = accountService.changeAccountMoney(accountId, moneyAmount)
+    fun addTransferOperation(projectId: Long, fromAccountId: Long, toAccountId: Long,
+                             operationCategoryId: Long, moneyAmount: Double, comment: String) {
+        val fromAccount = accountService.changeAccountMoney(fromAccountId, -moneyAmount)
+        val toAccount = accountService.changeAccountMoney(toAccountId, moneyAmount)
         val operation = TransferOperation()
         operation.fromAccount = fromAccount
         operation.toAccount = toAccount
