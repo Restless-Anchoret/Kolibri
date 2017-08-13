@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull
 @Inheritance(strategy = InheritanceType.JOINED)
 abstract class Project : NamedEntity() {
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     val projectProperties: List<ProjectProperty> = ArrayList()
 
     @NotNull

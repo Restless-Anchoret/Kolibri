@@ -1,15 +1,17 @@
 package com.ran.kolibri.entity.financial
 
 import com.ran.kolibri.entity.base.NamedEntity
+import com.ran.kolibri.entity.project.FinancialProject
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
 class Account : NamedEntity() {
+
+    @NotNull
+    @ManyToOne
+    var project: FinancialProject? = null
 
     @NotNull
     @Column(name = "creation_date")

@@ -5,7 +5,6 @@ import com.ran.kolibri.entity.financial.IncomeOperation
 import com.ran.kolibri.entity.financial.Operation
 import com.ran.kolibri.entity.financial.TransferOperation
 import com.ran.kolibri.repository.financial.OperationRepository
-import com.ran.kolibri.repository.project.FinancialProjectRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,8 +22,6 @@ class OperationService {
 
     @Autowired
     lateinit var operationRepository: OperationRepository
-    @Autowired
-    lateinit var financialProjectRepository: FinancialProjectRepository
 
     @Transactional
     fun getAllOperationsByProjectId(projectId: Long): List<Operation> {
@@ -72,10 +69,8 @@ class OperationService {
         operation.moneyAmount = moneyAmount
         operation.comment = comment
         operation.operationDate = Date()
+        operation.project = project
         operationRepository.save(operation)
-
-        project.operations.add(operation)
-        financialProjectRepository.save(project)
     }
 
 }

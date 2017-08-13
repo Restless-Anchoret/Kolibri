@@ -11,13 +11,13 @@ import javax.persistence.Table
 @Table(name = "financial_project")
 class FinancialProject : Project() {
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     val accounts: MutableList<Account> = ArrayList()
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     val operations: MutableList<Operation> = ArrayList()
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     val operationCategories: MutableList<OperationCategory> = ArrayList()
 
 }

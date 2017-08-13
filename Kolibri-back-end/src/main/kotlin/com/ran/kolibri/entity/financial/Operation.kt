@@ -1,6 +1,7 @@
 package com.ran.kolibri.entity.financial
 
 import com.ran.kolibri.entity.base.BaseEntity
+import com.ran.kolibri.entity.project.FinancialProject
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -8,6 +9,10 @@ import javax.validation.constraints.NotNull
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 abstract class Operation : BaseEntity() {
+
+    @NotNull
+    @ManyToOne
+    var project: FinancialProject? = null
 
     @NotNull
     @Column(name = "money_amount")
