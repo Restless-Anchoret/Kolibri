@@ -9,11 +9,14 @@ import com.ran.kolibri.dto.project.ProjectDTO
 import com.ran.kolibri.dto.request.AddExpendOperationRequestDTO
 import com.ran.kolibri.dto.request.AddIncomeOperationRequestDTO
 import com.ran.kolibri.dto.request.AddTransferOperationRequestDTO
+import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService
 import com.ran.kolibri.service.OperationCategoryService
 import com.ran.kolibri.service.OperationService
 import com.ran.kolibri.service.ProjectService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -65,9 +68,10 @@ class ProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(GET))
-    fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long): List<OperationDTO> {
-        val operations = operationService.getAllOperationsByProjectId(projectId)
-        return orikaMapperFacadeFactory.`object`.mapAsList(operations, OperationDTO::class.java)
+    fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long,
+                                      pageable: Pageable): Page<OperationDTO> {
+        val operationsPage = operationService.getAllOperationsByProjectId(projectId, pageable)
+        return orikaMapperFacadeFactory.`object`.mapAsPage(operationsPage, pageable, OperationDTO::class.java)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/income"), method = arrayOf(POST))

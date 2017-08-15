@@ -6,6 +6,8 @@ import com.ran.kolibri.entity.financial.Operation
 import com.ran.kolibri.entity.financial.TransferOperation
 import com.ran.kolibri.repository.financial.OperationRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -24,8 +26,8 @@ class OperationService {
     lateinit var operationRepository: OperationRepository
 
     @Transactional
-    fun getAllOperationsByProjectId(projectId: Long): List<Operation> {
-        return projectService.getFinancialProjectById(projectId).operations
+    fun getAllOperationsByProjectId(projectId: Long, pageable: Pageable): Page<Operation> {
+        return operationRepository.findByProject(projectId, pageable)
     }
 
     @Transactional
