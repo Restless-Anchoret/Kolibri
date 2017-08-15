@@ -1,31 +1,38 @@
-<!DOCTYPE html>
+<!DOCTYPE>
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Kolibri</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kolibri</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="app.js"></script>
-  <script src="projects/projects.js"></script>
-  <script src="settings/settings.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="app.js"></script>
+    <script src="projects/projects.js"></script>
+    <script src="templates/templates.js"></script>
+    <script src="settings/settings.js"></script>
+    <script src="financial-project/financial-project.js"></script>
+    <script src="financial-project/operations/operations.js"></script>
+    <script src="financial-project/accounts/accounts.js"></script>
+    <script src="financial-project/categories/categories.js"></script>
+    <script src="financial-project/tools/tools.js"></script>
 </head>
 <body ng-app="kolibri">
-  <ul class="menu">
+<ul class="menu">
     <li><a ui-sref="projects" ui-sref-active="active">Projects</a></li>
+    <li><a ui-sref="templates" ui-sref-active="active">Templates</a></li>
     <li><a ui-sref="settings" ui-sref-active="active">Settings</a></li>
-  </ul>
-  <hr/>
+</ul>
 
-  <ui-view></ui-view>
+<ui-view></ui-view>
 
-  <hr/>
-  <div>Kolibri: v1.0</div>
+<hr/>
+<div>Kolibri: v1.0</div>
 </body>
 </html>

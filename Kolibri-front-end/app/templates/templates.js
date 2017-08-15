@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('kolibri')
-    .component('settingsComponent', {
-        templateUrl: 'settings/settings.html',
+    .component('templatesComponent', {
+        templateUrl: 'templates/templates.html',
         controller: function() {
 
         }

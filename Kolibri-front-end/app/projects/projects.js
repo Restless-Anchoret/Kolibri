@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kolibri')
-    .component('projects', {
+    .component('projectsComponent', {
         templateUrl: 'projects/projects.html',
         controller: function() {
 
