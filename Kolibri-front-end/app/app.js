@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('kolibri', [
-    'ui.router'
+    'ui.router',
+    'ui.bootstrap'
 ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider.state({
@@ -22,8 +23,7 @@ angular.module('kolibri', [
         $stateProvider.state({
             name: 'financial-project',
             url: '/financial-project/{projectId}',
-            component: 'financialProjectComponent'//,
-            //abstract: true
+            component: 'financialProjectComponent'
         });
         $stateProvider.state({
             name: 'financial-project.operations',
