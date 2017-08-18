@@ -4,6 +4,7 @@ import com.ran.kolibri.entity.financial.Account
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.entity.property.GlobalProperty
+import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.project.ProjectRepository
@@ -51,11 +52,11 @@ class DebugDataService {
 
     @Transactional
     fun populateDebugData() {
-        LOGGER.info("Before debug data population")
+        LOGGER.logInfo{ "Before debug data population" }
 
         val debugDataProperty = globalPropertyRepository.findByKey(DEBUG_DATA_PROPERTY_KEY)
         if (debugDataProperty != null) {
-            LOGGER.info("Debug data has been already populated")
+            LOGGER.logInfo{ "Debug data has been already populated" }
             return
         }
 
@@ -65,7 +66,7 @@ class DebugDataService {
         val operationCategories = fillOperationCategories(projects[0])
         fillOperations(projects[0], accounts[0], accounts[1], operationCategories[0])
 
-        LOGGER.info("After debug data population")
+        LOGGER.logInfo{ "After debug data population" }
     }
 
     private fun fillDebugDataProperty() {
