@@ -19,6 +19,7 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -40,15 +41,27 @@
     <script src="financial-project/tools/tools.js"></script>
 </head>
 <body ng-app="kolibri">
-<ul class="menu">
-    <li><a ui-sref="projects" ui-sref-active="active">Projects</a></li>
-    <li><a ui-sref="templates" ui-sref-active="active">Templates</a></li>
-    <li><a ui-sref="settings" ui-sref-active="active">Settings</a></li>
-</ul>
+
+<nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href class="dropdown-toggle menu-gamburger" data-toggle="dropdown" aria-expanded="false">
+                <span class="glyphicon glyphicon-list"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a ui-sref="projects">Projects</a></li>
+                <li><a ui-sref="templates">Templates</a></li>
+                <li><a ui-sref="settings">Settings</a></li>
+            </ul>
+        </li>
+        <li><a class="brand" ui-sref="projects" ui-sref-active="active">Kolibri</a></li>
+    </ul>
+</nav>
 
 <ui-view></ui-view>
 
 <hr/>
 <div>Kolibri: v1.0</div>
+
 </body>
 </html>
