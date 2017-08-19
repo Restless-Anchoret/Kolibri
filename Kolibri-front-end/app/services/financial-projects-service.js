@@ -3,6 +3,10 @@
 angular.module('kolibri')
     .factory('financialProjectsService', function($http, utilsService, backendSettings) {
         return {
+            getFinancialProjectById: function(projectId, errorCallback) {
+                return $http.get(backendSettings.url + '/financial-projects/' + projectId)
+                    .then(utilsService.extractData, errorCallback);
+            },
             getFinancialProjectAccounts: function(projectId, pageable, errorCallback) {
                 return $http.get(backendSettings.url + '/financial-projects/' + projectId +
                     '/accounts?' + utilsService.pageableToUrl(pageable))
