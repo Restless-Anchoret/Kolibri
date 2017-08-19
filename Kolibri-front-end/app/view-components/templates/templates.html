@@ -11,8 +11,7 @@
         <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="project in $data">
                 <td class="templates-operations-column">
-                    <operations-list-component operations="projectOperations"
-                                               parameter="project.id"></operations-list-component>
+                    <actions-list-component actions="projectActions" parameter="project.id"></actions-list-component>
                 </td>
                 <td title="'Name'" class="templates-name-column">
                     <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>

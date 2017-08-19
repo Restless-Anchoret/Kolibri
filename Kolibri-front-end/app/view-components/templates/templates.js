@@ -8,10 +8,10 @@ angular.module('kolibri')
                 projectsService.getAllTemplateProjects, {}
             );
 
-            $scope.projectOperations = [
-                { action: editProjectTemplate, name: 'Edit' },
-                { action: exportProjectTemplate, name: 'Export' },
-                { action: deleteProjectTemplate, name: 'Delete' }
+            $scope.projectActions = [
+                { act: editProjectTemplate, name: 'Edit' },
+                { act: exportProjectTemplate, name: 'Export' },
+                { act: deleteProjectTemplate, name: 'Delete' }
             ];
 
             function editProjectTemplate(projectId) {
