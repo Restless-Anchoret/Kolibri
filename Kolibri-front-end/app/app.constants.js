@@ -1,4 +1,6 @@
 'use strict';
 
 angular.module('kolibri')
-    .constant('backendUrl', 'http://localhost:8080/');
+    .constant('backendSettings', {
+        url: 'http://localhost:8080'
+    });
