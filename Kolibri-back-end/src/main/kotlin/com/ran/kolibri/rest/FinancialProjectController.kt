@@ -4,6 +4,7 @@ import com.ran.kolibri.component.DtoPropertyChecker
 import com.ran.kolibri.dto.financial.AccountDTO
 import com.ran.kolibri.dto.financial.OperationCategoryDTO
 import com.ran.kolibri.dto.financial.OperationDTO
+import com.ran.kolibri.dto.project.FinancialProjectDTO
 import com.ran.kolibri.dto.request.AddExpendOperationRequestDTO
 import com.ran.kolibri.dto.request.AddIncomeOperationRequestDTO
 import com.ran.kolibri.dto.request.AddTransferOperationRequestDTO
@@ -11,6 +12,7 @@ import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService
 import com.ran.kolibri.service.OperationCategoryService
 import com.ran.kolibri.service.OperationService
+import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -18,11 +20,15 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMethod.GET
+import org.springframework.web.bind.annotation.RequestMethod.POST
 
 @RestController
 @RequestMapping("/financial-projects")
 class FinancialProjectController {
 
+    @Autowired
+    lateinit var projectService: ProjectService
     @Autowired
     lateinit var operationCategoryService: OperationCategoryService
     @Autowired
@@ -34,28 +40,34 @@ class FinancialProjectController {
     @Autowired
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
-    @RequestMapping(path = arrayOf("/{projectId}/accounts"), method = arrayOf(RequestMethod.GET))
+    @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
+    fun getFinancialProjectById(@PathVariable("projectId") projectId: Long): FinancialProjectDTO {
+        val project = projectService.getFinancialProjectById(projectId)
+        return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/accounts"), method = arrayOf(GET))
     fun getFinancialProjectAccounts(@PathVariable("projectId") projectId: Long,
                                     pageable: Pageable): Page<AccountDTO> {
-        val accounts = accountService.getAllAccountsByProjectId(projectId, pageable)
-        return orikaMapperFacade.mapAsPage(accounts, pageable, AccountDTO::class.java)
+        val accountsPage = accountService.getAllAccountsByProjectId(projectId, pageable)
+        return orikaMapperFacade.mapAsPage(accountsPage, pageable, AccountDTO::class.java)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(RequestMethod.GET))
+    @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(GET))
     fun getFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long,
                                                pageable: Pageable): Page<OperationCategoryDTO> {
-        val operationCategories = operationCategoryService.getAllOperationCategoriesByProjectId(projectId, pageable)
-        return orikaMapperFacade.mapAsPage(operationCategories, pageable, OperationCategoryDTO::class.java)
+        val operationCategoriesPage = operationCategoryService.getAllOperationCategoriesByProjectId(projectId, pageable)
+        return orikaMapperFacade.mapAsPage(operationCategoriesPage, pageable, OperationCategoryDTO::class.java)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(RequestMethod.GET))
+    @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(GET))
     fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long,
                                       pageable: Pageable): Page<OperationDTO> {
         val operationsPage = operationService.getAllOperationsByProjectId(projectId, pageable)
         return orikaMapperFacade.mapAsPage(operationsPage, pageable, OperationDTO::class.java)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/income"), method = arrayOf(RequestMethod.POST))
+    @RequestMapping(path = arrayOf("/{projectId}/income"), method = arrayOf(POST))
     fun addIncomeOperation(@PathVariable("projectId") projectId: Long,
                            @RequestBody addIncomeOperationDto: AddIncomeOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddIncomeOperationRequestDto(addIncomeOperationDto)
@@ -66,7 +78,7 @@ class FinancialProjectController {
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/expend"), method = arrayOf(RequestMethod.POST))
+    @RequestMapping(path = arrayOf("/{projectId}/expend"), method = arrayOf(POST))
     fun addExpendOperation(@PathVariable("projectId") projectId: Long,
                            @RequestBody addExpendOperationDto: AddExpendOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddExpendOperationRequestDto(addExpendOperationDto)
@@ -77,7 +89,7 @@ class FinancialProjectController {
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/transfer"), method = arrayOf(RequestMethod.POST))
+    @RequestMapping(path = arrayOf("/{projectId}/transfer"), method = arrayOf(POST))
     fun addTransferOperation(@PathVariable("projectId") projectId: Long,
                              @RequestBody addTransferOperationDto: AddTransferOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddTransferOperationRequestDto(addTransferOperationDto)
