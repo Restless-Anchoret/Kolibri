@@ -3,18 +3,10 @@
 angular.module('kolibri')
     .component('projectsComponent', {
         templateUrl: 'view-components/projects/projects.html',
-        controller: function($scope, $log, projectsService, NgTableParams, RequestInfo) {
-            $scope.tableParams = new NgTableParams({}, {
-                getData: function(params) {
-                    return projectsService.getAllActiveProjects(new RequestInfo({ pageable: params.url() }))
-                        .then(function(data) {
-                            $log.debug('Projects were successfully retrieved. Response:');
-                            $log.debug(data);
-                            params.total(data.totalElements);
-                            return data.content;
-                        });
-                }
-            });
+        controller: function($scope, $log, projectsService, utilsService) {
+            $scope.tableParams = utilsService.createTableParams(
+                projectsService.getAllActiveProjects, {}
+            );
 
             $scope.projectOperations = [
                 { action: editProject, name: 'Edit' },

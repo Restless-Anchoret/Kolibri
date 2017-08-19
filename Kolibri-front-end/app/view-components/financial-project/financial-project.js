@@ -9,8 +9,6 @@ angular.module('kolibri')
             };
             financialProjectsService.getFinancialProjectById(new RequestInfo(params))
                 .then(function(data) {
-                    $log.debug('Financial project was retrieved. Response: ');
-                    $log.debug(data);
                     $scope.project = data;
                 });
         }

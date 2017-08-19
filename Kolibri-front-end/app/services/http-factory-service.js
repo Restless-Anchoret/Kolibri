@@ -15,6 +15,7 @@ angular.module('kolibri')
 
         function createHttpRequest(url, method) {
             return function(requestInfo) {
+                $log.debug('------ Sending Request ------');
                 $log.debug('URL: ' + url + '; method: ' + method);
                 $log.debug(requestInfo);
                 var preparedUrl = insertParams(url, requestInfo.params);
@@ -50,6 +51,8 @@ angular.module('kolibri')
         }
 
         function extractData(response) {
+            $log.debug(response.data);
+            $log.debug('------ Request was received ------');
             return response.data;
         }
     });

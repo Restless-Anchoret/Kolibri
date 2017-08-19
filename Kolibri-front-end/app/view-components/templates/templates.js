@@ -3,18 +3,10 @@
 angular.module('kolibri')
     .component('templatesComponent', {
         templateUrl: 'view-components/templates/templates.html',
-        controller: function($scope, $log, projectsService, NgTableParams, RequestInfo) {
-            $scope.tableParams = new NgTableParams({}, {
-                getData: function(params) {
-                    return projectsService.getAllTemplateProjects(new RequestInfo({ pageable: params.url() }))
-                        .then(function(data) {
-                            $log.debug('Template projects were successfully retrieved. Response:');
-                            $log.debug(data);
-                            params.total(data.totalElements);
-                            return data.content;
-                        });
-                }
-            });
+        controller: function($scope, $log, projectsService, utilsService) {
+            $scope.tableParams = utilsService.createTableParams(
+                projectsService.getAllTemplateProjects, {}
+            );
 
             $scope.projectOperations = [
                 { action: editProjectTemplate, name: 'Edit' },
