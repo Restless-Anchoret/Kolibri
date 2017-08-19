@@ -2,7 +2,7 @@
 
 angular.module('kolibri')
     .component('settingsComponent', {
-        templateUrl: 'settings/settings.html',
+        templateUrl: 'view-components/settings/settings.html',
         controller: function() {
 
         }

@@ -2,7 +2,7 @@
 
 angular.module('kolibri')
     .component('financialProjectToolsComponent', {
-        templateUrl: 'financial-project/tools/tools.html',
+        templateUrl: 'view-components/financial-project/tools/tools.html',
         controller: function() {
 
         }

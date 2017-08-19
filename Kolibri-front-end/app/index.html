@@ -1,57 +1,58 @@
 <!DOCTYPE>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kolibri</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-    <link rel="stylesheet" href="app.css">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kolibri</title>
+        <meta name="description" content="Kolibri Web Application">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+        <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+        <link rel="stylesheet" href="app.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 
-    <script src="app.js"></script>
-    <script src="components/header/header.js"></script>
-    <script src="projects/projects.js"></script>
-    <script src="templates/templates.js"></script>
-    <script src="settings/settings.js"></script>
-    <script src="financial-project/financial-project.js"></script>
-    <script src="financial-project/header/header.js"></script>
-    <script src="financial-project/operations/operations.js"></script>
-    <script src="financial-project/accounts/accounts.js"></script>
-    <script src="financial-project/categories/categories.js"></script>
-    <script src="financial-project/tools/tools.js"></script>
-</head>
-<body ng-app="kolibri">
+        <script src="app.module.js"></script>
+        <script src="app.routing.js"></script>
+        <script src="app.constants.js"></script>
 
-<ui-view name="header"></ui-view>
+        <script src="components/header/header.js"></script>
 
-<div class="body-container">
-    <ui-view name="body"></ui-view>
-</div>
+        <script src="view-components/projects/projects.js"></script>
+        <script src="view-components/templates/templates.js"></script>
+        <script src="view-components/settings/settings.js"></script>
+        <script src="view-components/financial-project/financial-project.js"></script>
+        <script src="view-components/financial-project/header/header.js"></script>
+        <script src="view-components/financial-project/operations/operations.js"></script>
+        <script src="view-components/financial-project/accounts/accounts.js"></script>
+        <script src="view-components/financial-project/categories/categories.js"></script>
+        <script src="view-components/financial-project/tools/tools.js"></script>
+    </head>
 
-<hr/>
-<div class="body-container">Kolibri: v1.0</div>
+    <body ng-app="kolibri">
 
-</body>
+        <ui-view name="header"></ui-view>
+
+        <div class="body-container">
+            <ui-view name="body"></ui-view>
+        </div>
+
+        <hr/>
+
+        <div class="body-container">Kolibri: v1.0</div>
+
+    </body>
+
 </html>

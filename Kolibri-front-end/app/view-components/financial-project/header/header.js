@@ -2,7 +2,7 @@
 
 angular.module('kolibri')
     .component('financialProjectHeaderComponent', {
-        templateUrl: 'financial-project/header/header.html',
+        templateUrl: 'view-components/financial-project/header/header.html',
         controller: function($scope) {
             $scope.financialProjectTabs = [
                 { state: 'financial-project.operations', name: 'Operations' },
