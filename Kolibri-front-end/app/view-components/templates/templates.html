@@ -2,4 +2,31 @@
     <div class="page-header">
         <h1>Templates</h1>
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="btn btn-default btn-header">New</button>
+            <button type="button" class="btn btn-default btn-header">Import</button>
+        </div>
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+            <tr ng-repeat="project in $data">
+                <td class="templates-operations-column">
+                    <operations-list-component operations="projectOperations"
+                                               parameter="project.id"></operations-list-component>
+                </td>
+                <td title="'Name'" class="templates-name-column">
+                    <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>
+                </td>
+                <td title="'Type'" class="templates-type-column">
+                    <div ng-if="project.projectType === 'financial'">
+                        <span class="glyphicon glyphicon-usd"></span> Financial
+                    </div>
+                </td>
+                <td title="'Description'" class="templates-description-column">
+                    {{project.description}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
