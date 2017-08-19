@@ -3,16 +3,19 @@
 angular.module('kolibri')
     .factory('financialProjectsService', function($http, utilsService, backendSettings) {
         return {
-            getFinancialProjectAccounts: function(projectId, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId + '/accounts')
+            getFinancialProjectAccounts: function(projectId, pageable, errorCallback) {
+                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
+                    '/accounts?' + utilsService.pageableToUrl(pageable))
                     .then(utilsService.extractData, errorCallback);
             },
-            getFinancialProjectOperationCategories: function(projectId, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId + '/categories')
+            getFinancialProjectOperationCategories: function(projectId, pageable, errorCallback) {
+                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
+                    '/categories?' + utilsService.pageableToUrl(pageable))
                     .then(utilsService.extractData, errorCallback);
             },
-            getFinancialProjectOperations: function(projectId, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId + '/operations')
+            getFinancialProjectOperations: function(projectId, pageable, errorCallback) {
+                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
+                    '/operations?' + utilsService.pageableToUrl(pageable))
                     .then(utilsService.extractData, errorCallback);
             },
             addIncomeOperation: function(projectId, dto, errorCallback) {

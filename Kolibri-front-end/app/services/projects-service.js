@@ -3,12 +3,12 @@
 angular.module('kolibri')
     .factory('projectsService', function($http, utilsService, backendSettings) {
         return {
-            getAllActiveProjects: function(errorCallback) {
-                return $http.get(backendSettings.url + '/projects')
+            getAllActiveProjects: function(pageable, errorCallback) {
+                return $http.get(backendSettings.url + '/projects?' + utilsService.pageableToUrl(pageable))
                     .then(utilsService.extractData, errorCallback);
             },
-            getAllTemplateProjects: function(errorCallback) {
-                return $http.get(backendSettings.url + '/projects/templates')
+            getAllTemplateProjects: function(pageable, errorCallback) {
+                return $http.get(backendSettings.url + '/projects/templates?' + utilsService.pageableToUrl(pageable))
                     .then(utilsService.extractData, errorCallback);
             }
         };
