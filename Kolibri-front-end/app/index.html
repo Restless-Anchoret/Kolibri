@@ -31,10 +31,12 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 
     <script src="app.js"></script>
+    <script src="components/header/header.js"></script>
     <script src="projects/projects.js"></script>
     <script src="templates/templates.js"></script>
     <script src="settings/settings.js"></script>
     <script src="financial-project/financial-project.js"></script>
+    <script src="financial-project/header/header.js"></script>
     <script src="financial-project/operations/operations.js"></script>
     <script src="financial-project/accounts/accounts.js"></script>
     <script src="financial-project/categories/categories.js"></script>
@@ -42,26 +44,14 @@
 </head>
 <body ng-app="kolibri">
 
-<nav class="navbar navbar-default">
-    <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href class="dropdown-toggle menu-gamburger" data-toggle="dropdown" aria-expanded="false">
-                <span class="glyphicon glyphicon-list"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a ui-sref="projects">Projects</a></li>
-                <li><a ui-sref="templates">Templates</a></li>
-                <li><a ui-sref="settings">Settings</a></li>
-            </ul>
-        </li>
-        <li><a class="brand" ui-sref="projects" ui-sref-active="active">Kolibri</a></li>
-    </ul>
-</nav>
+<ui-view name="header"></ui-view>
 
-<ui-view></ui-view>
+<div class="body-container">
+    <ui-view name="body"></ui-view>
+</div>
 
 <hr/>
-<div>Kolibri: v1.0</div>
+<div class="body-container">Kolibri: v1.0</div>
 
 </body>
 </html>

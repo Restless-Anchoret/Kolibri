@@ -5,44 +5,56 @@ angular.module('kolibri', [
     'ui.bootstrap'
 ])
     .config(['$stateProvider', function ($stateProvider) {
-        $stateProvider.state({
-            name: 'projects',
+        $stateProvider.state('projects', {
             url: '/projects',
-            component: 'projectsComponent'
+            views: {
+                header: { component: 'headerComponent' },
+                body: { component: 'projectsComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'templates',
+        $stateProvider.state('templates', {
             url: '/templates',
-            component: 'templatesComponent'
+            views: {
+                header: { component: 'headerComponent' },
+                body: { component: 'templatesComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'settings',
+        $stateProvider.state('settings', {
             url: '/settings',
-            component: 'settingsComponent'
+            views: {
+                header: { component: 'headerComponent' },
+                body: { component: 'settingsComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'financial-project',
+        $stateProvider.state('financial-project', {
             url: '/financial-project/{projectId}',
-            component: 'financialProjectComponent'
+            views: {
+                header: { component: 'financialProjectHeaderComponent' },
+                body: { component: 'financialProjectComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'financial-project.operations',
+        $stateProvider.state('financial-project.operations', {
             url: '/operations',
-            component: 'financialProjectOperationsComponent'
+            views: {
+                financialProjectBody: { component: 'financialProjectOperationsComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'financial-project.accounts',
+        $stateProvider.state('financial-project.accounts', {
             url: '/accounts',
-            component: 'financialProjectAccountsComponent'
+            views: {
+                financialProjectBody: { component: 'financialProjectAccountsComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'financial-project.categories',
+        $stateProvider.state('financial-project.categories', {
             url: '/categories',
-            component: 'financialProjectCategoriesComponent'
+            views: {
+                financialProjectBody: { component: 'financialProjectCategoriesComponent' }
+            }
         });
-        $stateProvider.state({
-            name: 'financial-project.tools',
+        $stateProvider.state('financial-project.tools', {
             url: '/tools',
-            component: 'financialProjectToolsComponent'
+            views: {
+                financialProjectBody: { component: 'financialProjectToolsComponent' }
+            }
         });
     }]);
