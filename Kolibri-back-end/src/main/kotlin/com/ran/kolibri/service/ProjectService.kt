@@ -6,6 +6,8 @@ import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.project.FinancialProjectRepository
 import com.ran.kolibri.repository.project.ProjectRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,13 +20,13 @@ class ProjectService {
     lateinit var financialProjectRepository: FinancialProjectRepository
 
     @Transactional
-    fun getAllActiveProjects(): List<Project> {
-        return projectRepository.findByIsTemplate(false)
+    fun getAllActiveProjects(pageable: Pageable): Page<Project> {
+        return projectRepository.findByIsTemplate(false, pageable)
     }
 
     @Transactional
-    fun getAllTemplateProjects(): List<Project> {
-        return projectRepository.findByIsTemplate(true)
+    fun getAllTemplateProjects(pageable: Pageable): Page<Project> {
+        return projectRepository.findByIsTemplate(true, pageable)
     }
 
     @Transactional

@@ -1,7 +1,6 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
-import com.ran.kolibri.component.OrikaMapperFacadeFactory
 import com.ran.kolibri.dto.financial.AccountDTO
 import com.ran.kolibri.dto.financial.OperationCategoryDTO
 import com.ran.kolibri.dto.financial.OperationDTO
@@ -12,6 +11,7 @@ import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService
 import com.ran.kolibri.service.OperationCategoryService
 import com.ran.kolibri.service.OperationService
+import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -30,27 +30,29 @@ class FinancialProjectController {
     @Autowired
     lateinit var operationService: OperationService
     @Autowired
-    lateinit var orikaMapperFacadeFactory: OrikaMapperFacadeFactory
+    lateinit var orikaMapperFacade: MapperFacade
     @Autowired
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts"), method = arrayOf(RequestMethod.GET))
-    fun getFinancialProjectAccounts(@PathVariable("projectId") projectId: Long): List<AccountDTO> {
-        val accounts = accountService.getAllAccountsByProjectId(projectId)
-        return orikaMapperFacadeFactory.`object`.mapAsList(accounts, AccountDTO::class.java)
+    fun getFinancialProjectAccounts(@PathVariable("projectId") projectId: Long,
+                                    pageable: Pageable): Page<AccountDTO> {
+        val accounts = accountService.getAllAccountsByProjectId(projectId, pageable)
+        return orikaMapperFacade.mapAsPage(accounts, pageable, AccountDTO::class.java)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(RequestMethod.GET))
-    fun getFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long): List<OperationCategoryDTO> {
-        val operationCategories = operationCategoryService.getAllOperationCategoriesByProjectId(projectId)
-        return orikaMapperFacadeFactory.`object`.mapAsList(operationCategories, OperationCategoryDTO::class.java)
+    fun getFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long,
+                                               pageable: Pageable): Page<OperationCategoryDTO> {
+        val operationCategories = operationCategoryService.getAllOperationCategoriesByProjectId(projectId, pageable)
+        return orikaMapperFacade.mapAsPage(operationCategories, pageable, OperationCategoryDTO::class.java)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(RequestMethod.GET))
     fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long,
                                       pageable: Pageable): Page<OperationDTO> {
         val operationsPage = operationService.getAllOperationsByProjectId(projectId, pageable)
-        return orikaMapperFacadeFactory.`object`.mapAsPage(operationsPage, pageable, OperationDTO::class.java)
+        return orikaMapperFacade.mapAsPage(operationsPage, pageable, OperationDTO::class.java)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/income"), method = arrayOf(RequestMethod.POST))

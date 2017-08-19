@@ -4,6 +4,8 @@ import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -11,13 +13,11 @@ import org.springframework.transaction.annotation.Transactional
 class OperationCategoryService {
 
     @Autowired
-    lateinit var projectService: ProjectService
-    @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
 
     @Transactional
-    fun getAllOperationCategoriesByProjectId(projectId: Long): List<OperationCategory> {
-        return projectService.getFinancialProjectById(projectId).operationCategories
+    fun getAllOperationCategoriesByProjectId(projectId: Long, pageable: Pageable): Page<OperationCategory> {
+        return operationCategoryRepository.findByProjectId(projectId, pageable)
     }
 
     @Transactional
