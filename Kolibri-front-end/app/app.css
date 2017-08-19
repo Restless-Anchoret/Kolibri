@@ -1,17 +1,3 @@
-.header-container {
-  margin-left: 16%;
-  margin-right: 16%;
-}
-
-.menu-gamburger {
-  margin-top: 2px;
-  margin-bottom: 3px;
-}
-
-.brand {
-  font-size: large;
-}
-
 .body-container {
     margin-left: 16%;
     margin-right: 16%;
@@ -28,4 +14,13 @@
     border-right: 0;
     border-top: 0;
     border-bottom: 1px solid #ddd;
+}
+
+.panel-heading {
+    padding: 8px 12px;
+}
+
+.btn-header {
+    padding: 3px 10px;
+    margin: 0 1px;
 }

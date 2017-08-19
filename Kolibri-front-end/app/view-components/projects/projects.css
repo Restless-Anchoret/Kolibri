@@ -1,0 +1,20 @@
+.projects-operations-column {
+    width: 5%;
+    text-align: center;
+}
+
+.projects-name-column {
+    width: 25%;
+}
+
+.projects-type-column {
+    width: 20%;
+}
+
+.projects-description-column {
+    width: 50%;
+}
+
+.operations-dropdown {
+    padding-top: 3px;
+}

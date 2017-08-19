@@ -2,5 +2,39 @@
     <div class="page-header">
         <h1>Projects</h1>
     </div>
-    <!--<a ui-sref="financial-project.operations({projectId: 1})" ui-sref-active="active">First project</a>-->
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="btn btn-default btn-header">New</button>
+            <button type="button" class="btn btn-default btn-header">Import</button>
+        </div>
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+            <tr ng-repeat="project in $data">
+                <td class="projects-operations-column">
+                    <div class="dropdown operations-dropdown">
+                        <a href class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a>Edit</a></li>
+                            <li><a>Export</a></li>
+                            <li><a>Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td title="'Name'" class="projects-name-column">
+                    <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>
+                </td>
+                <td title="'Type'" class="projects-type-column">
+                    <div ng-if="project.projectType === 'financial'">
+                        <span class="glyphicon glyphicon-usd"></span> Financial
+                    </div>
+                </td>
+                <td title="'Description'" class="projects-description-column">
+                    {{project.description}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
