@@ -16,6 +16,13 @@ angular.module('kolibri')
                 body: {component: 'templatesComponent'}
             }
         });
+        $stateProvider.state('commits', {
+            url: '/commits',
+            views: {
+                header: {component: 'headerComponent'},
+                body: {component: 'commitsComponent'}
+            }
+        });
         $stateProvider.state('settings', {
             url: '/settings',
             views: {
