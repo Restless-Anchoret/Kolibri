@@ -2,5 +2,6 @@
 
 angular.module('kolibri', [
     'ui.router',
-    'ui.bootstrap'
-])
+    'ui.bootstrap',
+    'ngTable'
+]);
