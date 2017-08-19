@@ -1,38 +1,27 @@
 'use strict';
 
 angular.module('kolibri')
-    .factory('financialProjectsService', function($http, utilsService, backendSettings) {
+    .factory('financialProjectsService', function($http, httpFactoryService) {
         return {
-            getFinancialProjectById: function(projectId, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId)
-                    .then(utilsService.extractData, errorCallback);
-            },
-            getFinancialProjectAccounts: function(projectId, pageable, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
-                    '/accounts?' + utilsService.pageableToUrl(pageable))
-                    .then(utilsService.extractData, errorCallback);
-            },
-            getFinancialProjectOperationCategories: function(projectId, pageable, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
-                    '/categories?' + utilsService.pageableToUrl(pageable))
-                    .then(utilsService.extractData, errorCallback);
-            },
-            getFinancialProjectOperations: function(projectId, pageable, errorCallback) {
-                return $http.get(backendSettings.url + '/financial-projects/' + projectId +
-                    '/operations?' + utilsService.pageableToUrl(pageable))
-                    .then(utilsService.extractData, errorCallback);
-            },
-            addIncomeOperation: function(projectId, dto, errorCallback) {
-                return $http.post(backendSettings.url + '/financial-projects/' + projectId + '/income', dto)
-                    .then(utilsService.extractData, errorCallback);
-            },
-            addExpendOperation: function(projectId, dto, errorCallback) {
-                return $http.post(backendSettings.url + '/financial-projects/' + projectId + '/expend', dto)
-                    .then(utilsService.extractData, errorCallback);
-            },
-            addTransferOperation: function(projectId, dto, errorCallback) {
-                return $http.post(backendSettings.url + '/financial-projects/' + projectId + '/transfer', dto)
-                    .then(utilsService.extractData, errorCallback);
-            }
+            getFinancialProjectById: httpFactoryService.create(
+                '/financial-projects/{projectId}', 'GET'),
+
+            getFinancialProjectAccounts: httpFactoryService.create(
+                '/financial-projects/{projectId}/accounts', 'GET'),
+
+            getFinancialProjectOperationCategories: httpFactoryService.create(
+                '/financial-projects/{projectId}/categories', 'GET'),
+
+            getFinancialProjectOperations: httpFactoryService.create(
+                '/financial-projects/{projectId}/operations', 'GET'),
+
+            addIncomeOperation: httpFactoryService.create(
+                '/financial-projects/{projectId}/income', 'POST'),
+
+            addExpendOperation: httpFactoryService.create(
+                '/financial-projects/{projectId}/expend', 'POST'),
+
+            addTransferOperation: httpFactoryService.create(
+                '/financial-projects/{projectId}/transfer', 'POST')
         };
     });
