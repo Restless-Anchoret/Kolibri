@@ -1,5 +1,8 @@
 package com.ran.kolibri.app
 
+import com.ran.kolibri.app.ApplicationProfile.DEV
+import com.ran.kolibri.app.ApplicationProfile.LIQUIBASE_UPDATE
+import com.ran.kolibri.app.ApplicationProfile.PROD
 import liquibase.integration.spring.SpringLiquibase
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +25,7 @@ class DatabaseConfiguration {
     lateinit var environment: Environment
 
     @Bean
-    @Profile("prod", "dev", "liquibase_update")
+    @Profile(PROD, DEV, LIQUIBASE_UPDATE)
     fun dataSource(
             @Value("\${jdbc.url.prod}") urlProd: String,
             @Value("\${jdbc.url.dev}") urlDev: String,
@@ -31,9 +34,9 @@ class DatabaseConfiguration {
             @Value("\${jdbc.password}") password: String,
             @Value("\${jdbc.driver}") driverClassName: String): DataSource {
         val profiles = environment.activeProfiles
-        val url = if (profiles.contains(ApplicationProfile.PROD.profileName)) { urlProd }
-                else if (profiles.contains(ApplicationProfile.DEV.profileName)) { urlDev }
-                else if (profiles.contains(ApplicationProfile.LIQUIBASE_UPDATE.profileName)) { urlLiquibaseUpdate }
+        val url = if (profiles.contains(PROD)) { urlProd }
+                else if (profiles.contains(DEV)) { urlDev }
+                else if (profiles.contains(LIQUIBASE_UPDATE)) { urlLiquibaseUpdate }
                 else { "" }
         val dataSource = DriverManagerDataSource(url, username, password)
         dataSource.setDriverClassName(driverClassName)
@@ -73,7 +76,7 @@ class DatabaseConfiguration {
 
     @Bean
     @Autowired
-    @Profile("prod", "dev")
+    @Profile(PROD, DEV)
     fun liquibase(dataSource: DataSource): SpringLiquibase {
         val liquibase = SpringLiquibase()
         liquibase.changeLog = "classpath:liquibase/db-change-log.xml"

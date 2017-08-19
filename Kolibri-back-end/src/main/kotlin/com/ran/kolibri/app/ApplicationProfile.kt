@@ -1,12 +1,10 @@
 package com.ran.kolibri.app
 
-enum class ApplicationProfile (
-        val profileName: String
-) {
+object ApplicationProfile {
 
-    PROD("prod"),
-    DEV("dev"),
-    TEST("test"),
-    LIQUIBASE_UPDATE("liquibase_update")
+    const val PROD = "prod"
+    const val DEV = "dev"
+    const val TEST = "test"
+    const val LIQUIBASE_UPDATE = "liquibase_update"
 
 }

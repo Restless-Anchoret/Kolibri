@@ -9,17 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 class WebConfiguration : WebSecurityConfigurerAdapter() {
 
-//    @Bean
-//    fun corsConfigurer(): WebMvcConfigurer {
-//        return object : WebMvcConfigurerAdapter() {
-//            override fun addCorsMappings(registry: CorsRegistry) {
-//                registry.addMapping("/*")
-//                        .allowedOrigins("/*")
-//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-//            }
-//        }
-//    }
-
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
     }

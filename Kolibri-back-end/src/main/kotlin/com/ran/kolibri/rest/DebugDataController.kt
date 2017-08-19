@@ -1,5 +1,6 @@
 package com.ran.kolibri.rest
 
+import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.service.DebugDataService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/debug-data")
-@Profile("dev")
+@Profile(DEV)
 class DebugDataController {
 
     @Autowired

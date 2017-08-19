@@ -1,5 +1,6 @@
 package com.ran.kolibri.service
 
+import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.entity.project.FinancialProject
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-@Profile("dev")
+@Profile(DEV)
 class DebugDataService {
 
     companion object {

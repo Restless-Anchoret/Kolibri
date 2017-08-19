@@ -65,7 +65,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/expend"), method = arrayOf(RequestMethod.POST))
-    fun addExpandOperation(@PathVariable("projectId") projectId: Long,
+    fun addExpendOperation(@PathVariable("projectId") projectId: Long,
                            @RequestBody addExpendOperationDto: AddExpendOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddExpendOperationRequestDto(addExpendOperationDto)
         operationService.addExpendOperation(projectId,
