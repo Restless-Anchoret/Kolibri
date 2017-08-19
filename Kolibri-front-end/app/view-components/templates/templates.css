@@ -1,16 +1,12 @@
 .templates-operations-column {
-    width: 5%;
+    width: 40px;
     text-align: center;
 }
 
 .templates-name-column {
-    width: 25%;
+    width: 30%;
 }
 
 .templates-type-column {
     width: 20%;
-}
-
-.templates-description-column {
-    width: 50%;
 }

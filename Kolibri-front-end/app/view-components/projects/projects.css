@@ -1,16 +1,12 @@
 .projects-operations-column {
-    width: 5%;
+    width: 40px;
     text-align: center;
 }
 
 .projects-name-column {
-    width: 25%;
+    width: 30%;
 }
 
 .projects-type-column {
     width: 20%;
-}
-
-.projects-description-column {
-    width: 50%;
 }
