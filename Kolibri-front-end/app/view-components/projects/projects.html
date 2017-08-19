@@ -11,16 +11,8 @@
         <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="project in $data">
                 <td class="projects-operations-column">
-                    <div class="dropdown operations-dropdown">
-                        <a href class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="glyphicon glyphicon-cog"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a>Edit</a></li>
-                            <li><a>Export</a></li>
-                            <li><a>Delete</a></li>
-                        </ul>
-                    </div>
+                    <operations-list-component operations="projectOperations"
+                                               parameter="project.id"></operations-list-component>
                 </td>
                 <td title="'Name'" class="projects-name-column">
                     <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>
