@@ -59,7 +59,8 @@ class FinancialProjectController {
         dtoPropertyChecker.checkAddIncomeOperationRequestDto(addIncomeOperationDto)
         operationService.addIncomeOperation(projectId,
                 addIncomeOperationDto.incomeAccountId!!, addIncomeOperationDto.operationCategoryId!!,
-                addIncomeOperationDto.moneyAmount!!, addIncomeOperationDto.comment!!)
+                addIncomeOperationDto.moneyAmount!!, addIncomeOperationDto.comment!!,
+                addIncomeOperationDto.operationDate)
         return ResponseEntity(HttpStatus.OK)
     }
 
@@ -69,7 +70,8 @@ class FinancialProjectController {
         dtoPropertyChecker.checkAddExpendOperationRequestDto(addExpendOperationDto)
         operationService.addExpendOperation(projectId,
                 addExpendOperationDto.expendAccountId!!, addExpendOperationDto.operationCategoryId!!,
-                addExpendOperationDto.moneyAmount!!, addExpendOperationDto.comment!!)
+                addExpendOperationDto.moneyAmount!!, addExpendOperationDto.comment!!,
+                addExpendOperationDto.operationDate)
         return ResponseEntity(HttpStatus.OK)
     }
 
@@ -80,7 +82,7 @@ class FinancialProjectController {
         operationService.addTransferOperation(projectId,
                 addTransferOperationDto.fromAccountId!!, addTransferOperationDto.toAccountId!!,
                 addTransferOperationDto.operationCategoryId!!, addTransferOperationDto.moneyAmount!!,
-                addTransferOperationDto.comment!!)
+                addTransferOperationDto.comment!!, addTransferOperationDto.operationDate)
         return ResponseEntity(HttpStatus.OK)
     }
 
