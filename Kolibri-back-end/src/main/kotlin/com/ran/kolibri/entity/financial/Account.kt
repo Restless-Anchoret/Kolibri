@@ -14,16 +14,13 @@ class Account : NamedEntity() {
     var project: FinancialProject? = null
 
     @NotNull
-    @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
     var creationDate: Date? = null
 
     @NotNull
-    @Column(name = "current_money_amount")
     var currentMoneyAmount: Double = 0.0
 
     @NotNull
-    @Column(name = "is_active")
     var isActive: Boolean = true
 
 }

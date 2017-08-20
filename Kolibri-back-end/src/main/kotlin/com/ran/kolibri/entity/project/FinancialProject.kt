@@ -5,10 +5,8 @@ import com.ran.kolibri.entity.financial.Operation
 import com.ran.kolibri.entity.financial.OperationCategory
 import javax.persistence.Entity
 import javax.persistence.OneToMany
-import javax.persistence.Table
 
 @Entity
-@Table(name = "financial_project")
 class FinancialProject : Project() {
 
     @OneToMany(mappedBy = "project")

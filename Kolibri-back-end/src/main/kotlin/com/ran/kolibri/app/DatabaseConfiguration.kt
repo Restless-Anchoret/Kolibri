@@ -53,6 +53,7 @@ class DatabaseConfiguration {
         hibernateProperties["hibernate.dialect"] = dialect
         hibernateProperties["hibernate.show_sql"] = showSql
         hibernateProperties["hibernate.hbm2ddl.auto"] = hbm2ddl
+        hibernateProperties["hibernate.format_sql"] = true
 
         val sessionFactory = LocalSessionFactoryBean()
         sessionFactory.setDataSource(dataSource)

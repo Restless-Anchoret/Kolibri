@@ -13,7 +13,6 @@ abstract class Project : NamedEntity() {
     val projectProperties: List<ProjectProperty> = ArrayList()
 
     @NotNull
-    @Column(name = "is_template")
     var isTemplate: Boolean = false
 
 }
