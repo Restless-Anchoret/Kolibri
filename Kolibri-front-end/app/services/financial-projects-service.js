@@ -9,8 +9,14 @@ angular.module('kolibri')
             getFinancialProjectAccounts: httpFactoryService.create(
                 '/financial-projects/{projectId}/accounts', 'GET'),
 
+            getAllFinancialProjectAccounts: httpFactoryService.create(
+                '/financial-projects/{projectId}/accounts/all', 'GET'),
+
             getFinancialProjectOperationCategories: httpFactoryService.create(
                 '/financial-projects/{projectId}/categories', 'GET'),
+
+            getAllFinancialProjectOperationCategories: httpFactoryService.create(
+                '/financial-projects/{projectId}/categories/all', 'GET'),
 
             getFinancialProjectOperations: httpFactoryService.create(
                 '/financial-projects/{projectId}/operations', 'GET'),
