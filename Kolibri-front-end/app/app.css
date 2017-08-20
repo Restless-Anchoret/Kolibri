@@ -1,6 +1,6 @@
 .body-container {
-    margin-left: 16%;
-    margin-right: 16%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .ng-table-pager {
@@ -23,4 +23,12 @@
 .btn-header {
     padding: 3px 10px;
     margin: 0 1px;
+}
+
+.icon-column {
+    width: 40px;
+}
+
+.align-center {
+    text-align: center
 }

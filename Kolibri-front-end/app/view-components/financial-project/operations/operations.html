@@ -1,3 +1,89 @@
 <div>
     <h2>Operations</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="btn btn-default btn-header">New</button>
+        </div>
+
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
+            <tr ng-repeat="operation in $data">
+                <td class="icon-column">
+                    <actions-list-component actions="operationsActions" parameter="project.id"></actions-list-component>
+                </td>
+
+                <td class="icon-column">
+                    <div ng-if="isIncomeOperation(operation)">
+                        <span class="glyphicon glyphicon-plus income-color"></span>
+                    </div>
+                    <div ng-if="isExpendOperation(operation)">
+                        <span class="glyphicon glyphicon-minus expend-color"></span>
+                    </div>
+                    <div ng-if="isTransferOperation(operation)">
+                        <span class="glyphicon glyphicon-transfer transfer-color"></span>
+                    </div>
+                </td>
+
+                <td title="'Accounts'" class="operations-accounts-column">
+                    <div ng-if="isIncomeOperation(operation)">{{operation.incomeAccount.name}}</div>
+                    <div ng-if="isExpendOperation(operation)">{{operation.expendAccount.name}}</div>
+                    <div ng-if="isTransferOperation(operation)">
+                        <p class="expend-color row-line">{{operation.fromAccount.name}}</p>
+                        <p class="income-color row-line">{{operation.toAccount.name}}</p>
+                    </div>
+                </td>
+
+                <td title="'Delta'" class="operations-delta-column money-bold">
+                    <div ng-if="isIncomeOperation(operation)">
+                        {{operation.resultMoneyAmount - operation.moneyAmount}}
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="income-color">{{operation.resultMoneyAmount}}</span>
+                    </div>
+                    <div ng-if="isExpendOperation(operation)">
+                        {{operation.resultMoneyAmount + operation.moneyAmount}}
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="expend-color">{{operation.resultMoneyAmount}}</span>
+                    </div>
+                    <div ng-if="isTransferOperation(operation)">
+                        <p class="row-line">
+                            {{operation.fromAccountResultMoneyAmount + operation.moneyAmount}}
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                            <span class="expend-color">{{operation.fromAccountResultMoneyAmount}}</span>
+                        </p>
+                        <p class="row-line">
+                            {{operation.toAccountResultMoneyAmount - operation.moneyAmount}}
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                            <span class="income-color">{{operation.toAccountResultMoneyAmount}}</span>
+                        </p>
+                    </div>
+                </td>
+
+                <td title="'Money'" class="operations-money-column money-bold">{{operation.moneyAmount}}</td>
+
+                <td title="'Category'" class="operations-category-column">{{operation.operationCategory.name}}</td>
+
+                <td title="'Date'" class="operations-date-column">{{operation.operationDate | date : medium}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!--<p>-->
+        <!--<button popover-placement="bottom" uib-popover="I appeared on mouse enter!" popover-trigger="click"-->
+                <!--type="button" class="btn btn-default">Mouseenter</button>-->
+        <!--&lt;!&ndash;<button popover-placement="bottom" uib-popover="I appeared on mouse enter!" popover-trigger="click"><h1>Hello Plunker!</h1></button>&ndash;&gt;-->
+    <!--</p>-->
+
+    <!--<div class="flexbox margin-top">-->
+        <!--<div class="flexible"></div>-->
+        <!--<div class="flexbox">-->
+            <!--<button class="btn btn-sm btn-success" popover-template="'template.html'" popover-placement="left">Click</button>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<script type="text/ng-template" id="template.html">-->
+        <!--<div>-->
+            <!--<textarea>Some text, some text, some text</textarea>-->
+            <!--<button class="btn btn-sm">Update</button>-->
+        <!--</div>-->
+    <!--</script>-->
+
 </div>

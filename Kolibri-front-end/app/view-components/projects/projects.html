@@ -8,9 +8,9 @@
             <button type="button" class="btn btn-default btn-header">New</button>
             <button type="button" class="btn btn-default btn-header">Import</button>
         </div>
-        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
             <tr ng-repeat="project in $data">
-                <td class="projects-operations-column">
+                <td class="icon-column">
                     <actions-list-component actions="projectActions" parameter="project.id"></actions-list-component>
                 </td>
                 <td title="'Name'" class="projects-name-column">
