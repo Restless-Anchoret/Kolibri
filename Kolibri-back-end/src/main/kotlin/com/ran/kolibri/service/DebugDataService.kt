@@ -38,6 +38,7 @@ class DebugDataService {
         private val INCOME_MONEY_AMOUNT = 1000.0
         private val EXPEND_MONEY_AMOUNT = 200.0
         private val TRANSFER_MONEY_AMOUNT = 300.0
+        private val OPERATION_GROUPS_QUANTITY = 283
     }
 
     @Autowired
@@ -115,12 +116,16 @@ class DebugDataService {
 
     private fun fillOperations(project: FinancialProject, firstAccount: Account,
                                secondAccount: Account, operationCategory: OperationCategory) {
-        operationService.addIncomeOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
-                INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
-        operationService.addExpendOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
-                EXPEND_MONEY_AMOUNT, DEFAULT_COMMENT)
-        operationService.addTransferOperation(project.id!!, firstAccount.id!!, secondAccount.id!!,
-                operationCategory.id!!, TRANSFER_MONEY_AMOUNT, DEFAULT_COMMENT)
+        for (i in 1..OPERATION_GROUPS_QUANTITY) {
+            operationService.addIncomeOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
+                    INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
+            operationService.addIncomeOperation(project.id!!, secondAccount.id!!, operationCategory.id!!,
+                    INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
+            operationService.addExpendOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
+                    EXPEND_MONEY_AMOUNT, DEFAULT_COMMENT)
+            operationService.addTransferOperation(project.id!!, secondAccount.id!!, firstAccount.id!!,
+                    operationCategory.id!!, TRANSFER_MONEY_AMOUNT, DEFAULT_COMMENT)
+        }
     }
 
 }
