@@ -118,7 +118,7 @@ class DebugDataService {
                                secondAccount: Account, operationCategory: OperationCategory) {
         for (i in 1..OPERATION_GROUPS_QUANTITY) {
             operationService.addIncomeOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
-                    INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
+                    INCOME_MONEY_AMOUNT, "")
             operationService.addIncomeOperation(project.id!!, secondAccount.id!!, operationCategory.id!!,
                     INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
             operationService.addExpendOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,

@@ -14,7 +14,7 @@ interface BaseOperationRepository<T: Operation> : PagingAndSortingRepository<T, 
     @Query("select op " +
             "from #{#entityName} as op " +
             "where op.project.id = :projectId " +
-            "order by op.operationDate desc")
+            "order by op.operationDate desc, op.id desc")
     fun findByProject(@Param("projectId") projectId: Long, pageable: Pageable? = null): Page<T>
 
 }
