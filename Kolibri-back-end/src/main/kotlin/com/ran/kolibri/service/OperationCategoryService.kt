@@ -16,7 +16,7 @@ class OperationCategoryService {
     lateinit var operationCategoryRepository: OperationCategoryRepository
 
     @Transactional
-    fun getAllOperationCategoriesByProjectId(projectId: Long, pageable: Pageable): Page<OperationCategory> {
+    fun getAllOperationCategoriesByProjectId(projectId: Long, pageable: Pageable?): Page<OperationCategory> {
         return operationCategoryRepository.findByProjectId(projectId, pageable)
     }
 

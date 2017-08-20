@@ -21,15 +21,27 @@ class ProjectController {
     lateinit var orikaMapperFacade: MapperFacade
 
     @RequestMapping(method = arrayOf(GET))
-    fun getAllActiveProjects(pageable: Pageable): Page<ProjectDTO> {
+    fun getActiveProjectsPage(pageable: Pageable): Page<ProjectDTO> {
         val projectsPage = projectService.getAllActiveProjects(pageable)
         return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDTO::class.java)
     }
 
+    @RequestMapping(path = arrayOf("/all"), method = arrayOf(GET))
+    fun getAllActiveProjects(): List<ProjectDTO> {
+        val projects = projectService.getAllActiveProjects(null).content
+        return orikaMapperFacade.mapAsList(projects, ProjectDTO::class.java)
+    }
+
     @RequestMapping(path = arrayOf("/templates"), method = arrayOf(GET))
-    fun getAllTemplateProjects(pageable: Pageable): Page<ProjectDTO> {
+    fun getTemplateProjectsPage(pageable: Pageable): Page<ProjectDTO> {
         val projectsPage = projectService.getAllTemplateProjects(pageable)
         return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/templates/all"), method = arrayOf(GET))
+    fun getAllTemplateProjects(): List<ProjectDTO> {
+        val projects = projectService.getAllTemplateProjects(null)
+        return orikaMapperFacade.mapAsList(projects, ProjectDTO::class.java)
     }
 
 }

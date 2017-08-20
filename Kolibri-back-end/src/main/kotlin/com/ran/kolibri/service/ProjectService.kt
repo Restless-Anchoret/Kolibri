@@ -20,12 +20,12 @@ class ProjectService {
     lateinit var financialProjectRepository: FinancialProjectRepository
 
     @Transactional
-    fun getAllActiveProjects(pageable: Pageable): Page<Project> {
+    fun getAllActiveProjects(pageable: Pageable?): Page<Project> {
         return projectRepository.findByIsTemplate(false, pageable)
     }
 
     @Transactional
-    fun getAllTemplateProjects(pageable: Pageable): Page<Project> {
+    fun getAllTemplateProjects(pageable: Pageable?): Page<Project> {
         return projectRepository.findByIsTemplate(true, pageable)
     }
 

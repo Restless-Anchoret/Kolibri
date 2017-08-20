@@ -16,7 +16,7 @@ class AccountService {
     lateinit var accountRepository: AccountRepository
 
     @Transactional
-    fun getAllAccountsByProjectId(projectId: Long, pageable: Pageable): Page<Account> {
+    fun getAllAccountsByProjectId(projectId: Long, pageable: Pageable?): Page<Account> {
         return accountRepository.findByProjectId(projectId, pageable)
     }
 

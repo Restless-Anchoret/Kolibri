@@ -53,11 +53,23 @@ class FinancialProjectController {
         return orikaMapperFacade.mapAsPage(accountsPage, pageable, AccountDTO::class.java)
     }
 
+    @RequestMapping(path = arrayOf("/{projectId}/accounts/all"), method = arrayOf(GET))
+    fun getAllFinancialProjectAccounts(@PathVariable("projectId") projectId: Long): List<AccountDTO> {
+        val accounts = accountService.getAllAccountsByProjectId(projectId, null)
+        return orikaMapperFacade.mapAsList(accounts, AccountDTO::class.java)
+    }
+
     @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(GET))
     fun getFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long,
                                                pageable: Pageable): Page<OperationCategoryDTO> {
         val operationCategoriesPage = operationCategoryService.getAllOperationCategoriesByProjectId(projectId, pageable)
         return orikaMapperFacade.mapAsPage(operationCategoriesPage, pageable, OperationCategoryDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/categories/all"), method = arrayOf(GET))
+    fun getAllFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long): List<OperationCategoryDTO> {
+        val operationCategories = operationCategoryService.getAllOperationCategoriesByProjectId(projectId, null)
+        return orikaMapperFacade.mapAsList(operationCategories, OperationCategoryDTO::class.java)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(GET))
