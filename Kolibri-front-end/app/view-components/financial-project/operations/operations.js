@@ -27,6 +27,10 @@ angular.module('kolibri')
                 return (operation.operationType === "transfer");
             };
 
+            $scope.operationHasComment = function(operation) {
+                return (operation.comment && operation.comment.trim().length > 0);
+            };
+
             function editOperation(operationId) {
                 $log.debug('Editing operation. Id = ' + operationId);
             }

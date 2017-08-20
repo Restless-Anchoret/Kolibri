@@ -1,17 +1,17 @@
 .operations-accounts-column {
-    width: 20%;
+    width: 25%;
 }
 
 .operations-delta-column {
-    width: 14%;
+    width: 18%;
 }
 
 .operations-money-column {
     width: 9%;
 }
 
-.operations-category-column {
-    width: 25%;
+.operations-date-column {
+    width: 15%;
 }
 
 .income-color {
@@ -20,10 +20,6 @@
 
 .expend-color {
     color: orangered;
-}
-
-.transfer-color {
-    color: royalblue;
 }
 
 .row-line {

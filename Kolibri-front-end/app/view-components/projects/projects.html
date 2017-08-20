@@ -13,15 +13,15 @@
                 <td class="icon-column">
                     <actions-list-component actions="projectActions" parameter="project.id"></actions-list-component>
                 </td>
-                <td title="'Name'" class="projects-name-column">
+                <td data-title="'Name'" class="projects-name-column">
                     <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>
                 </td>
-                <td title="'Type'" class="projects-type-column">
+                <td data-title="'Type'" class="projects-type-column">
                     <div ng-if="project.projectType === 'financial'">
                         <span class="glyphicon glyphicon-usd"></span> Financial
                     </div>
                 </td>
-                <td title="'Description'">{{project.description}}</td>
+                <td data-title="'Description'">{{project.description}}</td>
             </tr>
         </table>
     </div>
