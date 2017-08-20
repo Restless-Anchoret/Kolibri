@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kolibri')
-    .config(['$stateProvider', function ($stateProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $stateProvider.state('projects', {
             url: '/projects',
             views: {
@@ -61,4 +61,6 @@ angular.module('kolibri')
                 financialProjectBody: {component: 'financialProjectToolsComponent'}
             }
         });
+
+        $urlRouterProvider.otherwise('/projects');
     }]);
