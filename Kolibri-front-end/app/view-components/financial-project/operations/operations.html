@@ -9,7 +9,7 @@
         <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
             <tr ng-repeat="operation in $data">
                 <td class="icon-column">
-                    <actions-list-component actions="operationsActions" parameter="project.id"></actions-list-component>
+                    <actions-list-component actions="operationsActions" parameter="operation.id"></actions-list-component>
                 </td>
 
                 <td data-title="'Accounts'" class="operations-accounts-column align-left">

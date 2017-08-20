@@ -1,6 +1,7 @@
 .body-container {
     margin-left: 10%;
     margin-right: 10%;
+    margin-bottom: 20px;
 }
 
 .ng-table-pager {
@@ -35,4 +36,8 @@
 
 .align-left {
     text-align: left;
+}
+
+.money-bold {
+    font-weight: bold;
 }

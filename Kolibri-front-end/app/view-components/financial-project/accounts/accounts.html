@@ -1,3 +1,27 @@
 <div>
     <h2>Accounts</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="btn btn-default btn-header">New</button>
+        </div>
+
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
+            <tr ng-repeat="account in $data">
+                <td class="icon-column">
+                    <actions-list-component actions="accountsActions" parameter="account.id"></actions-list-component>
+                </td>
+
+                <td data-title="'Name'" class="accounts-name-column align-left">
+                    <span class="glyphicon glyphicon-eye-{{account.active ? 'open' : 'close'}}"></span>
+                    {{account.name}}
+                </td>
+
+                <td data-title="'Money'" class="accounts-money-column money-bold">{{account.currentMoneyAmount}}</td>
+                <td data-title="'Description'">{{account.description}}</td>
+                <td data-title="'Creation date'" class="accounts-date-column">{{account.creationDate | date : medium}}</td>
+            </tr>
+        </table>
+    </div>
+
 </div>
