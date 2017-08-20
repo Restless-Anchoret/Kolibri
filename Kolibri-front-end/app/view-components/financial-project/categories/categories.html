@@ -1,3 +1,21 @@
 <div>
     <h2>Categories</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="btn btn-default btn-header">New</button>
+        </div>
+
+        <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
+            <tr ng-repeat="category in $data">
+                <td class="icon-column">
+                    <actions-list-component actions="categoriesActions" parameter="category.id"></actions-list-component>
+                </td>
+
+                <td data-title="'Name'" class="category-name-column">{{category.name}}</td>
+                <td data-title="'Description'">{{category.description}}</td>
+            </tr>
+        </table>
+    </div>
+
 </div>

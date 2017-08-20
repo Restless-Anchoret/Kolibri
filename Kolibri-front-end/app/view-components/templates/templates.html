@@ -8,19 +8,23 @@
             <button type="button" class="btn btn-default btn-header">New</button>
             <button type="button" class="btn btn-default btn-header">Import</button>
         </div>
+
         <table ng-table="tableParams" class="table table-bordered table-striped table-condensed align-center">
             <tr ng-repeat="project in $data">
                 <td class="icon-column">
                     <actions-list-component actions="projectActions" parameter="project.id"></actions-list-component>
                 </td>
+
                 <td data-title="'Name'" class="templates-name-column">
                     <a ui-sref="financial-project.operations({projectId: project.id})">{{project.name}}</a>
                 </td>
+
                 <td data-title="'Type'" class="templates-type-column">
                     <div ng-if="project.projectType === 'financial'">
                         <span class="glyphicon glyphicon-usd"></span> Financial
                     </div>
                 </td>
+
                 <td data-title="'Description'">{{project.description}}</td>
             </tr>
         </table>
