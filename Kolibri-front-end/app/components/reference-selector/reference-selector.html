@@ -1,0 +1,11 @@
+<div class="select-box">
+    <ui-select ng-model="$ctrl.model"
+               theme="bootstrap"
+               class="{{$ctrl.selectClass}}"
+               append-to-body="true">
+        <ui-select-match placeholder="{{$ctrl.placeholder}}">{{viewFunction($select.selected)}}</ui-select-match>
+        <ui-select-choices repeat="item in items | filter : $select.search : comparator">
+            <div ng-bind-html="viewFunction(item) | highlight : $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+</div>

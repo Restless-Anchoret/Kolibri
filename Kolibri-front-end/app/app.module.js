@@ -3,5 +3,7 @@
 angular.module('kolibri', [
     'ui.router',
     'ui.bootstrap',
-    'ngTable'
+    'ngTable',
+    'ui.select',
+    'ngSanitize'
 ]);
