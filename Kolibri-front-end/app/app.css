@@ -1,7 +1,5 @@
 .body-container {
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 20px;
+    margin: 90px 10% 20px;
 }
 
 .ng-table-pager {
