@@ -19,7 +19,7 @@
 
                 <td data-title="'Money'" class="accounts-money-column money-bold">{{account.currentMoneyAmount}}</td>
                 <td data-title="'Description'">{{account.description}}</td>
-                <td data-title="'Creation date'" class="accounts-date-column">{{account.creationDate | date : medium}}</td>
+                <td data-title="'Creation date'" class="accounts-date-column">{{account.creationDate | date : 'dd.MM.yyyy'}}</td>
             </tr>
         </table>
     </div>

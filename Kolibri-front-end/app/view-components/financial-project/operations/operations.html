@@ -60,14 +60,14 @@
 
                 <td data-title="'Money'" class="operations-money-column money-bold">{{operation.moneyAmount}}</td>
 
-                <td data-title="'Category'">
+                <td data-title="'Category'" class="align-left">
                     {{operation.operationCategory.name}}
                     <span ng-if="operationHasComment(operation)"
                           uib-popover="{{operation.comment}}" popover-trigger="'mouseenter'"
                           popover-placement="bottom" class="glyphicon glyphicon-menu-down"></span>
                 </td>
 
-                <td data-title="'Date'" class="operations-date-column">{{operation.operationDate | date : medium}}</td>
+                <td data-title="'Date'" class="operations-date-column">{{operation.operationDate | date : 'dd.MM.yyyy'}}</td>
             </tr>
         </table>
     </div>
