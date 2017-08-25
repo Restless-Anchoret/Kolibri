@@ -5,5 +5,6 @@ angular.module('kolibri', [
     'ui.bootstrap',
     'ngTable',
     'ui.select',
+    'ui-select-infinity',
     'ngSanitize'
 ]);
