@@ -1,13 +1,14 @@
 package com.ran.kolibri.service
 
-import com.ran.kolibri.entity.financial.ExpendOperation
-import com.ran.kolibri.entity.financial.IncomeOperation
-import com.ran.kolibri.entity.financial.Operation
-import com.ran.kolibri.entity.financial.TransferOperation
+import com.ran.kolibri.entity.financial.*
 import com.ran.kolibri.repository.financial.OperationRepository
+import com.ran.kolibri.specification.base.BaseSpecificationFactory
+import com.ran.kolibri.specification.financial.OperationCategorySpecificationFactory
+import com.ran.kolibri.specification.financial.OperationSpecificationFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -26,8 +27,9 @@ class OperationService {
     lateinit var operationRepository: OperationRepository
 
     @Transactional
-    fun getAllOperationsByProjectId(projectId: Long, pageable: Pageable): Page<Operation> {
-        return operationRepository.findByProject(projectId, pageable)
+    fun getOperationsByProjectId(projectId: Long, pageable: Pageable?): Page<Operation> {
+        val specification = Specifications.where(OperationSpecificationFactory.byProjectId<Operation>(projectId))
+        return operationRepository.findAll(specification, pageable)
     }
 
     @Transactional

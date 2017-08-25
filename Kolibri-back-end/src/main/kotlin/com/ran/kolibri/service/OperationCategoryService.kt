@@ -3,9 +3,12 @@ package com.ran.kolibri.service
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
+import com.ran.kolibri.specification.base.BaseSpecificationFactory
+import com.ran.kolibri.specification.financial.OperationCategorySpecificationFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,14 +19,16 @@ class OperationCategoryService {
     lateinit var operationCategoryRepository: OperationCategoryRepository
 
     @Transactional
-    fun getAllOperationCategoriesByProjectId(projectId: Long, pageable: Pageable?): Page<OperationCategory> {
-        return operationCategoryRepository.findByProjectId(projectId, pageable)
+    fun getOperationCategoriesByProjectId(projectId: Long, name: String?, pageable: Pageable?): Page<OperationCategory> {
+        val specification = Specifications.where(OperationCategorySpecificationFactory.byProjectId(projectId))
+                .and(BaseSpecificationFactory.byName<OperationCategory>(name))
+        return operationCategoryRepository.findAll(specification, pageable)
     }
 
     @Transactional
     fun getOperationCategoryById(operationCategoryId: Long): OperationCategory {
         return operationCategoryRepository.findOne(operationCategoryId) ?:
-                throw NotFoundException("Project was not found for id: $operationCategoryId")
+                throw NotFoundException("Operation Category was not found")
     }
 
 }
