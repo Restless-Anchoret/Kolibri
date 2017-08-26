@@ -22,16 +22,10 @@ class ProjectController {
     lateinit var orikaMapperFacade: MapperFacade
 
     @RequestMapping(method = arrayOf(GET))
-    fun getActiveProjectsPage(@RequestParam(value = "name", required = false) name: String?,
-                              pageable: Pageable): Page<ProjectDTO> {
-        val projectsPage = projectService.getProjects(false, name, pageable)
-        return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDTO::class.java)
-    }
-
-    @RequestMapping(path = arrayOf("/templates"), method = arrayOf(GET))
-    fun getTemplateProjectsPage(@RequestParam(value = "name", required = false) name: String?,
-                                pageable: Pageable): Page<ProjectDTO> {
-        val projectsPage = projectService.getProjects(true, name, pageable)
+    fun getProjectsPage(@RequestParam(value = "isTemplate", defaultValue = "false") isTemplate: Boolean,
+                        @RequestParam(value = "name", required = false) name: String?,
+                        pageable: Pageable): Page<ProjectDTO> {
+        val projectsPage = projectService.getProjects(isTemplate, name, pageable)
         return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDTO::class.java)
     }
 
