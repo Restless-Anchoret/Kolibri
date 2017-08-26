@@ -6,5 +6,6 @@ angular.module('kolibri', [
     'ngTable',
     'ui.select',
     'ui-select-infinity',
-    'ngSanitize'
+    'ngSanitize',
+    'ngDialog'
 ]);

@@ -17,6 +17,7 @@
     "jquery": "~1.11.0",
     "bootstrap": "~3.3.7",
     "ng-table-bundle": "~3.0.1",
+    "ng-dialog": "~1.4.0",
     "lodash": "~4.17.4"
   },
   "resolutions": {
