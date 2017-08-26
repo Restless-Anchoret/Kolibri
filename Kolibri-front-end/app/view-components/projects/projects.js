@@ -5,7 +5,7 @@ angular.module('kolibri')
         templateUrl: 'view-components/projects/projects.html',
         controller: function($scope, $log, projectsService, utilsService) {
             $scope.tableParams = utilsService.createTableParams(
-                projectsService.getActiveProjects, {}
+                projectsService.getProjects, { isTemplate: false }
             );
 
             $scope.projectActions = [
