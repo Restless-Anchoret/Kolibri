@@ -28,7 +28,6 @@ angular.module('kolibri')
                 });
 
                 if (ctrl.type === 'dataSet') {
-                    $log.debug(ctrl.items);
                     $scope.items = ctrl.items;
                 } else if (ctrl.type === 'singleLoad') {
                     loadAllItems();
