@@ -3,33 +3,49 @@
 angular.module('kolibri')
     .component('financialProjectOperationsComponent', {
         templateUrl: 'view-components/financial-project/operations/operations.html',
-        controller: function($scope, $log, $stateParams, financialProjectsService, utilsService) {
+        controller: function($scope, $log, $stateParams, financialProjectsService, utilsService, dialogsService) {
             var requestParams = {
                 projectId: $stateParams.projectId
             };
 
-            $scope.tableParams = utilsService.createTableParams(
+            var tableParams = utilsService.createTableParams(
                 financialProjectsService.getFinancialProjectOperations, requestParams
             );
 
-            $scope.operationsActions = [
+            var operationsActions = [
                 { act: editOperation, name: 'Edit' },
                 { act: removeOperation, name: 'Remove' }
             ];
 
-            $scope.isIncomeOperation = function(operation) {
-                return (operation.operationType === "income");
-            };
-            $scope.isExpendOperation = function(operation) {
-                return (operation.operationType === "expend");
-            };
-            $scope.isTransferOperation = function(operation) {
-                return (operation.operationType === "transfer");
-            };
+            _.extend($scope, {
+                tableParams: tableParams,
+                operationActions: operationsActions,
+                isIncomeOperation: isIncomeOperation,
+                isExpendOperation: isExpendOperation,
+                isTransferOperation: isTransferOperation,
+                operationHasComment: operationHasComment,
+                newOperation: newOperation
+            });
 
-            $scope.operationHasComment = function(operation) {
+            function isIncomeOperation(operation) {
+                return (operation.operationType === "income");
+            }
+
+            function isExpendOperation(operation) {
+                return (operation.operationType === "expend");
+            }
+
+            function isTransferOperation(operation) {
+                return (operation.operationType === "transfer");
+            }
+
+            function operationHasComment(operation) {
                 return (operation.comment && operation.comment.trim().length > 0);
-            };
+            }
+
+            function newOperation() {
+                dialogsService.newOperationDialog($stateParams.projectId);
+            }
 
             function editOperation(operationId) {
                 $log.debug('Editing operation. Id = ' + operationId);

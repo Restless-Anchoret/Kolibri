@@ -6,7 +6,7 @@ angular.module('kolibri')
         transclude: true,
         bindings: {
             ngDialogId: '<',
-            title: '<',
+            titleText: '<',
             footerButtons: '<',
             showCloseButton: '<',
             closeButtonText: '@'
@@ -20,11 +20,7 @@ angular.module('kolibri')
                 _.forEach(ctrl.footerButtons, function(footerButton) {
                     footerButton.resultCallback = function() {
                         if (footerButton.hasOwnProperty('callback')) {
-                            footerButton.callback();
-                        }
-                        closeDialog();
-                        if (footerButton.hasOwnProperty('afterCloseCallback')) {
-                            footerButton.afterCloseCallback();
+                            footerButton.callback(closeDialog);
                         }
                     }
                 });

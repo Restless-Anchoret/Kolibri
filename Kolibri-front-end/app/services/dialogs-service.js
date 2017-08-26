@@ -10,34 +10,38 @@ angular.module('kolibri')
             editOperationDialog: editOperationDialog
         };
 
-        function confirmDialog(title, message, callback, afterCloseCallback) {
+        function confirmDialog(title, message, callback) {
             return ngDialog.open({
                 template: 'dialogs/confirm-dialog/confirm-dialog.html',
                 controller: 'ConfirmDialogController',
                 data: {
                     title: title,
                     message: message,
-                    callback: callback,
-                    afterCloseCallback: afterCloseCallback
+                    callback: callback
                 }
             });
         }
 
-        function messageDialog(title, message, callback, afterCloseCallback) {
+        function messageDialog(title, message, callback) {
             return ngDialog.open({
                 template: 'dialogs/message-dialog/message-dialog.html',
                 controller: 'MessageDialogController',
                 data: {
                     title: title,
                     message: message,
-                    callback: callback,
-                    afterCloseCallback: afterCloseCallback
+                    callback: callback
                 }
             });
         }
 
-        function newOperationDialog() {
-
+        function newOperationDialog(projectId) {
+            return ngDialog.open({
+                template: 'dialogs/new-operation-dialog/new-operation-dialog.html',
+                controller: 'NewOperationDialogController',
+                data: {
+                    projectId: projectId
+                }
+            });
         }
 
         function editOperationDialog() {
