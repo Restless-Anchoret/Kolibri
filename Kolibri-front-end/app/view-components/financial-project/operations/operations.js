@@ -19,7 +19,7 @@ angular.module('kolibri')
 
             _.extend($scope, {
                 tableParams: tableParams,
-                operationActions: operationsActions,
+                operationsActions: operationsActions,
                 isIncomeOperation: isIncomeOperation,
                 isExpendOperation: isExpendOperation,
                 isTransferOperation: isTransferOperation,

@@ -1,6 +1,7 @@
 package com.ran.kolibri.service
 
 import com.ran.kolibri.entity.financial.Account
+import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.specification.base.BaseSpecificationFactory
@@ -34,6 +35,9 @@ class AccountService {
     @Transactional
     fun changeAccountMoney(accountId: Long, accountMoneyDelta: Double): Account {
         val account = getAccountById(accountId)
+        if (account.currentMoneyAmount + accountMoneyDelta < 0.0) {
+            throw BadRequestException("Not enough money on Account '${account.name}'")
+        }
         account.currentMoneyAmount += accountMoneyDelta
         accountRepository.save(account)
         return account

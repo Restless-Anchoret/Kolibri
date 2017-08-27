@@ -1,9 +1,8 @@
 package com.ran.kolibri.service
 
 import com.ran.kolibri.entity.financial.*
+import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.repository.financial.OperationRepository
-import com.ran.kolibri.specification.base.BaseSpecificationFactory
-import com.ran.kolibri.specification.financial.OperationCategorySpecificationFactory
 import com.ran.kolibri.specification.financial.OperationSpecificationFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -36,6 +35,7 @@ class OperationService {
     fun addIncomeOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date? = null) {
         val account = accountService.changeAccountMoney(accountId, moneyAmount)
+        ensureAccountBelongsToProject(account, projectId)
         val operation = IncomeOperation()
         operation.incomeAccount = account
         operation.resultMoneyAmount = account.currentMoneyAmount
@@ -46,6 +46,7 @@ class OperationService {
     fun addExpendOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date? = null) {
         val account = accountService.changeAccountMoney(accountId, -moneyAmount)
+        ensureAccountBelongsToProject(account, projectId)
         val operation = ExpendOperation()
         operation.expendAccount = account
         operation.resultMoneyAmount = account.currentMoneyAmount
@@ -57,6 +58,8 @@ class OperationService {
                              operationCategoryId: Long, moneyAmount: Double, comment: String, operationDate: Date? = null) {
         val fromAccount = accountService.changeAccountMoney(fromAccountId, -moneyAmount)
         val toAccount = accountService.changeAccountMoney(toAccountId, moneyAmount)
+        ensureAccountBelongsToProject(fromAccount, projectId)
+        ensureAccountBelongsToProject(toAccount, projectId)
         val operation = TransferOperation()
         operation.fromAccount = fromAccount
         operation.toAccount = toAccount
@@ -69,12 +72,25 @@ class OperationService {
                              moneyAmount: Double, comment: String, operationDate: Date? = null) {
         val project = projectService.getFinancialProjectById(projectId)
         val operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
+        ensureOperationCategoryBelongsToProject(operationCategory, projectId)
         operation.operationCategory = operationCategory
         operation.moneyAmount = moneyAmount
         operation.comment = comment
         operation.operationDate = operationDate ?: Date()
         operation.project = project
         operationRepository.save(operation)
+    }
+
+    private fun ensureOperationCategoryBelongsToProject(operationCategory: OperationCategory, projectId: Long) {
+        if (operationCategory.project?.id != projectId) {
+            throw BadRequestException("Operation Category does not belong to Project")
+        }
+    }
+
+    private fun ensureAccountBelongsToProject(account: Account, projectId: Long) {
+        if (account.project?.id != projectId) {
+            throw BadRequestException("Account does not belong to Project")
+        }
     }
 
 }
