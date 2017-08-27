@@ -1,14 +1,42 @@
 'use strict';
 
 angular.module('kolibri')
-    .factory('dialogsService', function(ngDialog) {
+    .factory('dialogsService', function(ngDialog, toaster) {
 
         return {
+            showToastInfo: showToastInfo,
+            showToastSuccess: showToastSuccess,
+            showToastWarning: showToastWarning,
+            showToastError: showToastError,
             confirmDialog: confirmDialog,
             messageDialog: messageDialog,
             newOperationDialog: newOperationDialog,
             editOperationDialog: editOperationDialog
         };
+
+        function showToast(type, message, title) {
+            toaster.pop({
+                type: type,
+                body: message,
+                title: title
+            });
+        }
+
+        function showToastInfo(message, title) {
+            showToast('info', message, title);
+        }
+
+        function showToastSuccess(message, title) {
+            showToast('success', message, title);
+        }
+
+        function showToastWarning(message, title) {
+            showToast('warning', message, title);
+        }
+
+        function showToastError(message, title) {
+            showToast('error', message, title);
+        }
 
         function confirmDialog(title, message, callback) {
             return ngDialog.open({

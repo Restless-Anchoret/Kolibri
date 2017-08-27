@@ -7,5 +7,7 @@ angular.module('kolibri', [
     'ui.select',
     'ui-select-infinity',
     'ngSanitize',
-    'ngDialog'
+    'ngDialog',
+    'toaster',
+    'ngAnimate'
 ]);
