@@ -3,7 +3,6 @@
         <ui-select ng-model="$ctrl.model"
                    reach-infinity="requestMoreItems($select.search, false)"
                    theme="bootstrap"
-                   class="{{$ctrl.selectClass}}"
                    append-to-body="false">
             <ui-select-match placeholder="{{$ctrl.placeholder}}">{{viewFunction($select.selected)}}</ui-select-match>
             <ui-select-choices refresh="refreshList($select.search)"
@@ -16,7 +15,6 @@
     <div ng-if="$ctrl.type !== 'paginationLoad'">
         <ui-select ng-model="$ctrl.model"
                    theme="bootstrap"
-                   class="{{$ctrl.selectClass}}"
                    append-to-body="false">
             <ui-select-match placeholder="{{$ctrl.placeholder}}">{{viewFunction($select.selected)}}</ui-select-match>
             <ui-select-choices repeat="item in items | filter : $select.search : comparator">

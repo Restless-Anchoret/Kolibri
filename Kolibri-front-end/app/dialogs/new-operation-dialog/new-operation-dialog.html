@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5">Operation type:</label>
                 <div class="col-sm-7">
-                    <reference-selector-component model="operationType"
+                    <reference-selector-component model="data.operationType"
                                                   type="dataSet"
                                                   items="operationTypes"
                                                   placeholder="Choose Operation Type">
@@ -15,36 +15,40 @@
                 </div>
             </div>
 
-            <div class="form-group" uib-collapse="operationType !== incomeOperationType">
+            <div class="form-group" uib-collapse="!isIncomeOperationChosen()">
                 <label class="control-label col-sm-5">Income Account:</label>
-                <account-selector-component model="incomeAccount"
-                                            project-id="projectId"
-                                            select-class="col-sm-7">
-                </account-selector-component>
+                <div class="col-sm-7">
+                    <account-selector-component model="data.incomeAccount"
+                                                project-id="projectId">
+                    </account-selector-component>
+                </div>
             </div>
 
-            <div class="form-group" uib-collapse="operationType !== expendOperationType">
+            <div class="form-group" uib-collapse="!isExpendOperationChosen()">
                 <label class="control-label col-sm-5">Expend Account:</label>
-                <account-selector-component model="expendAccount"
-                                            project-id="projectId"
-                                            select-class="col-sm-7">
-                </account-selector-component>
+                <div class="col-sm-7">
+                    <account-selector-component model="data.expendAccount"
+                                                project-id="projectId">
+                    </account-selector-component>
+                </div>
             </div>
 
-            <div uib-collapse="operationType !== transferOperationType">
+            <div uib-collapse="!isTransferOperationChosen()">
                 <div class="form-group">
                     <label class="control-label col-sm-5">From Account:</label>
-                    <account-selector-component model="fromAccount"
-                                                project-id="projectId"
-                                                select-class="col-sm-7">
-                    </account-selector-component>
+                    <div class="col-sm-7">
+                        <account-selector-component model="data.fromAccount"
+                                                    project-id="projectId">
+                        </account-selector-component>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-5">To Account:</label>
-                    <account-selector-component model="toAccount"
-                                                project-id="projectId"
-                                                select-class="col-sm-7">
-                    </account-selector-component>
+                    <div class="col-sm-7">
+                        <account-selector-component model="data.toAccount"
+                                                    project-id="projectId">
+                        </account-selector-component>
+                    </div>
                 </div>
             </div>
 
@@ -52,29 +56,30 @@
                 <label class="control-label col-sm-5">Money:</label>
                 <div class="col-sm-7">
                     <input type="number" class="form-control col-sm-7"
-                           placeholder="Enter money amount" model="moneyAmount"/>
+                           ng-model="data.moneyAmount"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-5">Category:</label>
-                <category-selector-component model="operationCategory"
-                                             project-id="projectId"
-                                             select-class="col-sm-7">
-                </category-selector-component>
+                <div class="col-sm-7">
+                    <category-selector-component model="data.operationCategory"
+                                                 project-id="projectId">
+                    </category-selector-component>
+                </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-5">Comment:</label>
                 <div class="col-sm-7">
-                    <input class="form-control" placeholder="Enter comment" model="comment">
+                    <textarea class="form-control" rows="4" ng-model="data.comment"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-5">Date:</label>
                 <div class="col-sm-7">
-                    <date-picker-component model="operationDate"></date-picker-component>
+                    <date-picker-component model="data.operationDate"></date-picker-component>
                 </div>
             </div>
 

@@ -13,8 +13,7 @@ angular.module('kolibri')
             criteria: '<',
             viewFunction: '<',
             viewProperty: '@',
-            placeholder: '@',
-            selectClass: '@'
+            placeholder: '@'
         },
         controller: function($scope, $log, $q, RequestInfo) {
             var ctrl = this;

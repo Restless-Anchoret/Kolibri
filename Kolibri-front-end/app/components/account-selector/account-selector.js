@@ -5,8 +5,7 @@ angular.module('kolibri')
         templateUrl: 'components/account-selector/account-selector.html',
         bindings: {
             model: '=',
-            projectId: '<',
-            selectClass: '@'
+            projectId: '<'
         },
         controller: function($scope, $log, financialProjectsService) {
             var ctrl = this;
