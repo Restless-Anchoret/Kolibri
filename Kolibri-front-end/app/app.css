@@ -39,3 +39,8 @@
 .money-bold {
     font-weight: bold;
 }
+
+.hr-class {
+    margin: 2px 0 10px;
+    border-top: 1px solid lightgrey;
+}

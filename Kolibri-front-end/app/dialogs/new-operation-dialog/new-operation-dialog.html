@@ -1,8 +1,83 @@
 <div>
     <dialog-template-component ng-dialog-id="ngDialogData.ngDialogId"
                                title-text="'New Operation'"
-                               footer-buttons="footerButtons"
-                               show-close-button="false">
-        Content
+                               footer-buttons="footerButtons">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="control-label col-sm-5">Operation type:</label>
+                <div class="col-sm-7">
+                    <reference-selector-component model="operationType"
+                                                  type="dataSet"
+                                                  items="operationTypes"
+                                                  placeholder="Choose Operation Type">
+                    </reference-selector-component>
+                </div>
+            </div>
+
+            <div class="form-group" uib-collapse="operationType !== incomeOperationType">
+                <label class="control-label col-sm-5">Income Account:</label>
+                <account-selector-component model="incomeAccount"
+                                            project-id="projectId"
+                                            select-class="col-sm-7">
+                </account-selector-component>
+            </div>
+
+            <div class="form-group" uib-collapse="operationType !== expendOperationType">
+                <label class="control-label col-sm-5">Expend Account:</label>
+                <account-selector-component model="expendAccount"
+                                            project-id="projectId"
+                                            select-class="col-sm-7">
+                </account-selector-component>
+            </div>
+
+            <div uib-collapse="operationType !== transferOperationType">
+                <div class="form-group">
+                    <label class="control-label col-sm-5">From Account:</label>
+                    <account-selector-component model="fromAccount"
+                                                project-id="projectId"
+                                                select-class="col-sm-7">
+                    </account-selector-component>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5">To Account:</label>
+                    <account-selector-component model="toAccount"
+                                                project-id="projectId"
+                                                select-class="col-sm-7">
+                    </account-selector-component>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-5">Money:</label>
+                <div class="col-sm-7">
+                    <input type="number" class="form-control col-sm-7"
+                           placeholder="Enter money amount" model="moneyAmount"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-5">Category:</label>
+                <category-selector-component model="operationCategory"
+                                             project-id="projectId"
+                                             select-class="col-sm-7">
+                </category-selector-component>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-5">Comment:</label>
+                <div class="col-sm-7">
+                    <input class="form-control" placeholder="Enter comment" model="comment">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-5">Date:</label>
+                <div class="col-sm-7">
+                    <date-picker-component model="operationDate"></date-picker-component>
+                </div>
+            </div>
+
+        </form>
     </dialog-template-component>
 </div>
