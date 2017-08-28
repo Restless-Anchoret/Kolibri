@@ -18,6 +18,7 @@ abstract class Operation : BaseEntity() {
     var moneyAmount: Double = 0.0
 
     @NotNull
+    @Temporal(TemporalType.DATE)
     var operationDate: Date? = null
 
     @NotNull

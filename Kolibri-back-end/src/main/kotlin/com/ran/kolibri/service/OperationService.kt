@@ -2,8 +2,10 @@ package com.ran.kolibri.service
 
 import com.ran.kolibri.entity.financial.*
 import com.ran.kolibri.exception.BadRequestException
+import com.ran.kolibri.extension.logDebug
 import com.ran.kolibri.repository.financial.OperationRepository
 import com.ran.kolibri.specification.financial.OperationSpecificationFactory
+import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -14,6 +16,10 @@ import java.util.*
 
 @Service
 class OperationService {
+
+    companion object {
+        private val LOGGER = Logger.getLogger(OperationService::class.java)
+    }
 
     @Autowired
     lateinit var projectService: ProjectService
@@ -34,6 +40,9 @@ class OperationService {
     @Transactional
     fun addIncomeOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date? = null) {
+        LOGGER.logDebug { "Adding income operation: projectId: $projectId, accountId: $accountId, " +
+                "operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
+                "comment: $comment, operationDate: ${operationDate}" }
         val account = accountService.changeAccountMoney(accountId, moneyAmount)
         ensureAccountBelongsToProject(account, projectId)
         val operation = IncomeOperation()
@@ -45,6 +54,9 @@ class OperationService {
     @Transactional
     fun addExpendOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date? = null) {
+        LOGGER.logDebug { "Adding expend operation: projectId: $projectId, accountId: $accountId, " +
+                "operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
+                "comment: $comment, operationDate: ${operationDate}" }
         val account = accountService.changeAccountMoney(accountId, -moneyAmount)
         ensureAccountBelongsToProject(account, projectId)
         val operation = ExpendOperation()
@@ -55,7 +67,11 @@ class OperationService {
 
     @Transactional
     fun addTransferOperation(projectId: Long, fromAccountId: Long, toAccountId: Long,
-                             operationCategoryId: Long, moneyAmount: Double, comment: String, operationDate: Date? = null) {
+                             operationCategoryId: Long, moneyAmount: Double,
+                             comment: String, operationDate: Date? = null) {
+        LOGGER.logDebug { "Adding transfer operation: projectId: $projectId, fromAccountId: $fromAccountId, " +
+                "toAccountId: $toAccountId, operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
+                "comment: $comment, operationDate: ${operationDate}" }
         val fromAccount = accountService.changeAccountMoney(fromAccountId, -moneyAmount)
         val toAccount = accountService.changeAccountMoney(toAccountId, moneyAmount)
         ensureAccountBelongsToProject(fromAccount, projectId)
