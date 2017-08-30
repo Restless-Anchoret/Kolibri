@@ -14,7 +14,8 @@ angular.module('kolibri')
                 _.extend($scope, {
                     loadingFunction: financialProjectsService.getFinancialProjectOperationCategories,
                     criteria: {
-                        projectId: ctrl.projectId
+                        projectId: ctrl.projectId,
+                        sort: 'name,asc'
                     }
                 });
             };

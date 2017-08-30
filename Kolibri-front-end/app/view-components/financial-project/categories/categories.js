@@ -5,7 +5,8 @@ angular.module('kolibri')
         templateUrl: 'view-components/financial-project/categories/categories.html',
         controller: function($scope, $log, $stateParams, financialProjectsService, utilsService) {
             var requestParams = {
-                projectId: $stateParams.projectId
+                projectId: $stateParams.projectId,
+                sort: 'name,asc'
             };
 
             $scope.tableParams = utilsService.createTableParams(

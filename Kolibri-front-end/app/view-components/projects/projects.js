@@ -4,8 +4,13 @@ angular.module('kolibri')
     .component('projectsComponent', {
         templateUrl: 'view-components/projects/projects.html',
         controller: function($scope, $log, projectsService, utilsService) {
+            var requestParams = {
+                isTemplate: false,
+                sort: 'name,asc'
+            };
+
             $scope.tableParams = utilsService.createTableParams(
-                projectsService.getProjects, { isTemplate: false }
+                projectsService.getProjects, requestParams
             );
 
             $scope.projectActions = [
