@@ -24,7 +24,7 @@ class OperationService {
     }
 
     @Autowired
-    lateinit var projectService: ProjectService
+    lateinit var financialProjectService: FinancialProjectService
     @Autowired
     lateinit var accountService: AccountService
     @Autowired
@@ -43,8 +43,8 @@ class OperationService {
     lateinit var dateUtils: DateUtils
 
     @Transactional
-    fun getOperationsByProjectId(projectId: Long, pageable: Pageable?): Page<Operation> {
-        projectService.getFinancialProjectById(projectId)
+    fun getOperationsByProjectId(projectId: Long, pageable: Pageable? = null): Page<Operation> {
+        financialProjectService.getFinancialProjectById(projectId)
         val specification = Specifications.where(OperationSpecificationFactory.byProjectId(projectId))
         return operationRepository.findAll(specification, pageable)
     }
@@ -119,7 +119,7 @@ class OperationService {
 
     private fun addOperation(operation: Operation, projectId: Long, operationCategoryId: Long,
                              moneyAmount: Double, comment: String, operationDate: Date) {
-        val project = projectService.getFinancialProjectById(projectId)
+        val project = financialProjectService.getFinancialProjectById(projectId)
         val operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
         operation.operationCategory = operationCategory
         operation.moneyAmount = moneyAmount

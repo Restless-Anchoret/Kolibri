@@ -2,8 +2,8 @@ package com.ran.kolibri.service
 
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.entity.project.Project
+import com.ran.kolibri.exception.InternalServerErrorException
 import com.ran.kolibri.exception.NotFoundException
-import com.ran.kolibri.repository.project.FinancialProjectRepository
 import com.ran.kolibri.repository.project.ProjectRepository
 import com.ran.kolibri.specification.base.BaseSpecificationFactory
 import com.ran.kolibri.specification.project.ProjectSpecificationFactory
@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional
 class ProjectService {
 
     @Autowired
-    lateinit var projectRepository: ProjectRepository
+    lateinit var financialProjectService: FinancialProjectService
+
     @Autowired
-    lateinit var financialProjectRepository: FinancialProjectRepository
+    lateinit var projectRepository: ProjectRepository
 
     @Transactional
     fun getProjects(isTemplate: Boolean, name: String?, pageable: Pageable?): Page<Project> {
@@ -30,9 +31,52 @@ class ProjectService {
     }
 
     @Transactional
-    fun getFinancialProjectById(projectId: Long): FinancialProject {
-        return financialProjectRepository.findOne(projectId)
+    fun getProjectById(projectId: Long): Project {
+        return projectRepository.findOne(projectId)
                 ?: throw NotFoundException("Project was not found")
+    }
+
+    @Transactional
+    fun createEmptyFinancialProject(name: String, description: String,
+                                    isTemplate: Boolean): FinancialProject {
+        return createProject(FinancialProject(), name, description, isTemplate)
+    }
+
+    private fun <T: Project> createProject(project: T, name: String,
+                            description: String, isTemplate: Boolean): T {
+        project.name = name
+        project.description = description
+        project.isTemplate = isTemplate
+        projectRepository.save(project)
+        return project
+    }
+
+    @Transactional
+    fun editProject(projectId: Long, name: String, description: String) {
+        val project = getProjectById(projectId)
+        project.name = name
+        project.description = description
+        projectRepository.save(project)
+    }
+
+    @Transactional
+    fun deleteProject(projectId: Long) {
+        val project = getProjectById(projectId)
+        when (project.javaClass) {
+            FinancialProject::class.java -> financialProjectService
+                    .deleteFinancialProject(projectId)
+        }
+    }
+
+    @Transactional
+    fun createProjectFromTemplate(templateProjectId: Long, name: String,
+                                           description: String, isTemplate: Boolean): Project {
+        val templateProject = getProjectById(templateProjectId)
+        return when (templateProject.javaClass) {
+            FinancialProject::class.java -> financialProjectService
+                    .createFinancialProjectFromTemplate(templateProjectId, name, description, isTemplate)
+            else -> throw InternalServerErrorException("Unknown Template Project type")
+        }
     }
 
 }
