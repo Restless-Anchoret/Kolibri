@@ -1,9 +1,6 @@
 package com.ran.kolibri.component
 
-import com.ran.kolibri.dto.request.AddExpendOperationRequestDTO
-import com.ran.kolibri.dto.request.AddIncomeOperationRequestDTO
-import com.ran.kolibri.dto.request.AddOperationRequestDTO
-import com.ran.kolibri.dto.request.AddTransferOperationRequestDTO
+import com.ran.kolibri.dto.request.*
 import com.ran.kolibri.exception.BadRequestException
 import org.springframework.stereotype.Component
 
@@ -32,8 +29,15 @@ class DtoPropertyChecker {
 
     fun checkAddOperationRequestDto(addOperationDto: AddOperationRequestDTO) {
         checkProperty(addOperationDto.operationCategoryId, "operationCategoryId")
+        checkProperty(addOperationDto.operationDate, "operationDate")
         checkProperty(addOperationDto.moneyAmount, "moneyAmount")
         checkProperty(addOperationDto.comment, "comment")
+    }
+
+    fun checkEditOperationRequestDto(editOperationDto: EditOperationRequestDTO) {
+        checkProperty(editOperationDto.operationCategoryId, "operationCategoryId")
+        checkProperty(editOperationDto.moneyAmount, "moneyAmount")
+        checkProperty(editOperationDto.comment, "comment")
     }
     
 }

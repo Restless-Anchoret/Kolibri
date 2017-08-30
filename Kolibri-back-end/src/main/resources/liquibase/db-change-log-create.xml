@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-1">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-1">
+        <createSequence catalogName="kolibri_database_liquibase_update" schemaName="public" sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-2">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="account">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -25,7 +28,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-2">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-3">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="project">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -41,14 +44,14 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-3">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-4">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="globalproperty">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-4">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-5">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="operationcategory">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -64,7 +67,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-5">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-6">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="operation">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -75,7 +78,7 @@
             <column name="moneyamount" type="FLOAT8">
                 <constraints nullable="false"/>
             </column>
-            <column name="operationdate" type="date">
+            <column name="operationdate" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
             <column name="operationcategory_id" type="INT8">
@@ -86,7 +89,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-6">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-7">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="transferoperation">
             <column name="fromaccountresultmoneyamount" type="FLOAT8">
                 <constraints nullable="false"/>
@@ -105,7 +108,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-7">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-8">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="property">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -118,7 +121,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-8">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-9">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="incomeoperation">
             <column name="resultmoneyamount" type="FLOAT8">
                 <constraints nullable="false"/>
@@ -131,7 +134,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-9">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-10">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="projectproperty">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
@@ -141,14 +144,14 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-10">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-11">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="financialproject">
             <column name="id" type="INT8">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-11">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-12">
         <createTable catalogName="kolibri_database_liquibase_update" schemaName="public" tableName="expendoperation">
             <column name="resultmoneyamount" type="FLOAT8">
                 <constraints nullable="false"/>
@@ -161,85 +164,82 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-12">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-13">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="projectproperty_pkey" schemaName="public" tableName="projectproperty"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-13">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-14">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="operation_pkey" schemaName="public" tableName="operation"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-14">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-15">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="incomeoperation_pkey" schemaName="public" tableName="incomeoperation"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-15">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-16">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="globalproperty_pkey" schemaName="public" tableName="globalproperty"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-16">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-17">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="property_pkey" schemaName="public" tableName="property"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-17">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-18">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="financialproject_pkey" schemaName="public" tableName="financialproject"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-18">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-19">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="account_pkey" schemaName="public" tableName="account"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-19">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-20">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="operationcategory_pkey" schemaName="public" tableName="operationcategory"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-20">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-21">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="transferoperation_pkey" schemaName="public" tableName="transferoperation"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-21">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-22">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="project_pkey" schemaName="public" tableName="project"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-22">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-23">
         <addPrimaryKey catalogName="kolibri_database_liquibase_update" columnNames="id" constraintName="expendoperation_pkey" schemaName="public" tableName="expendoperation"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-23">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-24">
         <addForeignKeyConstraint baseColumnNames="project_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="operationcategory" baseTableSchemaName="public" constraintName="fkbl805af78c1bsd4kcdko89yga" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="financialproject" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-24">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-25">
         <addForeignKeyConstraint baseColumnNames="operationcategory_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="operation" baseTableSchemaName="public" constraintName="fkppgdytdqnx6cke7b6dxn4da27" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="operationcategory" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-25">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-26">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="financialproject" baseTableSchemaName="public" constraintName="fk6c67m7ievf1ddaqfaol7bb7dv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="project" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-26">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-27">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="incomeoperation" baseTableSchemaName="public" constraintName="fkref0tyv38sycs0jqewekjbon2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="operation" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-27">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-28">
         <addForeignKeyConstraint baseColumnNames="project_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="operation" baseTableSchemaName="public" constraintName="fk7ypvb1on4q5jadsh6mhxn5q95" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="financialproject" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-28">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-29">
         <addForeignKeyConstraint baseColumnNames="expendaccount_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="expendoperation" baseTableSchemaName="public" constraintName="fkfts39l9ign4sad0qwmfo40fh3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="account" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-29">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-30">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="transferoperation" baseTableSchemaName="public" constraintName="fkrnr9rehn6675thg2l42rfftnf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="operation" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-30">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-31">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="expendoperation" baseTableSchemaName="public" constraintName="fk50t9b894ywqrq0dohi7e4vnyr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="operation" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-31">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-32">
         <addForeignKeyConstraint baseColumnNames="fromaccount_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="transferoperation" baseTableSchemaName="public" constraintName="fkjj2encoxt58gju8ixq1bqymld" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="account" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-32">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-33">
         <addForeignKeyConstraint baseColumnNames="toaccount_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="transferoperation" baseTableSchemaName="public" constraintName="fkhoi2wl6p66rjay5tkdfqieblt" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="account" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-33">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-34">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="projectproperty" baseTableSchemaName="public" constraintName="fkqau81ryyxov5doopb11erh6ra" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="property" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-34">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-35">
         <addForeignKeyConstraint baseColumnNames="incomeaccount_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="incomeoperation" baseTableSchemaName="public" constraintName="fkq8nlvl6sokrlasb22dmv8f394" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="account" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-35">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-36">
         <addForeignKeyConstraint baseColumnNames="id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="globalproperty" baseTableSchemaName="public" constraintName="fk4k3fphdk9cxse7x6xrp49pcvv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="property" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-36">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-37">
         <addForeignKeyConstraint baseColumnNames="project_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="projectproperty" baseTableSchemaName="public" constraintName="fkjj2wl1y87dde9286oepwkj9cd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="project" referencedTableSchemaName="public"/>
     </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-37">
+    <changeSet author="RestlessAnchoret (generated)" id="1504106555009-38">
         <addForeignKeyConstraint baseColumnNames="project_id" baseTableCatalogName="kolibri_database_liquibase_update" baseTableName="account" baseTableSchemaName="public" constraintName="fk8thwruhrr1u7a6c21snvwvxqa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableCatalogName="kolibri_database_liquibase_update" referencedTableName="financialproject" referencedTableSchemaName="public"/>
-    </changeSet>
-    <changeSet author="RestlessAnchoret (generated)" id="1503935393657-38">
-        <createSequence catalogName="kolibri_database_liquibase_update" schemaName="public" sequenceName="hibernate_sequence"/>
     </changeSet>
 </databaseChangeLog>

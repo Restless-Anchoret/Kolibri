@@ -18,7 +18,7 @@ abstract class Operation : BaseEntity() {
     var moneyAmount: Double = 0.0
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     var operationDate: Date? = null
 
     @NotNull
@@ -27,5 +27,11 @@ abstract class Operation : BaseEntity() {
 
     @NotNull
     var comment: String = ""
+
+    override fun toString(): String {
+        return "Operation(projectId=${project?.id}, moneyAmount=$moneyAmount, " +
+                "operationDate=${operationDate?.time}, operationCategory=${operationCategory?.id}, " +
+                "comment='$comment')"
+    }
 
 }

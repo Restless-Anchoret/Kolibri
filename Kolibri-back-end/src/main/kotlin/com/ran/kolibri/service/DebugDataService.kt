@@ -30,15 +30,8 @@ class DebugDataService {
         private val TEMPLATE_PROJECT_NAME = "Template Project"
         private val FINANCIAL_PROJECT_NAME = "Financial Project"
 
-        private val OPERATION_CATEGORY_NAME = "Default Operation Category"
-        private val FIRST_ACCOUNT_NAME = "Default First Account"
-        private val SECOND_ACCOUNT_NAME = "Default Second Account"
-        private val DEFAULT_COMMENT = "Default comment"
-
-        private val INCOME_MONEY_AMOUNT = 1000.0
-        private val EXPEND_MONEY_AMOUNT = 200.0
-        private val TRANSFER_MONEY_AMOUNT = 300.0
-        private val OPERATION_GROUPS_QUANTITY = 283
+        private val ACCOUNTS_QUANTITY = 8
+        private val OPERATION_CATEGORIES_QUANTITY = 20
     }
 
     @Autowired
@@ -49,8 +42,6 @@ class DebugDataService {
     lateinit var accountRepository: AccountRepository
     @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
-    @Autowired
-    lateinit var operationService: OperationService
 
     @Transactional
     fun populateDebugData() {
@@ -64,9 +55,8 @@ class DebugDataService {
 
         fillDebugDataProperty()
         val projects = fillFinancialProjects()
-        val accounts = fillAccounts(projects[0])
-        val operationCategories = fillOperationCategories(projects[0])
-        fillOperations(projects[0], accounts[0], accounts[1], operationCategories[0])
+        fillAccounts(projects[0])
+        fillOperationCategories(projects[0])
 
         LOGGER.logInfo{ "After debug data population" }
     }
@@ -92,9 +82,9 @@ class DebugDataService {
     }
 
     private fun fillAccounts(project: FinancialProject): List<Account> {
-        val firstAccount = fillAccount(project, FIRST_ACCOUNT_NAME)
-        val secondAccount = fillAccount(project, SECOND_ACCOUNT_NAME)
-        return listOf(firstAccount, secondAccount)
+        return (1..ACCOUNTS_QUANTITY).map { index ->
+            fillAccount(project, "Account #$index")
+        }
     }
 
     private fun fillAccount(project: FinancialProject, accountName: String): Account {
@@ -107,25 +97,19 @@ class DebugDataService {
     }
 
     private fun fillOperationCategories(project: FinancialProject): List<OperationCategory> {
-        val operationCategory = OperationCategory()
-        operationCategory.name = OPERATION_CATEGORY_NAME
-        operationCategory.project = project
-        operationCategoryRepository.save(operationCategory)
-        return listOf(operationCategory)
+        return (1..OPERATION_CATEGORIES_QUANTITY).map { index ->
+            val indexPrefix = if (index < 10) "0" else ""
+            val name = "Operation Category #$indexPrefix$index"
+            fillOperationCategory(project, name)
+        }
     }
 
-    private fun fillOperations(project: FinancialProject, firstAccount: Account,
-                               secondAccount: Account, operationCategory: OperationCategory) {
-        for (i in 1..OPERATION_GROUPS_QUANTITY) {
-            operationService.addIncomeOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
-                    INCOME_MONEY_AMOUNT, "")
-            operationService.addIncomeOperation(project.id!!, secondAccount.id!!, operationCategory.id!!,
-                    INCOME_MONEY_AMOUNT, DEFAULT_COMMENT)
-            operationService.addExpendOperation(project.id!!, firstAccount.id!!, operationCategory.id!!,
-                    EXPEND_MONEY_AMOUNT, DEFAULT_COMMENT)
-            operationService.addTransferOperation(project.id!!, secondAccount.id!!, firstAccount.id!!,
-                    operationCategory.id!!, TRANSFER_MONEY_AMOUNT, DEFAULT_COMMENT)
-        }
+    private fun fillOperationCategory(project: FinancialProject, operationCategoryName: String): OperationCategory {
+        val operationCategory = OperationCategory()
+        operationCategory.name = operationCategoryName
+        operationCategory.project = project
+        operationCategoryRepository.save(operationCategory)
+        return operationCategory
     }
 
 }
