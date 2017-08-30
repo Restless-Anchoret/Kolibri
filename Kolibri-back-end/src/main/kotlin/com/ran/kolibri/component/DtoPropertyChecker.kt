@@ -55,5 +55,16 @@ class DtoPropertyChecker {
         checkNotZero(editOperationDto.moneyAmount, "Money amount")
         checkNotNull(editOperationDto.comment, "Comment")
     }
+
+    fun checkCreateProjectDto(createProjectDto: CreateProjectRequestDTO) {
+        checkNotNull(createProjectDto.name, "Name")
+        checkNotNull(createProjectDto.description, "Description")
+        checkNotNull(createProjectDto.isTemplate, "Is Template")
+    }
+
+    fun checkEditNamedEntityDto(editNamedEntityDto: EditNamedEntityRequestDTO) {
+        checkNotNull(editNamedEntityDto.name, "Name")
+        checkNotNull(editNamedEntityDto.description, "Description")
+    }
     
 }

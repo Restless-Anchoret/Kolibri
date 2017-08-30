@@ -45,6 +45,8 @@ class FinancialProjectService {
 
         val operationCategories = operationCategoryService.getOperationCategoriesByProjectId(projectId)
         operationCategoryRepository.delete(operationCategories)
+
+        financialProjectRepository.delete(projectId)
     }
 
     @Transactional

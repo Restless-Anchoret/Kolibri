@@ -11,9 +11,9 @@ import com.ran.kolibri.dto.request.AddTransferOperationRequestDTO
 import com.ran.kolibri.dto.request.EditOperationRequestDTO
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService
+import com.ran.kolibri.service.FinancialProjectService
 import com.ran.kolibri.service.OperationCategoryService
 import com.ran.kolibri.service.OperationService
-import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod.*
 class FinancialProjectController {
 
     @Autowired
-    lateinit var projectService: ProjectService
+    lateinit var financialProjectService: FinancialProjectService
     @Autowired
     lateinit var operationCategoryService: OperationCategoryService
     @Autowired
@@ -42,7 +42,7 @@ class FinancialProjectController {
 
     @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
     fun getFinancialProjectById(@PathVariable("projectId") projectId: Long): FinancialProjectDTO {
-        val project = projectService.getFinancialProjectById(projectId)
+        val project = financialProjectService.getFinancialProjectById(projectId)
         return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
     }
 

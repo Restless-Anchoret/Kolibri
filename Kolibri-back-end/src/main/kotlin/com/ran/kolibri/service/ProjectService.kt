@@ -52,11 +52,12 @@ class ProjectService {
     }
 
     @Transactional
-    fun editProject(projectId: Long, name: String, description: String) {
+    fun editProject(projectId: Long, name: String, description: String): Project {
         val project = getProjectById(projectId)
         project.name = name
         project.description = description
         projectRepository.save(project)
+        return project
     }
 
     @Transactional
@@ -65,6 +66,7 @@ class ProjectService {
         when (project.javaClass) {
             FinancialProject::class.java -> financialProjectService
                     .deleteFinancialProject(projectId)
+            else -> throw InternalServerErrorException("Unknown Template Project type")
         }
     }
 
