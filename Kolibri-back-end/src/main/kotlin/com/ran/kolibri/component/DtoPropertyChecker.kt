@@ -7,37 +7,53 @@ import org.springframework.stereotype.Component
 @Component
 class DtoPropertyChecker {
     
-    fun <T> checkProperty(property: T?, propertyName: String) {
-        property ?: throw BadRequestException("Property $propertyName must be not null")
+    fun <T> checkNotNull(property: T?, propertyName: String) {
+        property ?: throw BadRequestException("$propertyName must be not null")
+    }
+
+    fun checkNotZero(doubleProperty: Double?, propertyName: String) {
+        checkNotNull(doubleProperty, propertyName)
+        if (Math.abs(doubleProperty!!) < 1e-8) {
+            throw BadRequestException("$propertyName must not be zero")
+        }
+    }
+
+    fun checkDifferentIds(firstId: Long?, secondId: Long?,
+                          firstPropertyName: String, secondPropertyName: String) {
+        if (firstId == secondId) {
+            throw BadRequestException("$firstPropertyName and $secondPropertyName must be different")
+        }
     }
 
     fun checkAddIncomeOperationRequestDto(addIncomeOperationDto: AddIncomeOperationRequestDTO) {
-        checkProperty(addIncomeOperationDto.incomeAccountId, "incomeAccountId")
+        checkNotNull(addIncomeOperationDto.incomeAccountId, "Income Account")
         checkAddOperationRequestDto(addIncomeOperationDto)
     }
 
     fun checkAddExpendOperationRequestDto(addExpendOperationDto: AddExpendOperationRequestDTO) {
-        checkProperty(addExpendOperationDto.expendAccountId, "expendAccountId")
+        checkNotNull(addExpendOperationDto.expendAccountId, "Expend Account")
         checkAddOperationRequestDto(addExpendOperationDto)
     }
 
     fun checkAddTransferOperationRequestDto(addTransferOperationDto: AddTransferOperationRequestDTO) {
-        checkProperty(addTransferOperationDto.fromAccountId, "fromAccountId")
-        checkProperty(addTransferOperationDto.toAccountId, "toAccountId")
+        checkNotNull(addTransferOperationDto.fromAccountId, "From Account")
+        checkNotNull(addTransferOperationDto.toAccountId, "To Account")
+        checkDifferentIds(addTransferOperationDto.fromAccountId, addTransferOperationDto.toAccountId,
+                "From Account", "To Account")
         checkAddOperationRequestDto(addTransferOperationDto)
     }
 
     fun checkAddOperationRequestDto(addOperationDto: AddOperationRequestDTO) {
-        checkProperty(addOperationDto.operationCategoryId, "operationCategoryId")
-        checkProperty(addOperationDto.operationDate, "operationDate")
-        checkProperty(addOperationDto.moneyAmount, "moneyAmount")
-        checkProperty(addOperationDto.comment, "comment")
+        checkNotNull(addOperationDto.operationCategoryId, "Operation Category")
+        checkNotNull(addOperationDto.operationDate, "Operation date")
+        checkNotZero(addOperationDto.moneyAmount, "Money amount")
+        checkNotNull(addOperationDto.comment, "Comment")
     }
 
     fun checkEditOperationRequestDto(editOperationDto: EditOperationRequestDTO) {
-        checkProperty(editOperationDto.operationCategoryId, "operationCategoryId")
-        checkProperty(editOperationDto.moneyAmount, "moneyAmount")
-        checkProperty(editOperationDto.comment, "comment")
+        checkNotNull(editOperationDto.operationCategoryId, "Operation Category")
+        checkNotZero(editOperationDto.moneyAmount, "Money amount")
+        checkNotNull(editOperationDto.comment, "Comment")
     }
     
 }
