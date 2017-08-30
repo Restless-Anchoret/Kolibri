@@ -2,7 +2,7 @@ package com.ran.kolibri.exception
 
 import java.lang.RuntimeException
 
-class NotFoundException(
+class InternalServerErrorException(
         message: String? = null,
         cause: Throwable? = null
 ) : RuntimeException(message, cause)

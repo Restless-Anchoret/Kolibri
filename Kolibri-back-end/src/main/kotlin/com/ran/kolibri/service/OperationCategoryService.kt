@@ -16,10 +16,14 @@ import org.springframework.transaction.annotation.Transactional
 class OperationCategoryService {
 
     @Autowired
+    lateinit var projectService: ProjectService
+
+    @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
 
     @Transactional
     fun getOperationCategoriesByProjectId(projectId: Long, name: String?, pageable: Pageable?): Page<OperationCategory> {
+        projectService.getFinancialProjectById(projectId)
         val specification = Specifications.where(OperationCategorySpecificationFactory.byProjectId(projectId))
                 .and(BaseSpecificationFactory.byName<OperationCategory>(name))
         return operationCategoryRepository.findAll(specification, pageable)

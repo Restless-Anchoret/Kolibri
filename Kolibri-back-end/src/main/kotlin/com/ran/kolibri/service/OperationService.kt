@@ -44,6 +44,7 @@ class OperationService {
 
     @Transactional
     fun getOperationsByProjectId(projectId: Long, pageable: Pageable?): Page<Operation> {
+        projectService.getFinancialProjectById(projectId)
         val specification = Specifications.where(OperationSpecificationFactory.byProjectId(projectId))
         return operationRepository.findAll(specification, pageable)
     }

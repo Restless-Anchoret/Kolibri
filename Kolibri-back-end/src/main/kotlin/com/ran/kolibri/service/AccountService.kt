@@ -28,10 +28,14 @@ class AccountService {
     }
 
     @Autowired
+    lateinit var projectService: ProjectService
+
+    @Autowired
     lateinit var accountRepository: AccountRepository
 
     @Transactional
     fun getAccountsByProjectId(projectId: Long, name: String?, pageable: Pageable?): Page<Account> {
+        projectService.getFinancialProjectById(projectId)
         val specification = Specifications.where(AccountSpecificationFactory.byProjectId(projectId))
                 .and(BaseSpecificationFactory.byName<Account>(name))
         return accountRepository.findAll(specification, pageable)
