@@ -5,10 +5,7 @@ import com.ran.kolibri.dto.financial.AccountDTO
 import com.ran.kolibri.dto.financial.OperationCategoryDTO
 import com.ran.kolibri.dto.financial.OperationDTO
 import com.ran.kolibri.dto.project.FinancialProjectDTO
-import com.ran.kolibri.dto.request.AddExpendOperationRequestDTO
-import com.ran.kolibri.dto.request.AddIncomeOperationRequestDTO
-import com.ran.kolibri.dto.request.AddTransferOperationRequestDTO
-import com.ran.kolibri.dto.request.EditOperationRequestDTO
+import com.ran.kolibri.dto.request.*
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService
 import com.ran.kolibri.service.FinancialProjectService
@@ -43,6 +40,16 @@ class FinancialProjectController {
     @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
     fun getFinancialProjectById(@PathVariable("projectId") projectId: Long): FinancialProjectDTO {
         val project = financialProjectService.getFinancialProjectById(projectId)
+        return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/defaults"), method = arrayOf(POST))
+    fun setFinancialProjectDefaults(@PathVariable("projectId") projectId: Long,
+                                    @RequestBody setFinancialProjectDefaultsRequestDTO:
+                                            SetFinancialProjectDefaultsRequestDTO): FinancialProjectDTO {
+        val project = financialProjectService.setFinancialProjectDefaults(projectId,
+                setFinancialProjectDefaultsRequestDTO.accountId,
+                setFinancialProjectDefaultsRequestDTO.operationCategoryId)
         return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
     }
 
