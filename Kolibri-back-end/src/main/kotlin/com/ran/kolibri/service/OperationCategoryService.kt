@@ -17,6 +17,8 @@ class OperationCategoryService {
 
     @Autowired
     lateinit var financialProjectService: FinancialProjectService
+    @Autowired
+    lateinit var commentService: CommentService
 
     @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
@@ -34,6 +36,24 @@ class OperationCategoryService {
     fun getOperationCategoryById(operationCategoryId: Long): OperationCategory {
         return operationCategoryRepository.findOne(operationCategoryId) ?:
                 throw NotFoundException("Operation Category was not found")
+    }
+
+    @Transactional
+    fun addOperationCategoryComment(operationCategoryId: Long, commentText: String) {
+        val operation = getOperationCategoryById(operationCategoryId)
+        commentService.addComment(operation, operationCategoryRepository, commentText)
+    }
+
+    @Transactional
+    fun editOperationCategoryComment(operationCategoryId: Long, commentIndex: Int, commentText: String) {
+        val operation = getOperationCategoryById(operationCategoryId)
+        commentService.editComment(operation, commentIndex, commentText)
+    }
+
+    @Transactional
+    fun removeOperationCategoryComment(operationCategoryId: Long, commentIndex: Int) {
+        val operation = getOperationCategoryById(operationCategoryId)
+        commentService.removeComment(operation, operationCategoryRepository, commentIndex)
     }
 
 }

@@ -29,6 +29,8 @@ class AccountService {
 
     @Autowired
     lateinit var financialProjectService: FinancialProjectService
+    @Autowired
+    lateinit var commentService: CommentService
 
     @Autowired
     lateinit var accountRepository: AccountRepository
@@ -96,6 +98,24 @@ class AccountService {
 
         LOGGER.logInfo { "Found money amount: $moneyAmount" }
         return moneyAmount
+    }
+
+    @Transactional
+    fun addAccountComment(accountId: Long, commentText: String) {
+        val operation = getAccountById(accountId)
+        commentService.addComment(operation, accountRepository, commentText)
+    }
+
+    @Transactional
+    fun editAccountComment(accountId: Long, commentIndex: Int, commentText: String) {
+        val operation = getAccountById(accountId)
+        commentService.editComment(operation, commentIndex, commentText)
+    }
+
+    @Transactional
+    fun removeAccountComment(accountId: Long, commentIndex: Int) {
+        val operation = getAccountById(accountId)
+        commentService.removeComment(operation, accountRepository, commentIndex)
     }
 
 }
