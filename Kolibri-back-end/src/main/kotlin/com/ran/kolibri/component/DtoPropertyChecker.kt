@@ -65,5 +65,9 @@ class DtoPropertyChecker {
         checkNotNull(editNamedEntityDto.name, "Name")
         checkNotNull(editNamedEntityDto.description, "Description")
     }
+
+    fun checkCommentTextDto(commentTextDto: CommentTextDTO) {
+        checkNotNull(commentTextDto.text, "Text")
+    }
     
 }

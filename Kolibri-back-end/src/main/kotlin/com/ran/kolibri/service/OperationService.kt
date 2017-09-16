@@ -158,7 +158,7 @@ class OperationService {
 
     @Transactional
     fun editOperation(operationId: Long, operationCategoryId: Long, moneyAmount: Double) {
-        val operation = operationRepository.findOne(operationId)
+        val operation = getOperationById(operationId)
 
         operation.operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
 
@@ -240,6 +240,24 @@ class OperationService {
         if (account.project?.id != projectId) {
             throw BadRequestException("Account does not belong to Project")
         }
+    }
+
+    @Transactional
+    fun addOperationComment(operationId: Long, commentText: String) {
+        val operation = getOperationById(operationId)
+        commentService.addComment(operation, operationRepository, commentText)
+    }
+
+    @Transactional
+    fun editOperationComment(operationId: Long, commentIndex: Int, commentText: String) {
+        val operation = getOperationById(operationId)
+        commentService.editComment(operation, commentIndex, commentText)
+    }
+
+    @Transactional
+    fun removeOperationComment(operationId: Long, commentIndex: Int) {
+        val operation = getOperationById(operationId)
+        commentService.removeComment(operation, operationRepository, commentIndex)
     }
 
 }

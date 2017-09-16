@@ -124,4 +124,28 @@ class FinancialProjectController {
         return ResponseEntity(HttpStatus.OK)
     }
 
+    @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment"), method = arrayOf(POST))
+    fun addOperationComment(@PathVariable("operationId") operationId: Long,
+                            @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+        dtoPropertyChecker.checkCommentTextDto(commentTextDto)
+        operationService.addOperationComment(operationId, commentTextDto.text!!)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment/{commentIndex}"), method = arrayOf(PUT))
+    fun editOperationComment(@PathVariable("operationId") operationId: Long,
+                             @PathVariable("commentIndex") commentIndex: Int,
+                             @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+        dtoPropertyChecker.checkCommentTextDto(commentTextDto)
+        operationService.editOperationComment(operationId, commentIndex, commentTextDto.text!!)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment/{commentIndex}"), method = arrayOf(DELETE))
+    fun removeOperationComment(@PathVariable("operationId") operationId: Long,
+                               @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
+        operationService.removeOperationComment(operationId, commentIndex)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
 }
