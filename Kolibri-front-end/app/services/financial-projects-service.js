@@ -16,12 +16,12 @@ angular.module('kolibri')
                 '/financial-projects/{projectId}/operations', 'GET'),
 
             addIncomeOperation: httpFactoryService.create(
-                '/financial-projects/{projectId}/income', 'POST'),
+                '/financial-projects/{projectId}/operations/income', 'POST'),
 
             addExpendOperation: httpFactoryService.create(
-                '/financial-projects/{projectId}/expend', 'POST'),
+                '/financial-projects/{projectId}/operations/expend', 'POST'),
 
             addTransferOperation: httpFactoryService.create(
-                '/financial-projects/{projectId}/transfer', 'POST')
+                '/financial-projects/{projectId}/operations/transfer', 'POST')
         };
     });

@@ -6,6 +6,7 @@ import com.ran.kolibri.dto.base.BaseEntityDTO
 import com.ran.kolibri.dto.financial.OperationDTO.Companion.EXPEND_OPERATION_TYPE
 import com.ran.kolibri.dto.financial.OperationDTO.Companion.INCOME_OPERATION_TYPE
 import com.ran.kolibri.dto.financial.OperationDTO.Companion.TRANSFER_OPERATION_TYPE
+import com.ran.kolibri.dto.other.CommentDTO
 import java.util.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
@@ -20,7 +21,7 @@ abstract class OperationDTO(
         var moneyAmount: Double? = null,
         var operationDate: Date? = null,
         var operationCategory: OperationCategoryDTO? = null,
-        var comment: String? = null
+        var comments: List<CommentDTO>? = null
 ) : BaseEntityDTO() {
 
     companion object {

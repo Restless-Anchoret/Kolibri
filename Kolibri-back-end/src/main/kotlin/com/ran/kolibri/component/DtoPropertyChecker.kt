@@ -53,7 +53,6 @@ class DtoPropertyChecker {
     fun checkEditOperationRequestDto(editOperationDto: EditOperationRequestDTO) {
         checkNotNull(editOperationDto.operationCategoryId, "Operation Category")
         checkNotZero(editOperationDto.moneyAmount, "Money amount")
-        checkNotNull(editOperationDto.comment, "Comment")
     }
 
     fun checkCreateProjectDto(createProjectDto: CreateProjectRequestDTO) {

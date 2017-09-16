@@ -2,7 +2,7 @@
 
 angular.module('kolibri')
     .controller('NewOperationDialogController', function($scope, $log, financialProjectsService,
-                                                         dialogsService, RequestInfo) {
+                                                         dialogsService, utilsService, RequestInfo) {
 
         var incomeOperationType = { name: 'Income Operation' };
         var expendOperationType = { name: 'Expend Operation' };
@@ -28,7 +28,7 @@ angular.module('kolibri')
             footerButtons: footerButtons,
             data: {
                 operationType: incomeOperationType,
-                operationDate: new Date()
+                operationDate: utilsService.getDateWithoutTime()
             }
         });
 
@@ -86,7 +86,7 @@ angular.module('kolibri')
             return isIncomeOperationChosen() && !$scope.data.incomeAccount ||
                 isExpendOperationChosen() && !$scope.data.expendAccount ||
                 isTransferOperationChosen() && (!$scope.data.fromAccount || !$scope.data.toAccount) ||
-                !$scope.data.moneyAmount || !$scope.data.operationCategory;
+                $scope.data.moneyAmount === undefined || !$scope.data.operationCategory;
         }
 
     });

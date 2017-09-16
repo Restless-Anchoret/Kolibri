@@ -120,7 +120,7 @@ class FinancialProjectController {
                       @RequestBody editOperationDto: EditOperationRequestDTO): ResponseEntity<Any> {
         dtoPropertyChecker.checkEditOperationRequestDto(editOperationDto)
         operationService.editOperation(operationId, editOperationDto.operationCategoryId!!,
-                editOperationDto.moneyAmount!!, editOperationDto.comment!!)
+                editOperationDto.moneyAmount!!)
         return ResponseEntity(HttpStatus.OK)
     }
 

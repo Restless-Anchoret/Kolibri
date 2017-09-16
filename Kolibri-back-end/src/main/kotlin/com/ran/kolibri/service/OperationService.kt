@@ -29,6 +29,8 @@ class OperationService {
     lateinit var accountService: AccountService
     @Autowired
     lateinit var operationCategoryService: OperationCategoryService
+    @Autowired
+    lateinit var commentService: CommentService
 
     @Autowired
     lateinit var operationRepository: OperationRepository
@@ -123,10 +125,10 @@ class OperationService {
         val operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
         operation.operationCategory = operationCategory
         operation.moneyAmount = moneyAmount
-        operation.comment = comment
         operation.operationDate = dateUtils.getDateWithoutTime(operationDate)
         operation.project = project
         operationRepository.save(operation)
+        commentService.addComment(operation, operationRepository, comment)
     }
 
     @Transactional
@@ -155,12 +157,10 @@ class OperationService {
     }
 
     @Transactional
-    fun editOperation(operationId: Long, operationCategoryId: Long, moneyAmount: Double,
-                      comment: String) {
+    fun editOperation(operationId: Long, operationCategoryId: Long, moneyAmount: Double) {
         val operation = operationRepository.findOne(operationId)
 
         operation.operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
-        operation.comment = comment
 
         if (Math.abs(moneyAmount - operation.moneyAmount) < 1e-8) {
             operationRepository.save(operation)

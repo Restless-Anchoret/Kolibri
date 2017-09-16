@@ -63,7 +63,7 @@
                 <td data-title="'Category'" class="align-left">
                     {{operation.operationCategory.name}}
                     <span ng-if="operationHasComment(operation)"
-                          uib-popover="{{operation.comment}}" popover-trigger="'mouseenter'"
+                          uib-popover="{{operation.comments[0].text}}" popover-trigger="'mouseenter'"
                           popover-placement="bottom" class="glyphicon glyphicon-menu-down"></span>
                 </td>
 

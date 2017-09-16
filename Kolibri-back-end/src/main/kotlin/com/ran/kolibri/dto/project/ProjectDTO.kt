@@ -3,6 +3,7 @@ package com.ran.kolibri.dto.project
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.ran.kolibri.dto.base.NamedEntityDTO
+import com.ran.kolibri.dto.other.CommentDTO
 import com.ran.kolibri.dto.project.ProjectDTO.Companion.FINANCIAL_PROJECT_TYPE
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
@@ -12,7 +13,8 @@ import com.ran.kolibri.dto.project.ProjectDTO.Companion.FINANCIAL_PROJECT_TYPE
         JsonSubTypes.Type(value = FinancialProjectDTO::class, name = FINANCIAL_PROJECT_TYPE))
 abstract class ProjectDTO(
         var isTemplate: Boolean? = null,
-        var projectType: String? = null
+        var projectType: String? = null,
+        var comments: List<CommentDTO>? = null
 ) : NamedEntityDTO() {
 
     companion object {

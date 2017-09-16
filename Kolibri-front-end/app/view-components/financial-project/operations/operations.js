@@ -41,7 +41,7 @@ angular.module('kolibri')
             }
 
             function operationHasComment(operation) {
-                return (operation.comment && operation.comment.trim().length > 0);
+                return (operation.comments.length > 0 && operation.comments[0].text.trim().length > 0);
             }
 
             function newOperation() {
