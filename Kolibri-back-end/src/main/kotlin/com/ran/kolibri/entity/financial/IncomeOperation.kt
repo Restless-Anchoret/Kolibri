@@ -13,4 +13,12 @@ class IncomeOperation : Operation() {
     @NotNull
     var resultMoneyAmount: Double = 0.0
 
+    override fun clone(): IncomeOperation {
+        val operation = IncomeOperation()
+        operation.moneyAmount = this.moneyAmount
+        operation.operationDate = this.operationDate
+        operation.resultMoneyAmount = this.resultMoneyAmount
+        return operation
+    }
+
 }

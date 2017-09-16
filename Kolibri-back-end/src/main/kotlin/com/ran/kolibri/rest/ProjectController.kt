@@ -44,6 +44,15 @@ class ProjectController {
         return orikaMapperFacade.map(project, ProjectDTO::class.java)
     }
 
+    @RequestMapping(value = "/create-from-template/{templateId}", method = arrayOf(POST))
+    fun createProjectFromTemplate(@PathVariable("templateId") templateId: Long,
+                                  @RequestBody createProjectDto: CreateProjectRequestDTO): ProjectDTO {
+        dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
+        val project = projectService.createProjectFromTemplate(templateId, createProjectDto.name!!,
+                createProjectDto.description!!, createProjectDto.isTemplate!!)
+        return orikaMapperFacade.map(project, ProjectDTO::class.java)
+    }
+
     @RequestMapping(value = "{projectId}", method = arrayOf(PUT))
     fun editProject(@PathVariable("projectId") projectId: Long,
                     @RequestBody editProjectDto: EditNamedEntityRequestDTO): ProjectDTO {

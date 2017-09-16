@@ -11,6 +11,7 @@ import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -49,6 +50,14 @@ class OperationService {
         financialProjectService.getFinancialProjectById(projectId)
         val specification = Specifications.where(OperationSpecificationFactory.byProjectId(projectId))
         return operationRepository.findAll(specification, pageable)
+    }
+
+    @Transactional
+    fun getAllSortedOperationsByProjectId(projectId: Long): List<Operation> {
+        financialProjectService.getFinancialProjectById(projectId)
+        val specification = Specifications.where(OperationSpecificationFactory.byProjectId(projectId))
+        return operationRepository.findAll(specification,
+                Sort("operationDate", "id"))
     }
 
     @Transactional

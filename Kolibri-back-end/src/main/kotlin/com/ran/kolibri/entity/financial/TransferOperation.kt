@@ -20,4 +20,13 @@ class TransferOperation : Operation() {
     @NotNull
     var toAccountResultMoneyAmount: Double = 0.0
 
+    override fun clone(): TransferOperation {
+        val operation = TransferOperation()
+        operation.moneyAmount = this.moneyAmount
+        operation.operationDate = this.operationDate
+        operation.fromAccountResultMoneyAmount = this.fromAccountResultMoneyAmount
+        operation.toAccountResultMoneyAmount = this.toAccountResultMoneyAmount
+        return operation
+    }
+
 }

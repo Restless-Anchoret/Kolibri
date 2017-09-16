@@ -1,5 +1,9 @@
 package com.ran.kolibri.service
 
+import com.ran.kolibri.entity.financial.ExpendOperation
+import com.ran.kolibri.entity.financial.FinancialProjectSettings
+import com.ran.kolibri.entity.financial.IncomeOperation
+import com.ran.kolibri.entity.financial.TransferOperation
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.extension.logDebug
@@ -27,6 +31,8 @@ class FinancialProjectService {
     lateinit var accountService: AccountService
     @Autowired
     lateinit var operationCategoryService: OperationCategoryService
+    @Autowired
+    lateinit var commentService: CommentService
 
     @Autowired
     lateinit var financialProjectRepository: FinancialProjectRepository
@@ -84,7 +90,78 @@ class FinancialProjectService {
     @Transactional
     fun createFinancialProjectFromTemplate(projectId: Long, name: String,
                                            description: String, isTemplate: Boolean): FinancialProject {
-        return FinancialProject()
+        val templateProject = getFinancialProjectById(projectId)
+
+        val newProject = FinancialProject()
+        newProject.name = name
+        newProject.description = description
+        newProject.isTemplate = isTemplate
+        financialProjectRepository.save(newProject)
+        commentService.cloneComments(templateProject, newProject, financialProjectRepository)
+
+        val accountIdsMap = HashMap<Long, Long>()
+        templateProject.accounts.forEach {
+            val clonedAccount = it.clone()
+            clonedAccount.project = newProject
+            accountRepository.save(clonedAccount)
+            commentService.cloneComments(it, clonedAccount, accountRepository)
+            accountIdsMap[it.id!!] = clonedAccount.id!!
+        }
+
+        val operationCategoryIdsMap = HashMap<Long, Long>()
+        templateProject.operationCategories.forEach {
+            val clonedOperationCategory = it.clone()
+            clonedOperationCategory.project = newProject
+            operationCategoryRepository.save(clonedOperationCategory)
+            commentService.cloneComments(it, clonedOperationCategory, operationCategoryRepository)
+            operationCategoryIdsMap[it.id!!] = clonedOperationCategory.id!!
+        }
+
+        val operations = operationService.getAllSortedOperationsByProjectId(projectId)
+        operations.forEach { operation ->
+            val clonedOperation = operation.clone()
+            clonedOperation.project = newProject
+            clonedOperation.operationCategory = operationCategoryRepository
+                    .findOne(operationCategoryIdsMap[operation.operationCategory?.id!!])
+            when (operation.javaClass) {
+                IncomeOperation::class.java -> {
+                    operation as IncomeOperation
+                    clonedOperation as IncomeOperation
+                    clonedOperation.incomeAccount = accountRepository
+                            .findOne(accountIdsMap[operation.incomeAccount?.id!!])
+                }
+                ExpendOperation::class.java -> {
+                    operation as ExpendOperation
+                    clonedOperation as ExpendOperation
+                    clonedOperation.expendAccount = accountRepository
+                            .findOne(accountIdsMap[operation.expendAccount?.id!!])
+                }
+                TransferOperation::class.java -> {
+                    operation as TransferOperation
+                    clonedOperation as TransferOperation
+                    clonedOperation.fromAccount = accountRepository
+                            .findOne(accountIdsMap[operation.fromAccount?.id!!])
+                    clonedOperation.toAccount = accountRepository
+                            .findOne(accountIdsMap[operation.toAccount?.id!!])
+                }
+            }
+            commentService.cloneComments(operation, clonedOperation, operationRepository)
+        }
+
+        val settings = FinancialProjectSettings()
+        settings.financialProject = newProject
+        if (templateProject.settings?.defaultAccount != null) {
+            settings.defaultAccount = accountRepository.findOne(
+                    accountIdsMap[templateProject.settings?.defaultAccount?.id!!])
+        }
+        if (templateProject.settings?.defaultOperationCategory != null) {
+            settings.defaultOperationCategory = operationCategoryRepository.findOne(
+                    accountIdsMap[templateProject.settings?.defaultOperationCategory?.id!!])
+        }
+        financialProjectSettingsRepository.save(settings)
+        newProject.settings = settings
+
+        return newProject
     }
 
 }

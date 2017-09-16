@@ -10,7 +10,7 @@ import javax.persistence.CascadeType.*
 import javax.validation.constraints.NotNull
 
 @Entity
-class Account : NamedEntity(), CommentsHolder {
+class Account : NamedEntity(), CommentsHolder, Cloneable {
 
     @NotNull
     @ManyToOne
@@ -29,5 +29,15 @@ class Account : NamedEntity(), CommentsHolder {
     @OneToMany(cascade = arrayOf(PERSIST, REMOVE))
     @OrderColumn
     override val comments: MutableList<Comment> = ArrayList()
+
+    override public fun clone(): Account {
+        val account = Account()
+        account.name = this.name
+        account.description = this.description
+        account.creationDate = this.creationDate
+        account.currentMoneyAmount = this.currentMoneyAmount
+        account.isActive = this.isActive
+        return account
+    }
 
 }

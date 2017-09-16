@@ -3,6 +3,7 @@ package com.ran.kolibri.service
 import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.entity.project.Project
+import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.InternalServerErrorException
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
@@ -83,8 +84,12 @@ class ProjectService {
 
     @Transactional
     fun createProjectFromTemplate(templateProjectId: Long, name: String,
-                                           description: String, isTemplate: Boolean): Project {
+                                  description: String, isTemplate: Boolean): Project {
         val templateProject = getProjectById(templateProjectId)
+        if (!templateProject.isTemplate) {
+            throw BadRequestException("Project is not a template")
+        }
+
         return when (templateProject.javaClass) {
             FinancialProject::class.java -> financialProjectService
                     .createFinancialProjectFromTemplate(templateProjectId, name, description, isTemplate)

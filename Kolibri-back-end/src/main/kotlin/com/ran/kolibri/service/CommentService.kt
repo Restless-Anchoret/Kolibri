@@ -28,7 +28,7 @@ class CommentService {
                                         text: String) {
         LOGGER.logInfo { "Adding a comment: text = $text" }
         if (text.trim().isEmpty()) {
-            LOGGER.logInfo { "Text is empty, comment is not added" }
+            LOGGER.logInfo { "Text is empty, comment was not added" }
             return
         }
 
@@ -46,7 +46,9 @@ class CommentService {
     fun <T : CommentsHolder> editComment(commentsHolder: T,
                                          commentIndex: Int,
                                          text: String) {
+        LOGGER.logInfo { "Editing a comment: commentIndex = $commentIndex, text = $text" }
         if (text.trim().isEmpty()) {
+            LOGGER.logInfo { "Text is empty, comment was not edited" }
             return
         }
 
@@ -57,6 +59,7 @@ class CommentService {
         val comment = commentsHolder.comments[commentIndex]
         comment.text = text
         commentRepository.save(comment)
+        LOGGER.logInfo { "Comment was edited" }
     }
 
     @Transactional
@@ -81,6 +84,18 @@ class CommentService {
         }
         holderRepository.save(commentsHolder)
         LOGGER.logInfo { "Comment was removed" }
+    }
+
+    @Transactional
+    fun <T : CommentsHolder> cloneComments(commentsHolderFrom: T,
+                                           commentsHolderTo: T,
+                                           holderRepository: CrudRepository<T, Long>) {
+        commentsHolderFrom.comments.forEach { comment ->
+            val newComment = comment.clone()
+            commentRepository.save(newComment)
+            commentsHolderTo.comments.add(newComment)
+        }
+        holderRepository.save(commentsHolderTo)
     }
 
 }

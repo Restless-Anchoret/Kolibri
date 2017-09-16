@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-abstract class Operation : BaseEntity(), CommentsHolder {
+abstract class Operation : BaseEntity(), CommentsHolder, Cloneable {
 
     @NotNull
     @ManyToOne
@@ -37,5 +37,7 @@ abstract class Operation : BaseEntity(), CommentsHolder {
                 "operationDate=${operationDate?.time}, operationCategory=${operationCategory?.id}, " +
                 "comments=$comments)"
     }
+
+    override abstract public fun clone(): Operation
 
 }
