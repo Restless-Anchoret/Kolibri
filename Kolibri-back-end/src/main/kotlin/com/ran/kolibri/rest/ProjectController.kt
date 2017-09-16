@@ -2,6 +2,7 @@ package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
 import com.ran.kolibri.dto.project.ProjectDTO
+import com.ran.kolibri.dto.request.CommentTextDTO
 import com.ran.kolibri.dto.request.CreateProjectRequestDTO
 import com.ran.kolibri.dto.request.EditNamedEntityRequestDTO
 import com.ran.kolibri.extension.mapAsPage
@@ -10,6 +11,7 @@ import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -55,6 +57,30 @@ class ProjectController {
     fun deleteProject(@PathVariable("projectId") projectId: Long): ResponseEntity<Any> {
         projectService.deleteProject(projectId)
         return ResponseEntity(OK)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/comment"), method = arrayOf(POST))
+    fun addProjectComment(@PathVariable("projectId") projectId: Long,
+                          @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+        dtoPropertyChecker.checkCommentTextDto(commentTextDto)
+        projectService.addProjectComment(projectId, commentTextDto.text!!)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(PUT))
+    fun editProjectComment(@PathVariable("projectId") projectId: Long,
+                           @PathVariable("commentIndex") commentIndex: Int,
+                           @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+        dtoPropertyChecker.checkCommentTextDto(commentTextDto)
+        projectService.editProjectComment(projectId, commentIndex, commentTextDto.text!!)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(DELETE))
+    fun removeProjectComment(@PathVariable("projectId") projectId: Long,
+                             @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
+        projectService.removeProjectComment(projectId, commentIndex)
+        return ResponseEntity(HttpStatus.OK)
     }
 
 }

@@ -21,6 +21,8 @@ class ProjectService {
 
     @Autowired
     lateinit var financialProjectService: FinancialProjectService
+    @Autowired
+    lateinit var commentService: CommentService
 
     @Autowired
     lateinit var projectRepository: ProjectRepository
@@ -88,6 +90,24 @@ class ProjectService {
                     .createFinancialProjectFromTemplate(templateProjectId, name, description, isTemplate)
             else -> throw InternalServerErrorException("Unknown Template Project type")
         }
+    }
+
+    @Transactional
+    fun addProjectComment(projectId: Long, commentText: String) {
+        val operation = getProjectById(projectId)
+        commentService.addComment(operation, projectRepository, commentText)
+    }
+
+    @Transactional
+    fun editProjectComment(projectId: Long, commentIndex: Int, commentText: String) {
+        val operation = getProjectById(projectId)
+        commentService.editComment(operation, commentIndex, commentText)
+    }
+
+    @Transactional
+    fun removeProjectComment(projectId: Long, commentIndex: Int) {
+        val operation = getProjectById(projectId)
+        commentService.removeComment(operation, projectRepository, commentIndex)
     }
 
 }
