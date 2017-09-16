@@ -4,11 +4,9 @@ import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.entity.project.FinancialProject
-import com.ran.kolibri.entity.property.GlobalProperty
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
-import com.ran.kolibri.repository.property.GlobalPropertyRepository
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
@@ -23,18 +21,13 @@ class DebugDataService {
     companion object {
         private val LOGGER = Logger.getLogger(DebugDataService::class.java)
 
-        private val DEBUG_DATA_PROPERTY_KEY = "debug.data"
-        private val DEBUG_DATA_PROPERTY_VALUE = "populated"
-
-        private val TEMPLATE_PROJECT_NAME = "Template Project"
-        private val FINANCIAL_PROJECT_NAME = "Financial Project"
+        private val TEMPLATE_PROJECT_NAME = "Default Template Project"
+        private val FINANCIAL_PROJECT_NAME = "Default Financial Project"
 
         private val ACCOUNTS_QUANTITY = 8
         private val OPERATION_CATEGORIES_QUANTITY = 20
     }
 
-    @Autowired
-    lateinit var globalPropertyRepository: GlobalPropertyRepository
     @Autowired
     lateinit var accountRepository: AccountRepository
     @Autowired
@@ -47,25 +40,17 @@ class DebugDataService {
     fun populateDebugData() {
         LOGGER.logInfo{ "Before debug data population" }
 
-        val debugDataProperty = globalPropertyRepository.findByKey(DEBUG_DATA_PROPERTY_KEY)
-        if (debugDataProperty != null) {
+        val defaultFinancialProject = projectService.getProjects(false, FINANCIAL_PROJECT_NAME, null)
+        if (defaultFinancialProject.hasContent()) {
             LOGGER.logInfo{ "Debug data has been already populated" }
             return
         }
 
-        fillDebugDataProperty()
         val projects = fillFinancialProjects()
         fillAccounts(projects[0])
         fillOperationCategories(projects[0])
 
         LOGGER.logInfo{ "After debug data population" }
-    }
-
-    private fun fillDebugDataProperty() {
-        val createdDebugDataProperty = GlobalProperty()
-        createdDebugDataProperty.key = DEBUG_DATA_PROPERTY_KEY
-        createdDebugDataProperty.value = DEBUG_DATA_PROPERTY_VALUE
-        globalPropertyRepository.save(createdDebugDataProperty)
     }
 
     private fun fillFinancialProjects(): List<FinancialProject> {
