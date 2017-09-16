@@ -1,6 +1,7 @@
 package com.ran.kolibri.entity.project
 
 import com.ran.kolibri.entity.financial.Account
+import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.financial.Operation
 import com.ran.kolibri.entity.financial.OperationCategory
 import javax.persistence.Entity
@@ -19,10 +20,7 @@ class FinancialProject : Project() {
     @OneToMany(mappedBy = "project")
     val operationCategories: MutableList<OperationCategory> = ArrayList()
 
-    @OneToOne
-    var defaultAccount: Account? = null
-
-    @OneToOne
-    var defaultOperationCategory: OperationCategory? = null
+    @OneToOne(mappedBy = "financialProject")
+    var settings: FinancialProjectSettings? = null
 
 }

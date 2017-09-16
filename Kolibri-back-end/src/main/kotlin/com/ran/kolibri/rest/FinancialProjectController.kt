@@ -43,13 +43,13 @@ class FinancialProjectController {
         return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/defaults"), method = arrayOf(POST))
-    fun setFinancialProjectDefaults(@PathVariable("projectId") projectId: Long,
-                                    @RequestBody setFinancialProjectDefaultsRequestDTO:
-                                            SetFinancialProjectDefaultsRequestDTO): FinancialProjectDTO {
-        val project = financialProjectService.setFinancialProjectDefaults(projectId,
-                setFinancialProjectDefaultsRequestDTO.accountId,
-                setFinancialProjectDefaultsRequestDTO.operationCategoryId)
+    @RequestMapping(path = arrayOf("/{projectId}/settings"), method = arrayOf(PUT))
+    fun setFinancialProjectSettings(@PathVariable("projectId") projectId: Long,
+                                    @RequestBody setFinancialProjectSettingsRequestDTO:
+                                    SetFinancialProjectSettingsRequestDTO): FinancialProjectDTO {
+        val project = financialProjectService.setFinancialProjectSettings(projectId,
+                setFinancialProjectSettingsRequestDTO.accountId,
+                setFinancialProjectSettingsRequestDTO.operationCategoryId)
         return orikaMapperFacade.map(project, FinancialProjectDTO::class.java)
     }
 

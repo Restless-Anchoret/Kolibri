@@ -5,6 +5,7 @@ import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.extension.logDebug
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
+import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.financial.OperationRepository
 import com.ran.kolibri.repository.project.FinancialProjectRepository
@@ -35,6 +36,8 @@ class FinancialProjectService {
     lateinit var accountRepository: AccountRepository
     @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
+    @Autowired
+    lateinit var financialProjectSettingsRepository: FinancialProjectSettingsRepository
 
     @Transactional
     fun getFinancialProjectById(projectId: Long): FinancialProject {
@@ -43,26 +46,29 @@ class FinancialProjectService {
     }
 
     @Transactional
-    fun setFinancialProjectDefaults(projectId: Long, accountId: Long?, operationCategoryId: Long?): FinancialProject {
-        LOGGER.logInfo { "Setting Financial Project defaults: projectId = $projectId, " +
+    fun setFinancialProjectSettings(projectId: Long, accountId: Long?, operationCategoryId: Long?): FinancialProject {
+        LOGGER.logInfo { "Setting Financial Project settings: projectId = $projectId, " +
                 "accountId = $accountId, operationCategoryId = $operationCategoryId" }
         val project = getFinancialProjectById(projectId)
 
-        project.defaultAccount = if (accountId == null) null else
+        project.settings!!.defaultAccount = if (accountId == null) null else
             accountService.getAccountById(accountId)
-        LOGGER.logDebug { "Default Account: ${project.defaultAccount}" }
+        LOGGER.logDebug { "Default Account: ${project.settings!!.defaultAccount}" }
 
-        project.defaultOperationCategory = if (operationCategoryId == null) null else
+        project.settings!!.defaultOperationCategory = if (operationCategoryId == null) null else
             operationCategoryService.getOperationCategoryById(operationCategoryId)
-        LOGGER.logDebug { "Default Operation Category: ${project.defaultOperationCategory}" }
+        LOGGER.logDebug { "Default Operation Category: ${project.settings!!.defaultOperationCategory}" }
 
         financialProjectRepository.save(project)
-        LOGGER.logInfo { "Financial Project defaults were saved" }
+        LOGGER.logInfo { "Financial Project settings were saved" }
         return project
     }
 
     @Transactional
     fun deleteFinancialProject(projectId: Long) {
+        val project = getFinancialProjectById(projectId)
+        financialProjectSettingsRepository.delete(project.settings)
+
         val operations = operationService.getOperationsByProjectId(projectId)
         operationRepository.delete(operations)
 
@@ -72,7 +78,7 @@ class FinancialProjectService {
         val operationCategories = operationCategoryService.getOperationCategoriesByProjectId(projectId)
         operationCategoryRepository.delete(operationCategories)
 
-        financialProjectRepository.delete(projectId)
+        financialProjectRepository.delete(project)
     }
 
     @Transactional

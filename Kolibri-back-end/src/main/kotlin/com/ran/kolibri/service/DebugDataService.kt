@@ -8,7 +8,6 @@ import com.ran.kolibri.entity.property.GlobalProperty
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
-import com.ran.kolibri.repository.project.ProjectRepository
 import com.ran.kolibri.repository.property.GlobalPropertyRepository
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,11 +36,12 @@ class DebugDataService {
     @Autowired
     lateinit var globalPropertyRepository: GlobalPropertyRepository
     @Autowired
-    lateinit var projectRepository: ProjectRepository
-    @Autowired
     lateinit var accountRepository: AccountRepository
     @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
+
+    @Autowired
+    lateinit var projectService: ProjectService
 
     @Transactional
     fun populateDebugData() {
@@ -69,15 +69,10 @@ class DebugDataService {
     }
 
     private fun fillFinancialProjects(): List<FinancialProject> {
-        val templateProject = FinancialProject()
-        templateProject.name = TEMPLATE_PROJECT_NAME
-        templateProject.isTemplate = true
-        projectRepository.save(templateProject)
-
-        val financialProject = FinancialProject()
-        financialProject.name = FINANCIAL_PROJECT_NAME
-        financialProject.isTemplate = false
-        projectRepository.save(financialProject)
+        val templateProject = projectService.createEmptyFinancialProject(
+                TEMPLATE_PROJECT_NAME, "", true)
+        val financialProject = projectService.createEmptyFinancialProject(
+                FINANCIAL_PROJECT_NAME, "", false)
         return listOf(financialProject, templateProject)
     }
 

@@ -1,9 +1,11 @@
 package com.ran.kolibri.service
 
+import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.entity.project.Project
 import com.ran.kolibri.exception.InternalServerErrorException
 import com.ran.kolibri.exception.NotFoundException
+import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
 import com.ran.kolibri.repository.project.ProjectRepository
 import com.ran.kolibri.specification.base.BaseSpecificationFactory
 import com.ran.kolibri.specification.project.ProjectSpecificationFactory
@@ -22,6 +24,8 @@ class ProjectService {
 
     @Autowired
     lateinit var projectRepository: ProjectRepository
+    @Autowired
+    lateinit var financialProjectSettingsRepository: FinancialProjectSettingsRepository
 
     @Transactional
     fun getProjects(isTemplate: Boolean, name: String?, pageable: Pageable?): Page<Project> {
@@ -39,7 +43,12 @@ class ProjectService {
     @Transactional
     fun createEmptyFinancialProject(name: String, description: String,
                                     isTemplate: Boolean): FinancialProject {
-        return createProject(FinancialProject(), name, description, isTemplate)
+        val financialProject = createProject(FinancialProject(), name, description, isTemplate)
+        val settings = FinancialProjectSettings()
+        settings.financialProject = financialProject
+        financialProjectSettingsRepository.save(settings)
+        financialProject.settings = settings
+        return financialProject
     }
 
     private fun <T: Project> createProject(project: T, name: String,
