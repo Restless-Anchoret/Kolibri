@@ -148,6 +148,32 @@ class FinancialProjectController {
         return ResponseEntity(HttpStatus.OK)
     }
 
+    @RequestMapping(path = arrayOf("/{projectId}/categories/create"), method = arrayOf(POST))
+    fun createOperationCategory(@PathVariable("projectId") projectId: Long,
+                                @RequestBody createNamedEntityRequestDTO: CreateOrEditNamedEntityRequestDTO)
+                                    : OperationCategoryDTO {
+        dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDTO)
+        val operationCategory = operationCategoryService.createOperationCategory(projectId,
+                createNamedEntityRequestDTO.name!!, createNamedEntityRequestDTO.description!!)
+        return orikaMapperFacade.map(operationCategory, OperationCategoryDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}"), method = arrayOf(PUT))
+    fun editOperationCategory(@PathVariable("categoryId") operationCategoryId: Long,
+                              @RequestBody createNamedEntityRequestDTO: CreateOrEditNamedEntityRequestDTO)
+                                : OperationCategoryDTO {
+        dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDTO)
+        val operationCategory = operationCategoryService.editOperationCategory(operationCategoryId,
+                createNamedEntityRequestDTO.name!!, createNamedEntityRequestDTO.description!!)
+        return orikaMapperFacade.map(operationCategory, OperationCategoryDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}"), method = arrayOf(DELETE))
+    fun removeOperationCategory(@PathVariable("categoryId") operationCategoryId: Long): ResponseEntity<Any> {
+        operationCategoryService.removeOperationCategory(operationCategoryId)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment"), method = arrayOf(POST))
     fun addOperationComment(@PathVariable("operationId") operationId: Long,
                             @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {

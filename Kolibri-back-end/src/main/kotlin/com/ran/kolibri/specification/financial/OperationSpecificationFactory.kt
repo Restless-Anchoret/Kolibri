@@ -53,4 +53,10 @@ object OperationSpecificationFactory {
         }
     }
 
+    fun byOperationCategoryId(operationCategoryId: Long): Specification<Operation> {
+        return Specification { root, _, criteriaBuilder ->
+            criteriaBuilder.equal(root.get<OperationCategory>("operationCategory").get<Long>("id"), operationCategoryId)
+        }
+    }
+
 }
