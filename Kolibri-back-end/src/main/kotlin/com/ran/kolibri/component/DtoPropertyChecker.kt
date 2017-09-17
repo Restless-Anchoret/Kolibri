@@ -61,9 +61,14 @@ class DtoPropertyChecker {
         checkNotNull(createProjectDto.isTemplate, "Is Template")
     }
 
-    fun checkEditNamedEntityDto(editNamedEntityDto: EditNamedEntityRequestDTO) {
-        checkNotNull(editNamedEntityDto.name, "Name")
-        checkNotNull(editNamedEntityDto.description, "Description")
+    fun checkCreateOrEditNamedEntityDto(createOrEditNamedEntityDto: CreateOrEditNamedEntityRequestDTO) {
+        checkNotNull(createOrEditNamedEntityDto.name, "Name")
+        checkNotNull(createOrEditNamedEntityDto.description, "Description")
+    }
+
+    fun checkEditAccountDto(editAccountRequestDTO: EditAccountRequestDTO) {
+        checkCreateOrEditNamedEntityDto(editAccountRequestDTO)
+        checkNotNull(editAccountRequestDTO.isActive, "Is Active")
     }
 
     fun checkCommentTextDto(commentTextDto: CommentTextDTO) {

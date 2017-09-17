@@ -4,7 +4,7 @@ import com.ran.kolibri.component.DtoPropertyChecker
 import com.ran.kolibri.dto.project.ProjectDTO
 import com.ran.kolibri.dto.request.CommentTextDTO
 import com.ran.kolibri.dto.request.CreateProjectRequestDTO
-import com.ran.kolibri.dto.request.EditNamedEntityRequestDTO
+import com.ran.kolibri.dto.request.CreateOrEditNamedEntityRequestDTO
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
@@ -55,10 +55,10 @@ class ProjectController {
 
     @RequestMapping(value = "{projectId}", method = arrayOf(PUT))
     fun editProject(@PathVariable("projectId") projectId: Long,
-                    @RequestBody editProjectDto: EditNamedEntityRequestDTO): ProjectDTO {
-        dtoPropertyChecker.checkEditNamedEntityDto(editProjectDto)
-        val project = projectService.editProject(projectId, editProjectDto.name!!,
-                editProjectDto.description!!)
+                    @RequestBody createOrEditProjectDto: CreateOrEditNamedEntityRequestDTO): ProjectDTO {
+        dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createOrEditProjectDto)
+        val project = projectService.editProject(projectId, createOrEditProjectDto.name!!,
+                createOrEditProjectDto.description!!)
         return orikaMapperFacade.map(project, ProjectDTO::class.java)
     }
 

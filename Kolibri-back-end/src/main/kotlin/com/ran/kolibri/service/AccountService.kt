@@ -50,6 +50,38 @@ class AccountService {
     }
 
     @Transactional
+    fun createAccount(projectId: Long, name: String, description: String): Account {
+        val project = financialProjectService.getFinancialProjectById(projectId)
+        val account = Account()
+        account.name = name
+        account.description = description
+        account.creationDate = Date()
+        account.project = project
+        accountRepository.save(account)
+        return account
+    }
+
+    @Transactional
+    fun editAccount(accountId: Long, name: String, description: String, isActive: Boolean): Account {
+        val account = getAccountById(accountId)
+        account.name = name
+        account.description = description
+        account.isActive = isActive
+        accountRepository.save(account)
+        return account
+    }
+
+    @Transactional
+    fun removeAccount(accountId: Long) {
+        val account = getAccountById(accountId)
+        val operationsPage = accountRepository.findAllAccountOperations(accountId)
+        if (!operationsPage.content.isEmpty()) {
+            throw BadRequestException("Account cannot be removed, because it was used in Operations")
+        }
+        accountRepository.delete(account)
+    }
+
+    @Transactional
     fun changeAccountMoney(accountId: Long, accountMoneyDelta: Double): Account {
         LOGGER.logInfo { "Changing Account money: accountId: $accountId, accountMoneyDelta = $accountMoneyDelta" }
         val account = getAccountById(accountId)

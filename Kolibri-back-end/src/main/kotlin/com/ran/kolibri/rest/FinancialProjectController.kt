@@ -124,6 +124,30 @@ class FinancialProjectController {
         return ResponseEntity(HttpStatus.OK)
     }
 
+    @RequestMapping(path = arrayOf("/{projectId}/accounts/create"), method = arrayOf(POST))
+    fun createAccount(@PathVariable("projectId") projectId: Long,
+                      @RequestBody createNamedEntityRequestDTO: CreateOrEditNamedEntityRequestDTO): AccountDTO {
+        dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDTO)
+        val account = accountService.createAccount(projectId,
+                createNamedEntityRequestDTO.name!!, createNamedEntityRequestDTO.description!!)
+        return orikaMapperFacade.map(account, AccountDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}"), method = arrayOf(PUT))
+    fun editAccount(@PathVariable("accountId") accountId: Long,
+                    @RequestBody editAccountRequestDTO: EditAccountRequestDTO): AccountDTO {
+        dtoPropertyChecker.checkEditAccountDto(editAccountRequestDTO)
+        val account = accountService.editAccount(accountId, editAccountRequestDTO.name!!,
+                editAccountRequestDTO.description!!, editAccountRequestDTO.isActive!!)
+        return orikaMapperFacade.map(account, AccountDTO::class.java)
+    }
+
+    @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}"), method = arrayOf(DELETE))
+    fun removeAccount(@PathVariable("accountId") accountId: Long): ResponseEntity<Any> {
+        accountService.removeAccount(accountId)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment"), method = arrayOf(POST))
     fun addOperationComment(@PathVariable("operationId") operationId: Long,
                             @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
