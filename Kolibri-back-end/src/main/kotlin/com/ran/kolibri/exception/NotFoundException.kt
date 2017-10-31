@@ -1,8 +1,8 @@
 package com.ran.kolibri.exception
 
-import java.lang.RuntimeException
+import org.springframework.http.HttpStatus.NOT_FOUND
 
 class NotFoundException(
         message: String? = null,
         cause: Throwable? = null
-) : RuntimeException(message, cause)
+) : KolibriException(NOT_FOUND, message, cause)

@@ -1,8 +1,8 @@
 package com.ran.kolibri.exception
 
-import java.lang.RuntimeException
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 class InternalServerErrorException(
         message: String? = null,
         cause: Throwable? = null
-) : RuntimeException(message, cause)
+) : KolibriException(INTERNAL_SERVER_ERROR, message, cause)
