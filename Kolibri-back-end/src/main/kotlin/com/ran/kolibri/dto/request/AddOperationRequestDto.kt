@@ -2,7 +2,7 @@ package com.ran.kolibri.dto.request
 
 import java.util.*
 
-abstract class AddOperationRequestDTO {
+abstract class AddOperationRequestDto {
 
     var operationCategoryId: Long? = null
     var moneyAmount: Double? = null

@@ -1,6 +1,6 @@
 package com.ran.kolibri.exception
 
-import com.ran.kolibri.dto.other.ExceptionDTO
+import com.ran.kolibri.dto.other.ExceptionDto
 import org.apache.log4j.Logger
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -17,10 +17,10 @@ class GlobalExceptionHandler {
     @ExceptionHandler(KolibriException::class)
     @ResponseBody
     fun handleKolibriException(exception: KolibriException,
-                               httpServletResponse: HttpServletResponse): ExceptionDTO {
+                               httpServletResponse: HttpServletResponse): ExceptionDto {
         LOGGER.error(exception.message, exception)
         httpServletResponse.status = exception.httpStatus.value()
-        return ExceptionDTO(exception.message)
+        return ExceptionDto(exception.message)
     }
 
 }

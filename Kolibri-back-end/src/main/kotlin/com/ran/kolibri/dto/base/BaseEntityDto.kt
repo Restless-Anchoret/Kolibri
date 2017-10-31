@@ -1,6 +1,6 @@
 package com.ran.kolibri.dto.base
 
-abstract class BaseEntityDTO {
+abstract class BaseEntityDto {
 
     var id: Long? = null
 

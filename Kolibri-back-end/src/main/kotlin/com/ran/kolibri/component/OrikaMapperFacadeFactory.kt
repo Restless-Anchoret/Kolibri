@@ -1,9 +1,9 @@
 package com.ran.kolibri.component
 
-import com.ran.kolibri.dto.financial.ExpendOperationDTO
-import com.ran.kolibri.dto.financial.IncomeOperationDTO
-import com.ran.kolibri.dto.financial.TransferOperationDTO
-import com.ran.kolibri.dto.project.FinancialProjectDTO
+import com.ran.kolibri.dto.financial.ExpendOperationDto
+import com.ran.kolibri.dto.financial.IncomeOperationDto
+import com.ran.kolibri.dto.financial.TransferOperationDto
+import com.ran.kolibri.dto.project.FinancialProjectDto
 import com.ran.kolibri.entity.financial.ExpendOperation
 import com.ran.kolibri.entity.financial.IncomeOperation
 import com.ran.kolibri.entity.financial.TransferOperation
@@ -32,10 +32,10 @@ class OrikaMapperFacadeFactory : FactoryBean<MapperFacade> {
     }
 
     private fun createMappings(mapperFactory: MapperFactory) {
-        mapperFactory.classMap(FinancialProject::class.java, FinancialProjectDTO::class.java).byDefault().register()
-        mapperFactory.classMap(IncomeOperation::class.java, IncomeOperationDTO::class.java).byDefault().register()
-        mapperFactory.classMap(ExpendOperation::class.java, ExpendOperationDTO::class.java).byDefault().register()
-        mapperFactory.classMap(TransferOperation::class.java, TransferOperationDTO::class.java).byDefault().register()
+        mapperFactory.classMap(FinancialProject::class.java, FinancialProjectDto::class.java).byDefault().register()
+        mapperFactory.classMap(IncomeOperation::class.java, IncomeOperationDto::class.java).byDefault().register()
+        mapperFactory.classMap(ExpendOperation::class.java, ExpendOperationDto::class.java).byDefault().register()
+        mapperFactory.classMap(TransferOperation::class.java, TransferOperationDto::class.java).byDefault().register()
     }
 
 }

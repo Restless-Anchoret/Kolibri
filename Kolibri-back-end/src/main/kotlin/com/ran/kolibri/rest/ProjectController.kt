@@ -1,10 +1,10 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
-import com.ran.kolibri.dto.project.ProjectDTO
-import com.ran.kolibri.dto.request.CommentTextDTO
-import com.ran.kolibri.dto.request.CreateProjectRequestDTO
-import com.ran.kolibri.dto.request.CreateOrEditNamedEntityRequestDTO
+import com.ran.kolibri.dto.project.ProjectDto
+import com.ran.kolibri.dto.request.CommentTextDto
+import com.ran.kolibri.dto.request.CreateProjectRequestDto
+import com.ran.kolibri.dto.request.CreateOrEditNamedEntityRequestDto
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
@@ -31,35 +31,35 @@ class ProjectController {
     @RequestMapping(method = arrayOf(GET))
     fun getProjectsPage(@RequestParam(value = "isTemplate", defaultValue = "false") isTemplate: Boolean,
                         @RequestParam(value = "name", required = false) name: String?,
-                        pageable: Pageable): Page<ProjectDTO> {
+                        pageable: Pageable): Page<ProjectDto> {
         val projectsPage = projectService.getProjects(isTemplate, name, pageable)
-        return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDTO::class.java)
+        return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDto::class.java)
     }
 
     @RequestMapping(value = "/create-financial", method = arrayOf(POST))
-    fun createEmptyFinancialProject(@RequestBody createProjectDto: CreateProjectRequestDTO): ProjectDTO {
+    fun createEmptyFinancialProject(@RequestBody createProjectDto: CreateProjectRequestDto): ProjectDto {
         dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
         val project = projectService.createEmptyFinancialProject(createProjectDto.name!!,
                 createProjectDto.description!!, createProjectDto.isTemplate!!)
-        return orikaMapperFacade.map(project, ProjectDTO::class.java)
+        return orikaMapperFacade.map(project, ProjectDto::class.java)
     }
 
     @RequestMapping(value = "/create-from-template/{templateId}", method = arrayOf(POST))
     fun createProjectFromTemplate(@PathVariable("templateId") templateId: Long,
-                                  @RequestBody createProjectDto: CreateProjectRequestDTO): ProjectDTO {
+                                  @RequestBody createProjectDto: CreateProjectRequestDto): ProjectDto {
         dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
         val project = projectService.createProjectFromTemplate(templateId, createProjectDto.name!!,
                 createProjectDto.description!!, createProjectDto.isTemplate!!)
-        return orikaMapperFacade.map(project, ProjectDTO::class.java)
+        return orikaMapperFacade.map(project, ProjectDto::class.java)
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(PUT))
     fun editProject(@PathVariable("projectId") projectId: Long,
-                    @RequestBody createOrEditProjectDto: CreateOrEditNamedEntityRequestDTO): ProjectDTO {
+                    @RequestBody createOrEditProjectDto: CreateOrEditNamedEntityRequestDto): ProjectDto {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createOrEditProjectDto)
         val project = projectService.editProject(projectId, createOrEditProjectDto.name!!,
                 createOrEditProjectDto.description!!)
-        return orikaMapperFacade.map(project, ProjectDTO::class.java)
+        return orikaMapperFacade.map(project, ProjectDto::class.java)
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(DELETE))
@@ -70,7 +70,7 @@ class ProjectController {
 
     @RequestMapping(path = arrayOf("/{projectId}/comment"), method = arrayOf(POST))
     fun addProjectComment(@PathVariable("projectId") projectId: Long,
-                          @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+                          @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         projectService.addProjectComment(projectId, commentTextDto.text!!)
         return ResponseEntity(HttpStatus.OK)
@@ -79,7 +79,7 @@ class ProjectController {
     @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(PUT))
     fun editProjectComment(@PathVariable("projectId") projectId: Long,
                            @PathVariable("commentIndex") commentIndex: Int,
-                           @RequestBody commentTextDto: CommentTextDTO): ResponseEntity<Any> {
+                           @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         projectService.editProjectComment(projectId, commentIndex, commentTextDto.text!!)
         return ResponseEntity(HttpStatus.OK)

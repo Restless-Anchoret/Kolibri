@@ -5,6 +5,7 @@ import com.ran.kolibri.exception.BadRequestException
 import org.springframework.stereotype.Component
 
 @Component
+// todo: replace this component by usage of JSON Schema Validator
 class DtoPropertyChecker {
     
     fun <T> checkNotNull(property: T?, propertyName: String) {
@@ -25,17 +26,17 @@ class DtoPropertyChecker {
         }
     }
 
-    fun checkAddIncomeOperationRequestDto(addIncomeOperationDto: AddIncomeOperationRequestDTO) {
+    fun checkAddIncomeOperationRequestDto(addIncomeOperationDto: AddIncomeOperationRequestDto) {
         checkNotNull(addIncomeOperationDto.incomeAccountId, "Income Account")
         checkAddOperationRequestDto(addIncomeOperationDto)
     }
 
-    fun checkAddExpendOperationRequestDto(addExpendOperationDto: AddExpendOperationRequestDTO) {
+    fun checkAddExpendOperationRequestDto(addExpendOperationDto: AddExpendOperationRequestDto) {
         checkNotNull(addExpendOperationDto.expendAccountId, "Expend Account")
         checkAddOperationRequestDto(addExpendOperationDto)
     }
 
-    fun checkAddTransferOperationRequestDto(addTransferOperationDto: AddTransferOperationRequestDTO) {
+    fun checkAddTransferOperationRequestDto(addTransferOperationDto: AddTransferOperationRequestDto) {
         checkNotNull(addTransferOperationDto.fromAccountId, "From Account")
         checkNotNull(addTransferOperationDto.toAccountId, "To Account")
         checkDifferentIds(addTransferOperationDto.fromAccountId, addTransferOperationDto.toAccountId,
@@ -43,35 +44,35 @@ class DtoPropertyChecker {
         checkAddOperationRequestDto(addTransferOperationDto)
     }
 
-    fun checkAddOperationRequestDto(addOperationDto: AddOperationRequestDTO) {
+    fun checkAddOperationRequestDto(addOperationDto: AddOperationRequestDto) {
         checkNotNull(addOperationDto.operationCategoryId, "Operation Category")
         checkNotNull(addOperationDto.operationDate, "Operation date")
         checkNotZero(addOperationDto.moneyAmount, "Money amount")
         checkNotNull(addOperationDto.comment, "Comment")
     }
 
-    fun checkEditOperationRequestDto(editOperationDto: EditOperationRequestDTO) {
+    fun checkEditOperationRequestDto(editOperationDto: EditOperationRequestDto) {
         checkNotNull(editOperationDto.operationCategoryId, "Operation Category")
         checkNotZero(editOperationDto.moneyAmount, "Money amount")
     }
 
-    fun checkCreateProjectDto(createProjectDto: CreateProjectRequestDTO) {
+    fun checkCreateProjectDto(createProjectDto: CreateProjectRequestDto) {
         checkNotNull(createProjectDto.name, "Name")
         checkNotNull(createProjectDto.description, "Description")
         checkNotNull(createProjectDto.isTemplate, "Is Template")
     }
 
-    fun checkCreateOrEditNamedEntityDto(createOrEditNamedEntityDto: CreateOrEditNamedEntityRequestDTO) {
+    fun checkCreateOrEditNamedEntityDto(createOrEditNamedEntityDto: CreateOrEditNamedEntityRequestDto) {
         checkNotNull(createOrEditNamedEntityDto.name, "Name")
         checkNotNull(createOrEditNamedEntityDto.description, "Description")
     }
 
-    fun checkEditAccountDto(editAccountRequestDTO: EditAccountRequestDTO) {
-        checkCreateOrEditNamedEntityDto(editAccountRequestDTO)
-        checkNotNull(editAccountRequestDTO.isActive, "Is Active")
+    fun checkEditAccountDto(editAccountRequestDto: EditAccountRequestDto) {
+        checkCreateOrEditNamedEntityDto(editAccountRequestDto)
+        checkNotNull(editAccountRequestDto.isActive, "Is Active")
     }
 
-    fun checkCommentTextDto(commentTextDto: CommentTextDTO) {
+    fun checkCommentTextDto(commentTextDto: CommentTextDto) {
         checkNotNull(commentTextDto.text, "Text")
     }
     

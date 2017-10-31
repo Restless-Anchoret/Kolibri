@@ -1,6 +1,6 @@
 package com.ran.kolibri.dto.base
 
-abstract class NamedEntityDTO: BaseEntityDTO() {
+abstract class NamedEntityDto : BaseEntityDto() {
 
     var name: String? = null
     var description: String? = null

@@ -1,6 +1,6 @@
 package com.ran.kolibri.dto.request
 
-class EditAccountRequestDTO : CreateOrEditNamedEntityRequestDTO() {
+class EditAccountRequestDto : CreateOrEditNamedEntityRequestDto() {
 
     var isActive: Boolean? = null
 

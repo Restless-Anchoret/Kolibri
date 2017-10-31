@@ -1,10 +1,10 @@
 package com.ran.kolibri.dto.financial
 
-import com.ran.kolibri.dto.base.NamedEntityDTO
-import com.ran.kolibri.dto.other.CommentDTO
+import com.ran.kolibri.dto.base.NamedEntityDto
+import com.ran.kolibri.dto.other.CommentDto
 
-class OperationCategoryDTO : NamedEntityDTO() {
+class OperationCategoryDto : NamedEntityDto() {
 
-    var comments: List<CommentDTO>? = null
+    var comments: List<CommentDto>? = null
 
 }

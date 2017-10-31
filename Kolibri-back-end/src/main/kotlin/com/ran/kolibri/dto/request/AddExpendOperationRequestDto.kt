@@ -1,6 +1,6 @@
 package com.ran.kolibri.dto.request
 
-class AddExpendOperationRequestDTO : AddOperationRequestDTO() {
+class AddExpendOperationRequestDto : AddOperationRequestDto() {
 
     var expendAccountId: Long? = null
 

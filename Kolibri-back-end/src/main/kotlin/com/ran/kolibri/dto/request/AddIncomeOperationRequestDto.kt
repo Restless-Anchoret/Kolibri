@@ -1,6 +1,6 @@
 package com.ran.kolibri.dto.request
 
-class AddIncomeOperationRequestDTO : AddOperationRequestDTO() {
+class AddIncomeOperationRequestDto : AddOperationRequestDto() {
 
     var incomeAccountId: Long? = null
 
