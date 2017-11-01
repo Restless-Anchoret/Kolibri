@@ -47,9 +47,7 @@ class OperationCategoryService {
     @Transactional
     fun createOperationCategory(projectId: Long, name: String, description: String): OperationCategory {
         val project = financialProjectService.getFinancialProjectById(projectId)
-        val operationCategory = OperationCategory()
-        operationCategory.name = name
-        operationCategory.description = description
+        val operationCategory = OperationCategory(name, description)
         operationCategory.project = project
         operationCategoryRepository.save(operationCategory)
         return operationCategory

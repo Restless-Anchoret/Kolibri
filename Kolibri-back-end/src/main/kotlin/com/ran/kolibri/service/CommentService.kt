@@ -32,9 +32,7 @@ class CommentService {
             return
         }
 
-        val comment = Comment()
-        comment.text = text
-        comment.date = Date()
+        val comment = Comment(text)
         commentRepository.save(comment)
 
         commentsHolder.comments.add(comment)

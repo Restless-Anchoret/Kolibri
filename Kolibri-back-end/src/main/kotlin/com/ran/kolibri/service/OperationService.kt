@@ -76,12 +76,12 @@ class OperationService {
 
         val correctedDate = dateUtils.getDateWithoutTime(operationDate)
         val previousRemainder = accountService.findAccountMoneyAmountForDate(accountId, correctedDate)
+        val resultMoneyAmount = previousRemainder + moneyAmount
         correctAccountAndOperationsByMoneyDelta(accountId, correctedDate, null, moneyAmount)
 
-        val operation = IncomeOperation()
+        val operation = IncomeOperation(moneyAmount, resultMoneyAmount, correctedDate)
         operation.incomeAccount = accountService.getAccountById(accountId)
-        operation.resultMoneyAmount = previousRemainder + moneyAmount
-        addOperation(operation, projectId, operationCategoryId, moneyAmount, comment, correctedDate)
+        addOperation(operation, projectId, operationCategoryId, comment)
     }
 
     @Transactional
@@ -95,12 +95,12 @@ class OperationService {
 
         val correctedDate = dateUtils.getDateWithoutTime(operationDate)
         val previousRemainder = accountService.findAccountMoneyAmountForDate(accountId, correctedDate)
+        val resultMoneyAmount = previousRemainder - moneyAmount
         correctAccountAndOperationsByMoneyDelta(accountId, correctedDate, null, -moneyAmount)
 
-        val operation = ExpendOperation()
+        val operation = ExpendOperation(moneyAmount, resultMoneyAmount, correctedDate)
         operation.expendAccount = accountService.getAccountById(accountId)
-        operation.resultMoneyAmount = previousRemainder - moneyAmount
-        addOperation(operation, projectId, operationCategoryId, moneyAmount, comment, correctedDate)
+        addOperation(operation, projectId, operationCategoryId, comment)
     }
 
     @Transactional
@@ -117,24 +117,23 @@ class OperationService {
         val correctedDate = dateUtils.getDateWithoutTime(operationDate)
         val fromAccountPreviousRemainder = accountService.findAccountMoneyAmountForDate(fromAccountId, correctedDate)
         val toAccountPreviousRemainder = accountService.findAccountMoneyAmountForDate(toAccountId, correctedDate)
+        val fromAccountResultMoneyAmount = fromAccountPreviousRemainder - moneyAmount
+        val toAccountResultMoneyAmount = toAccountPreviousRemainder + moneyAmount
         correctAccountAndOperationsByMoneyDelta(fromAccountId, operationDate, null, -moneyAmount)
         correctAccountAndOperationsByMoneyDelta(toAccountId, operationDate, null, moneyAmount)
 
-        val operation = TransferOperation()
+        val operation = TransferOperation(moneyAmount, fromAccountResultMoneyAmount,
+                toAccountResultMoneyAmount, correctedDate)
         operation.fromAccount = accountService.getAccountById(fromAccountId)
         operation.toAccount = accountService.getAccountById(toAccountId)
-        operation.fromAccountResultMoneyAmount = fromAccountPreviousRemainder - moneyAmount
-        operation.toAccountResultMoneyAmount = toAccountPreviousRemainder + moneyAmount
-        addOperation(operation, projectId, operationCategoryId, moneyAmount, comment, operationDate)
+        addOperation(operation, projectId, operationCategoryId, comment)
     }
 
     private fun addOperation(operation: Operation, projectId: Long, operationCategoryId: Long,
-                             moneyAmount: Double, comment: String, operationDate: Date) {
+                             comment: String) {
         val project = financialProjectService.getFinancialProjectById(projectId)
         val operationCategory = operationCategoryService.getOperationCategoryById(operationCategoryId)
         operation.operationCategory = operationCategory
-        operation.moneyAmount = moneyAmount
-        operation.operationDate = dateUtils.getDateWithoutTime(operationDate)
         operation.project = project
         operationRepository.save(operation)
         commentService.addComment(operation, operationRepository, comment)
@@ -147,19 +146,19 @@ class OperationService {
             IncomeOperation::class.java -> {
                 operation as IncomeOperation
                 correctAccountAndOperationsByMoneyDelta(operation.incomeAccount?.id!!,
-                        operation.operationDate!!, operationId, -operation.moneyAmount)
+                        operation.operationDate, operationId, -operation.moneyAmount)
             }
             ExpendOperation::class.java -> {
                 operation as ExpendOperation
                 correctAccountAndOperationsByMoneyDelta(operation.expendAccount?.id!!,
-                        operation.operationDate!!, operationId, operation.moneyAmount)
+                        operation.operationDate, operationId, operation.moneyAmount)
             }
             TransferOperation::class.java -> {
                 operation as TransferOperation
                 correctAccountAndOperationsByMoneyDelta(operation.fromAccount?.id!!,
-                        operation.operationDate!!, operationId, operation.moneyAmount)
+                        operation.operationDate, operationId, operation.moneyAmount)
                 correctAccountAndOperationsByMoneyDelta(operation.toAccount?.id!!,
-                        operation.operationDate!!, operationId, -operation.moneyAmount)
+                        operation.operationDate, operationId, -operation.moneyAmount)
             }
         }
         operationRepository.delete(operation)
@@ -180,19 +179,19 @@ class OperationService {
             IncomeOperation::class.java -> {
                 operation as IncomeOperation
                 correctAccountAndOperationsByMoneyDelta(operation.incomeAccount?.id!!,
-                        operation.operationDate!!, operationId, moneyAmount - operation.moneyAmount)
+                        operation.operationDate, operationId, moneyAmount - operation.moneyAmount)
             }
             ExpendOperation::class.java -> {
                 operation as ExpendOperation
                 correctAccountAndOperationsByMoneyDelta(operation.expendAccount?.id!!,
-                        operation.operationDate!!, operationId, operation.moneyAmount - moneyAmount)
+                        operation.operationDate, operationId, operation.moneyAmount - moneyAmount)
             }
             TransferOperation::class.java -> {
                 operation as TransferOperation
                 correctAccountAndOperationsByMoneyDelta(operation.fromAccount?.id!!,
-                        operation.operationDate!!, operationId, operation.moneyAmount - moneyAmount)
+                        operation.operationDate, operationId, operation.moneyAmount - moneyAmount)
                 correctAccountAndOperationsByMoneyDelta(operation.toAccount?.id!!,
-                        operation.operationDate!!, operationId, moneyAmount - operation.moneyAmount)
+                        operation.operationDate, operationId, moneyAmount - operation.moneyAmount)
             }
         }
 

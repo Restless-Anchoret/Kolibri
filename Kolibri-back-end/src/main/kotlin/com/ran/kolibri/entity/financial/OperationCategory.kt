@@ -12,7 +12,10 @@ import javax.persistence.OrderColumn
 import javax.validation.constraints.NotNull
 
 @Entity
-class OperationCategory : NamedEntity(), CommentsHolder, Cloneable {
+class OperationCategory(
+        name: String,
+        description: String
+) : NamedEntity(name, description), CommentsHolder, Cloneable {
 
     @NotNull
     @ManyToOne
@@ -23,10 +26,7 @@ class OperationCategory : NamedEntity(), CommentsHolder, Cloneable {
     override val comments: MutableList<Comment> = ArrayList()
 
     override public fun clone(): OperationCategory {
-        val operationCategory = OperationCategory()
-        operationCategory.name = this.name
-        operationCategory.description = this.description
-        return operationCategory
+        return OperationCategory(name, description)
     }
 
 }

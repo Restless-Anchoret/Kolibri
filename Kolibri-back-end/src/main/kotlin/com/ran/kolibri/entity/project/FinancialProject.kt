@@ -9,7 +9,11 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
 @Entity
-class FinancialProject : Project() {
+class FinancialProject(
+        name: String,
+        description: String,
+        isTemplate: Boolean
+) : Project(name, description, isTemplate) {
 
     @OneToMany(mappedBy = "project")
     val accounts: MutableList<Account> = ArrayList()

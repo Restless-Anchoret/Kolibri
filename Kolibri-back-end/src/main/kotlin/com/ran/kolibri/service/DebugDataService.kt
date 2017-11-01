@@ -26,6 +26,8 @@ class DebugDataService {
 
         private val ACCOUNTS_QUANTITY = 8
         private val OPERATION_CATEGORIES_QUANTITY = 20
+
+        private val DEFAULT_DESCRIPTION = "Default description"
     }
 
     @Autowired
@@ -68,9 +70,7 @@ class DebugDataService {
     }
 
     private fun fillAccount(project: FinancialProject, accountName: String): Account {
-        val account = Account()
-        account.name = accountName
-        account.creationDate = Date()
+        val account = Account(accountName, DEFAULT_DESCRIPTION)
         account.project = project
         accountRepository.save(account)
         return account
@@ -85,8 +85,7 @@ class DebugDataService {
     }
 
     private fun fillOperationCategory(project: FinancialProject, operationCategoryName: String): OperationCategory {
-        val operationCategory = OperationCategory()
-        operationCategory.name = operationCategoryName
+        val operationCategory = OperationCategory(operationCategoryName, DEFAULT_DESCRIPTION)
         operationCategory.project = project
         operationCategoryRepository.save(operationCategory)
         return operationCategory

@@ -9,10 +9,12 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-abstract class Project : NamedEntity(), CommentsHolder {
-
-    @NotNull
-    var isTemplate: Boolean = false
+abstract class Project(
+        name: String,
+        description: String,
+        @NotNull
+        var isTemplate: Boolean = false
+) : NamedEntity(name, description), CommentsHolder {
 
     @OneToMany(cascade = arrayOf(PERSIST, REMOVE))
     @OrderColumn

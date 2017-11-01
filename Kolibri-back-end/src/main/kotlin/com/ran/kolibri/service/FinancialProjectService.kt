@@ -92,10 +92,7 @@ class FinancialProjectService {
                                            description: String, isTemplate: Boolean): FinancialProject {
         val templateProject = getFinancialProjectById(projectId)
 
-        val newProject = FinancialProject()
-        newProject.name = name
-        newProject.description = description
-        newProject.isTemplate = isTemplate
+        val newProject = FinancialProject(name, description, isTemplate)
         financialProjectRepository.save(newProject)
         commentService.cloneComments(templateProject, newProject, financialProjectRepository)
 

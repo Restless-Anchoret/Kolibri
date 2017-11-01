@@ -52,10 +52,7 @@ class AccountService {
     @Transactional
     fun createAccount(projectId: Long, name: String, description: String): Account {
         val project = financialProjectService.getFinancialProjectById(projectId)
-        val account = Account()
-        account.name = name
-        account.description = description
-        account.creationDate = Date()
+        val account = Account(name, description)
         account.project = project
         accountRepository.save(account)
         return account

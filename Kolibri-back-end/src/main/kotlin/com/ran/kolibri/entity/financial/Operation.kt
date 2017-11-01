@@ -11,18 +11,17 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-abstract class Operation : BaseEntity(), CommentsHolder, Cloneable {
+abstract class Operation(
+        @NotNull
+        var moneyAmount: Double,
+        @NotNull
+        @Temporal(TemporalType.TIMESTAMP)
+        var operationDate: Date = Date()
+) : BaseEntity(), CommentsHolder, Cloneable {
 
     @NotNull
     @ManyToOne
     var project: FinancialProject? = null
-
-    @NotNull
-    var moneyAmount: Double = 0.0
-
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    var operationDate: Date? = null
 
     @NotNull
     @ManyToOne
@@ -34,7 +33,7 @@ abstract class Operation : BaseEntity(), CommentsHolder, Cloneable {
 
     override fun toString(): String {
         return "Operation(projectId=${project?.id}, moneyAmount=$moneyAmount, " +
-                "operationDate=${operationDate?.time}, operationCategory=${operationCategory?.id}, " +
+                "operationDate=${operationDate.time}, operationCategory=${operationCategory?.id}, " +
                 "comments=$comments)"
     }
 

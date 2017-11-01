@@ -5,12 +5,9 @@ import javax.persistence.MappedSuperclass
 import javax.validation.constraints.NotNull
 
 @MappedSuperclass
-abstract class NamedEntity : BaseEntity() {
-
-    @NotEmpty
-    var name: String = ""
-
-    @NotNull
-    var description: String = ""
-
-}
+abstract class NamedEntity(
+        @NotEmpty
+        var name: String,
+        @NotNull
+        var description: String
+) : BaseEntity()

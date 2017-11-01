@@ -46,21 +46,12 @@ class ProjectService {
     @Transactional
     fun createEmptyFinancialProject(name: String, description: String,
                                     isTemplate: Boolean): FinancialProject {
-        val financialProject = createProject(FinancialProject(), name, description, isTemplate)
+        val financialProject = FinancialProject(name, description, isTemplate)
         val settings = FinancialProjectSettings()
         settings.financialProject = financialProject
         financialProjectSettingsRepository.save(settings)
         financialProject.settings = settings
         return financialProject
-    }
-
-    private fun <T: Project> createProject(project: T, name: String,
-                            description: String, isTemplate: Boolean): T {
-        project.name = name
-        project.description = description
-        project.isTemplate = isTemplate
-        projectRepository.save(project)
-        return project
     }
 
     @Transactional

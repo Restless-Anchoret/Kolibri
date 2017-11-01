@@ -1,32 +1,29 @@
 package com.ran.kolibri.entity.financial
 
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
-class TransferOperation : Operation() {
+class TransferOperation(
+        moneyAmount: Double,
+        @NotNull
+        var fromAccountResultMoneyAmount: Double,
+        @NotNull
+        var toAccountResultMoneyAmount: Double,
+        operationDate: Date = Date()
+) : Operation(moneyAmount, operationDate) {
 
     @NotNull
     @ManyToOne
     var fromAccount: Account? = null
 
     @NotNull
-    var fromAccountResultMoneyAmount: Double = 0.0
-
-    @NotNull
     @ManyToOne
     var toAccount: Account? = null
 
-    @NotNull
-    var toAccountResultMoneyAmount: Double = 0.0
-
     override fun clone(): TransferOperation {
-        val operation = TransferOperation()
-        operation.moneyAmount = this.moneyAmount
-        operation.operationDate = this.operationDate
-        operation.fromAccountResultMoneyAmount = this.fromAccountResultMoneyAmount
-        operation.toAccountResultMoneyAmount = this.toAccountResultMoneyAmount
-        return operation
+        return TransferOperation(moneyAmount, fromAccountResultMoneyAmount, toAccountResultMoneyAmount, operationDate)
     }
 
 }
