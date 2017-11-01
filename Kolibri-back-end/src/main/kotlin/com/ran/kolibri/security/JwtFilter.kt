@@ -1,5 +1,6 @@
 package com.ran.kolibri.security
 
+import com.ran.kolibri.exception.GlobalExceptionHandler
 import com.ran.kolibri.exception.UnauthorizedException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -32,7 +33,10 @@ class JwtFilter : Filter {
 
         val decodeResult = jwtGenerator.decodeJwt(httpServletRequest)
         if (!decodeResult.isSuccess) {
-            throw UnauthorizedException("Valid JWT token must be provided")
+            GlobalExceptionHandler.handleKolibriExceptionGlobal(
+                    UnauthorizedException("Valid JWT token must be provided"),
+                    httpServletResponse)
+            return
         }
 
         if (decodeResult.refresh.isBefore(Instant.now())) {

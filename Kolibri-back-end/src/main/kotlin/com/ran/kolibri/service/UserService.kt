@@ -6,7 +6,6 @@ import com.ran.kolibri.entity.user.UserRole.ADMIN
 import com.ran.kolibri.entity.user.UserRole.UNKNOWN_USER
 import com.ran.kolibri.entity.user.UserStatus
 import com.ran.kolibri.entity.user.UserStatus.DISABLED
-import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.ForbiddenException
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.exception.UnauthorizedException
@@ -91,7 +90,7 @@ class UserService {
     fun createUser(login: String): User {
         val alreadyExistingUser = userRepository.findByLogin(login)
         if (alreadyExistingUser != null) {
-            throw BadRequestException("User the given login already exists")
+            throw ForbiddenException("User the given login already exists")
         }
         val passwordHash = passwordEncoder.encodePassword(DEFAULT_PASSWORD)
         val user = User(login, passwordHash)
