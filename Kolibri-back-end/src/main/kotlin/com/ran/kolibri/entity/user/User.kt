@@ -5,21 +5,21 @@ import com.ran.kolibri.entity.user.UserRole.ORDINARY_USER
 import com.ran.kolibri.entity.user.UserStatus.ACTIVE
 import com.ran.kolibri.entity.vcs.VcsRepository
 import org.hibernate.validator.constraints.NotEmpty
-import javax.persistence.Entity
+import javax.persistence.*
 import javax.persistence.EnumType.STRING
-import javax.persistence.Enumerated
-import javax.persistence.OneToMany
 
 @Entity
+@Table(name = "users")
 class User(
         @NotEmpty
+        @Column(unique = true)
         val login: String,
         @NotEmpty
         val passwordHash: String,
         @Enumerated(STRING)
         val userRole: UserRole = ORDINARY_USER,
         @Enumerated(STRING)
-        val userStatus: UserStatus = ACTIVE
+        var userStatus: UserStatus = ACTIVE
 ) : BaseEntity() {
 
     @OneToMany(mappedBy = "owner")
