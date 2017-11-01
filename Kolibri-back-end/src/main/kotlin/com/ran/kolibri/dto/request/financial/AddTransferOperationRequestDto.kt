@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.request
+package com.ran.kolibri.dto.request.financial
 
 class AddTransferOperationRequestDto : AddOperationRequestDto() {
 

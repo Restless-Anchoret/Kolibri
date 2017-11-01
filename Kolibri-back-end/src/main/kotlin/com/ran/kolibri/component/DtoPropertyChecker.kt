@@ -1,6 +1,9 @@
 package com.ran.kolibri.component
 
-import com.ran.kolibri.dto.request.*
+import com.ran.kolibri.dto.request.common.CommentTextDto
+import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
+import com.ran.kolibri.dto.request.financial.*
+import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
 import com.ran.kolibri.exception.BadRequestException
 import org.springframework.stereotype.Component
 

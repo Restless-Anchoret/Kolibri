@@ -2,9 +2,9 @@ package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
 import com.ran.kolibri.dto.response.project.ProjectDto
-import com.ran.kolibri.dto.request.CommentTextDto
-import com.ran.kolibri.dto.request.CreateProjectRequestDto
-import com.ran.kolibri.dto.request.CreateOrEditNamedEntityRequestDto
+import com.ran.kolibri.dto.request.common.CommentTextDto
+import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
+import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade

@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.request
+package com.ran.kolibri.dto.request.project
 
 data class CreateProjectRequestDto(
         var name: String? = null,
