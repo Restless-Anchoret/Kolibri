@@ -1,6 +1,6 @@
 package com.ran.kolibri.repository.financial
 
 import com.ran.kolibri.entity.financial.FinancialProjectSettings
-import org.springframework.data.repository.CrudRepository
+import com.ran.kolibri.repository.base.BaseRepository
 
-interface FinancialProjectSettingsRepository : CrudRepository<FinancialProjectSettings, Long>
+interface FinancialProjectSettingsRepository : BaseRepository<FinancialProjectSettings>

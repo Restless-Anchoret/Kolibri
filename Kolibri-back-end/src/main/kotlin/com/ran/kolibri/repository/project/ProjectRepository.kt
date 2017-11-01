@@ -1,5 +1,6 @@
 package com.ran.kolibri.repository.project
 
 import com.ran.kolibri.entity.project.Project
+import com.ran.kolibri.repository.base.BaseRepository
 
-interface ProjectRepository : BaseProjectRepository<Project>
+interface ProjectRepository : BaseRepository<Project>

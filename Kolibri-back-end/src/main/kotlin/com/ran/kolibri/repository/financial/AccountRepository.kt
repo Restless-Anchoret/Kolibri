@@ -1,16 +1,16 @@
 package com.ran.kolibri.repository.financial
 
-import com.ran.kolibri.entity.financial.*
+import com.ran.kolibri.entity.financial.Account
+import com.ran.kolibri.entity.financial.Operation
+import com.ran.kolibri.repository.base.BaseRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.util.*
 
-interface AccountRepository : JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
+interface AccountRepository : BaseRepository<Account> {
 
     @Query("select op " +
             "from Operation op " +
