@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet id="users-insert" author="Ilya Kuznetsov">
+        <insert tableName="users">
+            <column name="id">1</column>
+            <column name="login">admin</column>
+            <column name="passwordhash">$2a$10$SVfyoi.z2NxHZ03CWLd.We7G1BvJjzo8ma5uNCuaM.n2kNv8GmA6m</column>
+            <column name="userrole">ADMIN</column>
+            <column name="userstatus">ACTIVE</column>
+        </insert>
+        <insert tableName="users">
+            <column name="id">2</column>
+            <column name="login">unknown-user</column>
+            <column name="passwordhash">fake-hash</column>
+            <column name="userrole">UNKNOWN_USER</column>
+            <column name="userstatus">DISABLED</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
