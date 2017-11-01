@@ -20,7 +20,7 @@ class GlobalExceptionHandler {
                                httpServletResponse: HttpServletResponse): ExceptionDto {
         LOGGER.error(exception.message, exception)
         httpServletResponse.status = exception.httpStatus.value()
-        return ExceptionDto(exception.message)
+        return ExceptionDto(exception.message, exception.httpStatus.value())
     }
 
 }
