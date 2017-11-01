@@ -1,3 +1,5 @@
+@file:JvmName("KolibriApplication")
+
 package com.ran.kolibri.app
 
 import org.springframework.boot.SpringApplication

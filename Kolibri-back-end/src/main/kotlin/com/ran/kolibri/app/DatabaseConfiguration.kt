@@ -3,6 +3,15 @@ package com.ran.kolibri.app
 import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.app.ApplicationProfile.LIQUIBASE_UPDATE
 import com.ran.kolibri.app.ApplicationProfile.PROD
+import com.ran.kolibri.app.Config.HIBERNATE_DIALECT
+import com.ran.kolibri.app.Config.HIBERNATE_HBM2DDL_AUTO
+import com.ran.kolibri.app.Config.HIBERNATE_SHOW_SQL
+import com.ran.kolibri.app.Config.JDBC_DRIVER
+import com.ran.kolibri.app.Config.JDBC_PASSWORD
+import com.ran.kolibri.app.Config.JDBC_URL_DEV
+import com.ran.kolibri.app.Config.JDBC_URL_LIQUIBASE_UPDATE
+import com.ran.kolibri.app.Config.JDBC_URL_PROD
+import com.ran.kolibri.app.Config.JDBC_USERNAME
 import liquibase.integration.spring.SpringLiquibase
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,17 +36,19 @@ class DatabaseConfiguration {
     @Bean
     @Profile(PROD, DEV, LIQUIBASE_UPDATE)
     fun dataSource(
-            @Value("\${jdbc.url.prod}") urlProd: String,
-            @Value("\${jdbc.url.dev}") urlDev: String,
-            @Value("\${jdbc.url.liquibase.update}") urlLiquibaseUpdate: String,
-            @Value("\${jdbc.username}") username: String,
-            @Value("\${jdbc.password}") password: String,
-            @Value("\${jdbc.driver}") driverClassName: String): DataSource {
+            @Value(JDBC_URL_PROD) urlProd: String,
+            @Value(JDBC_URL_DEV) urlDev: String,
+            @Value(JDBC_URL_LIQUIBASE_UPDATE) urlLiquibaseUpdate: String,
+            @Value(JDBC_USERNAME) username: String,
+            @Value(JDBC_PASSWORD) password: String,
+            @Value(JDBC_DRIVER) driverClassName: String): DataSource {
         val profiles = environment.activeProfiles
-        val url = if (profiles.contains(PROD)) { urlProd }
-                else if (profiles.contains(DEV)) { urlDev }
-                else if (profiles.contains(LIQUIBASE_UPDATE)) { urlLiquibaseUpdate }
-                else { "" }
+        val url = when {
+            profiles.contains(PROD) -> urlProd
+            profiles.contains(DEV) -> urlDev
+            profiles.contains(LIQUIBASE_UPDATE) -> urlLiquibaseUpdate
+            else -> ""
+        }
         val dataSource = DriverManagerDataSource(url, username, password)
         dataSource.setDriverClassName(driverClassName)
         return dataSource
@@ -45,9 +56,9 @@ class DatabaseConfiguration {
 
     @Bean
     @Autowired
-    fun sessionFactory(@Value("\${hibernate.dialect}") dialect: String,
-                       @Value("\${hibernate.show_sql}") showSql: String,
-                       @Value("\${hibernate.hbm2ddl.auto}") hbm2ddl: String,
+    fun sessionFactory(@Value(HIBERNATE_DIALECT) dialect: String,
+                       @Value(HIBERNATE_SHOW_SQL) showSql: String,
+                       @Value(HIBERNATE_HBM2DDL_AUTO) hbm2ddl: String,
                        dataSource: DataSource): LocalSessionFactoryBean {
         val hibernateProperties = Properties()
         hibernateProperties["hibernate.dialect"] = dialect
