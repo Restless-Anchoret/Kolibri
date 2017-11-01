@@ -58,7 +58,7 @@ class FinancialProjectController {
                                     @RequestParam(value = "name", required = false) name: String?,
                                     pageable: Pageable): Page<AccountDto> {
         val accountsPage = accountService.getAccountsByProjectId(projectId, name, pageable)
-        return orikaMapperFacade.mapAsPage(accountsPage, pageable, AccountDto::class.java)
+        return orikaMapperFacade.mapAsPage(accountsPage, pageable)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(GET))
@@ -66,14 +66,14 @@ class FinancialProjectController {
                                                @RequestParam(value = "name", required = false) name: String?,
                                                pageable: Pageable): Page<OperationCategoryDto> {
         val operationCategoriesPage = operationCategoryService.getOperationCategoriesByProjectId(projectId, name, pageable)
-        return orikaMapperFacade.mapAsPage(operationCategoriesPage, pageable, OperationCategoryDto::class.java)
+        return orikaMapperFacade.mapAsPage(operationCategoriesPage, pageable)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(GET))
     fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long,
                                       pageable: Pageable): Page<OperationDto> {
         val operationsPage = operationService.getOperationsByProjectId(projectId, pageable)
-        return orikaMapperFacade.mapAsPage(operationsPage, pageable, OperationDto::class.java)
+        return orikaMapperFacade.mapAsPage(operationsPage, pageable)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/income"), method = arrayOf(POST))

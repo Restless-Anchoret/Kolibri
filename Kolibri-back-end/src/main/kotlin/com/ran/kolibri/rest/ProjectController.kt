@@ -33,7 +33,7 @@ class ProjectController {
                         @RequestParam(value = "name", required = false) name: String?,
                         pageable: Pageable): Page<ProjectDto> {
         val projectsPage = projectService.getProjects(isTemplate, name, pageable)
-        return orikaMapperFacade.mapAsPage(projectsPage, pageable, ProjectDto::class.java)
+        return orikaMapperFacade.mapAsPage(projectsPage, pageable)
     }
 
     @RequestMapping(value = "/create-financial", method = arrayOf(POST))
