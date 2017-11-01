@@ -15,10 +15,10 @@ import kotlin.collections.ArrayList
 
 @Entity
 class VcsRepository(
-        name: String,
-        description: String,
+        name: String = "",
+        description: String = "",
         @NotEmpty
-        val url: String,
+        val url: String = "",
         @NotNull
         val isActive: Boolean = false,
         @NotNull

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull
 class Comment(
         @NotEmpty
         @Column(length = MAX_COMMENT_LENGTH)
-        var text: String,
+        var text: String = "",
         @Temporal(TIMESTAMP)
         var date: Date = Date()
 ) : BaseEntity(), Cloneable {

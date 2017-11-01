@@ -10,9 +10,9 @@ import javax.persistence.OneToOne
 
 @Entity
 class FinancialProject(
-        name: String,
-        description: String,
-        isTemplate: Boolean
+        name: String = "",
+        description: String = "",
+        isTemplate: Boolean = false
 ) : Project(name, description, isTemplate) {
 
     @OneToMany(mappedBy = "project")

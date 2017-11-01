@@ -6,11 +6,11 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class TransferOperation(
-        moneyAmount: Double,
+        moneyAmount: Double = 0.0,
         @NotNull
-        var fromAccountResultMoneyAmount: Double,
+        var fromAccountResultMoneyAmount: Double = 0.0,
         @NotNull
-        var toAccountResultMoneyAmount: Double,
+        var toAccountResultMoneyAmount: Double = 0.0,
         operationDate: Date = Date()
 ) : Operation(moneyAmount, operationDate) {
 

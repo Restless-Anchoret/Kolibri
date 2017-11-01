@@ -6,9 +6,9 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class IncomeOperation(
-        moneyAmount: Double,
+        moneyAmount: Double = 0.0,
         @NotNull
-        var resultMoneyAmount: Double,
+        var resultMoneyAmount: Double = 0.0,
         operationDate: Date = Date()
 ) : Operation(moneyAmount, operationDate) {
 

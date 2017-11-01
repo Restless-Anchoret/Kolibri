@@ -13,9 +13,9 @@ import javax.persistence.EnumType.STRING
 class User(
         @NotEmpty
         @Column(unique = true)
-        val login: String,
+        val login: String = "",
         @NotEmpty
-        val passwordHash: String,
+        val passwordHash: String = "",
         @Enumerated(STRING)
         val userRole: UserRole = ORDINARY_USER,
         @Enumerated(STRING)

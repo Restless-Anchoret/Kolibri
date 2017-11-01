@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class OperationCategory(
-        name: String,
-        description: String
+        name: String = "",
+        description: String = ""
 ) : NamedEntity(name, description), CommentsHolder, Cloneable {
 
     @NotNull

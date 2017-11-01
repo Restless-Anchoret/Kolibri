@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class Account(
-        name: String,
-        description: String,
+        name: String = "",
+        description: String = "",
         @NotNull
         @Temporal(TemporalType.TIMESTAMP)
         var creationDate: Date = Date(),

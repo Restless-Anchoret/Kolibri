@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull
 @Entity
 @Inheritance(strategy = JOINED)
 abstract class Project(
-        name: String,
-        description: String,
+        name: String = "",
+        description: String = "",
         @NotNull
         var isTemplate: Boolean = false
 ) : NamedEntity(name, description), CommentsHolder {

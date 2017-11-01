@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull
 @Inheritance(strategy = JOINED)
 abstract class Operation(
         @NotNull
-        var moneyAmount: Double,
+        var moneyAmount: Double = 0.0,
         @NotNull
         @Temporal(TemporalType.TIMESTAMP)
         var operationDate: Date = Date()
