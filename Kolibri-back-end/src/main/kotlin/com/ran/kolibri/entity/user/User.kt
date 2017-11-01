@@ -15,7 +15,7 @@ class User(
         @Column(unique = true)
         val login: String = "",
         @NotEmpty
-        val passwordHash: String = "",
+        var passwordHash: String = "",
         @Enumerated(STRING)
         val userRole: UserRole = ORDINARY_USER,
         @Enumerated(STRING)
