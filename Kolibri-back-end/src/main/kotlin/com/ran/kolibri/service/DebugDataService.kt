@@ -7,7 +7,6 @@ import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
-import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
@@ -18,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional
 class DebugDataService {
 
     companion object {
-        private val LOGGER = Logger.getLogger(DebugDataService::class.java)
-
         private val TEMPLATE_PROJECT_NAME = "Default Template Project"
         private val FINANCIAL_PROJECT_NAME = "Default Financial Project"
 
@@ -39,11 +36,11 @@ class DebugDataService {
 
     @Transactional
     fun populateDebugData() {
-        LOGGER.logInfo{ "Before debug data population" }
+        logInfo{ "Before debug data population" }
 
         val defaultFinancialProject = projectService.getProjects(false, FINANCIAL_PROJECT_NAME, null)
         if (defaultFinancialProject.hasContent()) {
-            LOGGER.logInfo{ "Debug data has been already populated" }
+            logInfo{ "Debug data has been already populated" }
             return
         }
 
@@ -51,7 +48,7 @@ class DebugDataService {
         fillAccounts(projects[0])
         fillOperationCategories(projects[0])
 
-        LOGGER.logInfo{ "After debug data population" }
+        logInfo{ "After debug data population" }
     }
 
     private fun fillFinancialProjects(): List<FinancialProject> {

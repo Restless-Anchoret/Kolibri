@@ -13,17 +13,12 @@ import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.financial.OperationRepository
 import com.ran.kolibri.repository.project.FinancialProjectRepository
-import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class FinancialProjectService {
-
-    companion object {
-        private val LOGGER = Logger.getLogger(FinancialProjectService::class.java)
-    }
 
     @Autowired
     lateinit var operationService: OperationService
@@ -53,20 +48,20 @@ class FinancialProjectService {
 
     @Transactional
     fun setFinancialProjectSettings(projectId: Long, accountId: Long?, operationCategoryId: Long?): FinancialProject {
-        LOGGER.logInfo { "Setting Financial Project settings: projectId = $projectId, " +
+        logInfo { "Setting Financial Project settings: projectId = $projectId, " +
                 "accountId = $accountId, operationCategoryId = $operationCategoryId" }
         val project = getFinancialProjectById(projectId)
 
         project.settings!!.defaultAccount = if (accountId == null) null else
             accountService.getAccountById(accountId)
-        LOGGER.logDebug { "Default Account: ${project.settings!!.defaultAccount}" }
+        logDebug { "Default Account: ${project.settings!!.defaultAccount}" }
 
         project.settings!!.defaultOperationCategory = if (operationCategoryId == null) null else
             operationCategoryService.getOperationCategoryById(operationCategoryId)
-        LOGGER.logDebug { "Default Operation Category: ${project.settings!!.defaultOperationCategory}" }
+        logDebug { "Default Operation Category: ${project.settings!!.defaultOperationCategory}" }
 
         financialProjectRepository.save(project)
-        LOGGER.logInfo { "Financial Project settings were saved" }
+        logInfo { "Financial Project settings were saved" }
         return project
     }
 

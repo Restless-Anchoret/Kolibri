@@ -1,13 +1,18 @@
 package com.ran.kolibri.service
 
 import com.ran.kolibri.component.DateUtils
-import com.ran.kolibri.entity.financial.*
+import com.ran.kolibri.entity.financial.ExpendOperation
+import com.ran.kolibri.entity.financial.IncomeOperation
+import com.ran.kolibri.entity.financial.Operation
+import com.ran.kolibri.entity.financial.TransferOperation
 import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.extension.logDebug
-import com.ran.kolibri.repository.financial.*
+import com.ran.kolibri.repository.financial.ExpendOperationRepository
+import com.ran.kolibri.repository.financial.IncomeOperationRepository
+import com.ran.kolibri.repository.financial.OperationRepository
+import com.ran.kolibri.repository.financial.TransferOperationRepository
 import com.ran.kolibri.specification.financial.OperationSpecificationFactory
-import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -19,10 +24,6 @@ import java.util.*
 
 @Service
 class OperationService {
-
-    companion object {
-        private val LOGGER = Logger.getLogger(OperationService::class.java)
-    }
 
     @Autowired
     lateinit var financialProjectService: FinancialProjectService
@@ -68,7 +69,7 @@ class OperationService {
     @Transactional
     fun addIncomeOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date) {
-        LOGGER.logDebug { "Adding income operation: projectId: $projectId, accountId: $accountId, " +
+        logDebug { "Adding income operation: projectId: $projectId, accountId: $accountId, " +
                 "operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
                 "comment: $comment, operationDate: $operationDate - ${operationDate.time}" }
         ensureAccountBelongsToProject(accountId, projectId)
@@ -87,7 +88,7 @@ class OperationService {
     @Transactional
     fun addExpendOperation(projectId: Long, accountId: Long, operationCategoryId: Long,
                            moneyAmount: Double, comment: String, operationDate: Date) {
-        LOGGER.logDebug { "Adding expend operation: projectId: $projectId, accountId: $accountId, " +
+        logDebug { "Adding expend operation: projectId: $projectId, accountId: $accountId, " +
                 "operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
                 "comment: $comment, operationDate: $operationDate - ${operationDate.time}" }
         ensureAccountBelongsToProject(accountId, projectId)
@@ -107,7 +108,7 @@ class OperationService {
     fun addTransferOperation(projectId: Long, fromAccountId: Long, toAccountId: Long,
                              operationCategoryId: Long, moneyAmount: Double,
                              comment: String, operationDate: Date) {
-        LOGGER.logDebug { "Adding transfer operation: projectId: $projectId, fromAccountId: $fromAccountId, " +
+        logDebug { "Adding transfer operation: projectId: $projectId, fromAccountId: $fromAccountId, " +
                 "toAccountId: $toAccountId, operationCategoryId: $operationCategoryId, moneyAmount: $moneyAmount, " +
                 "comment: $comment, operationDate: $operationDate - ${operationDate.time}" }
         ensureAccountBelongsToProject(fromAccountId, projectId)

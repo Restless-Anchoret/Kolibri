@@ -11,7 +11,6 @@ import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.specification.base.BaseSpecificationFactory
 import com.ran.kolibri.specification.financial.AccountSpecificationFactory
-import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -22,10 +21,6 @@ import java.util.*
 
 @Service
 class AccountService {
-
-    companion object {
-        private val LOGGER = Logger.getLogger(AccountService::class.java)
-    }
 
     @Autowired
     lateinit var financialProjectService: FinancialProjectService
@@ -80,32 +75,32 @@ class AccountService {
 
     @Transactional
     fun changeAccountMoney(accountId: Long, accountMoneyDelta: Double): Account {
-        LOGGER.logInfo { "Changing Account money: accountId: $accountId, accountMoneyDelta = $accountMoneyDelta" }
+        logInfo { "Changing Account money: accountId: $accountId, accountMoneyDelta = $accountMoneyDelta" }
         val account = getAccountById(accountId)
         if (account.currentMoneyAmount + accountMoneyDelta < -1e-8) {
             throw BadRequestException("Not enough money on Account '${account.name}'")
         }
 
         account.currentMoneyAmount += accountMoneyDelta
-        LOGGER.logDebug { "New Account money amount: ${account.currentMoneyAmount}" }
+        logDebug { "New Account money amount: ${account.currentMoneyAmount}" }
 
         accountRepository.save(account)
-        LOGGER.logInfo { "New Account money amount was saved" }
+        logInfo { "New Account money amount was saved" }
         return account
     }
 
     @Transactional
     fun findAccountMoneyAmountForDate(accountId: Long, date: Date): Double {
-        LOGGER.logInfo { "Finding Account money amount for date: accountId = $accountId, date: $date" }
+        logInfo { "Finding Account money amount for date: accountId = $accountId, date: $date" }
         val operationsPage = accountRepository.findAccountOperationsBeforeDate(accountId, date)
 
         if (operationsPage.content.isEmpty()) {
-            LOGGER.logInfo { "Last Account Operation was not found, returning zero" }
+            logInfo { "Last Account Operation was not found, returning zero" }
             return 0.0
         }
 
         val operation = operationsPage.content[0]
-        LOGGER.logDebug { "Last Account Operation = $operation" }
+        logDebug { "Last Account Operation = $operation" }
 
         val moneyAmount = when (operation.javaClass) {
             IncomeOperation::class.java -> {
@@ -125,7 +120,7 @@ class AccountService {
             else -> 0.0
         }
 
-        LOGGER.logInfo { "Found money amount: $moneyAmount" }
+        logInfo { "Found money amount: $moneyAmount" }
         return moneyAmount
     }
 
