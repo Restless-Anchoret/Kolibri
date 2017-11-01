@@ -9,6 +9,8 @@ object Config {
     const val JDBC_USERNAME = "\${jdbc.username}"
     const val JDBC_PASSWORD = "\${jdbc.password}"
     const val JDBC_DRIVER = "\${jdbc.driver}"
+    const val JDBC_USE_UNICODE = "\${jdbc.use-unicode}"
+    const val JDBC_CHARACTER_ENCODING = "\${jdbc.character-encoding}"
 
     // Hibernate properties
     const val HIBERNATE_DIALECT = "\${hibernate.dialect}"
@@ -17,5 +19,10 @@ object Config {
 
     // VCS properties
     const val VCS_REPOSITORIES_FILE_PATH = "\${vcs.repositories-file-path}"
+
+    // JWT properties
+    const val JWT_EXPIRE_DAYS = "\${jwt.expire-days}"
+    const val JWT_REFRESH_DAYS = "\${jwt.refresh-days}"
+    const val JWT_SECRET = "\${jwt.secret}"
 
 }

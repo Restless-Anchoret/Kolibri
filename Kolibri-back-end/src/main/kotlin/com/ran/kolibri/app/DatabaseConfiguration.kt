@@ -6,12 +6,14 @@ import com.ran.kolibri.app.ApplicationProfile.PROD
 import com.ran.kolibri.app.Config.HIBERNATE_DIALECT
 import com.ran.kolibri.app.Config.HIBERNATE_HBM2DDL_AUTO
 import com.ran.kolibri.app.Config.HIBERNATE_SHOW_SQL
+import com.ran.kolibri.app.Config.JDBC_CHARACTER_ENCODING
 import com.ran.kolibri.app.Config.JDBC_DRIVER
 import com.ran.kolibri.app.Config.JDBC_PASSWORD
 import com.ran.kolibri.app.Config.JDBC_URL_DEV
 import com.ran.kolibri.app.Config.JDBC_URL_LIQUIBASE_UPDATE
 import com.ran.kolibri.app.Config.JDBC_URL_PROD
 import com.ran.kolibri.app.Config.JDBC_USERNAME
+import com.ran.kolibri.app.Config.JDBC_USE_UNICODE
 import liquibase.integration.spring.SpringLiquibase
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +32,11 @@ import javax.sql.DataSource
 @Configuration
 class DatabaseConfiguration {
 
+    companion object {
+        private val USE_UNICODE_PROPERTY = "useUnicode"
+        private val CHARACTER_ENCODING_PROPERTY = "characterEncoding"
+    }
+
     @Autowired
     lateinit var environment: Environment
 
@@ -41,16 +48,26 @@ class DatabaseConfiguration {
             @Value(JDBC_URL_LIQUIBASE_UPDATE) urlLiquibaseUpdate: String,
             @Value(JDBC_USERNAME) username: String,
             @Value(JDBC_PASSWORD) password: String,
-            @Value(JDBC_DRIVER) driverClassName: String): DataSource {
+            @Value(JDBC_DRIVER) driverClassName: String,
+            @Value(JDBC_USE_UNICODE) useUnicode: String,
+            @Value(JDBC_CHARACTER_ENCODING) characterEncoding: String): DataSource {
         val profiles = environment.activeProfiles
+
         val url = when {
             profiles.contains(PROD) -> urlProd
             profiles.contains(DEV) -> urlDev
             profiles.contains(LIQUIBASE_UPDATE) -> urlLiquibaseUpdate
             else -> ""
         }
+
         val dataSource = DriverManagerDataSource(url, username, password)
         dataSource.setDriverClassName(driverClassName)
+
+        val properties = Properties()
+        properties.put(USE_UNICODE_PROPERTY, useUnicode)
+        properties.put(CHARACTER_ENCODING_PROPERTY, characterEncoding)
+        dataSource.connectionProperties = properties
+
         return dataSource
     }
 
