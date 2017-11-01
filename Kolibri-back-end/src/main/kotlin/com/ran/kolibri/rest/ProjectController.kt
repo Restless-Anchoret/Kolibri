@@ -1,7 +1,7 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
-import com.ran.kolibri.dto.project.ProjectDto
+import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.dto.request.CommentTextDto
 import com.ran.kolibri.dto.request.CreateProjectRequestDto
 import com.ran.kolibri.dto.request.CreateOrEditNamedEntityRequestDto

@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.base
+package com.ran.kolibri.dto.response.base
 
 abstract class NamedEntityDto : BaseEntityDto() {
 

@@ -2,7 +2,7 @@ package com.ran.kolibri.rest
 
 import com.ran.kolibri.dto.request.CreateUserRequestDto
 import com.ran.kolibri.dto.request.LoginRequestDto
-import com.ran.kolibri.dto.user.UserDto
+import com.ran.kolibri.dto.response.user.UserDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.security.JwtGenerator
 import com.ran.kolibri.security.UserData

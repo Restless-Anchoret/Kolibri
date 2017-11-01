@@ -1,12 +1,12 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.ran.kolibri.dto.base.BaseEntityDto
-import com.ran.kolibri.dto.financial.OperationDto.Companion.EXPEND_OPERATION_TYPE
-import com.ran.kolibri.dto.financial.OperationDto.Companion.INCOME_OPERATION_TYPE
-import com.ran.kolibri.dto.financial.OperationDto.Companion.TRANSFER_OPERATION_TYPE
-import com.ran.kolibri.dto.other.CommentDto
+import com.ran.kolibri.dto.response.base.BaseEntityDto
+import com.ran.kolibri.dto.response.financial.OperationDto.Companion.EXPEND_OPERATION_TYPE
+import com.ran.kolibri.dto.response.financial.OperationDto.Companion.INCOME_OPERATION_TYPE
+import com.ran.kolibri.dto.response.financial.OperationDto.Companion.TRANSFER_OPERATION_TYPE
+import com.ran.kolibri.dto.response.comment.CommentDto
 import java.util.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,

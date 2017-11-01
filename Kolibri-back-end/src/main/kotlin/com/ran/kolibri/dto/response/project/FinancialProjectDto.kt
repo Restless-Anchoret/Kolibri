@@ -1,6 +1,6 @@
-package com.ran.kolibri.dto.project
+package com.ran.kolibri.dto.response.project
 
-import com.ran.kolibri.dto.financial.FinancialProjectSettingsDto
+import com.ran.kolibri.dto.response.financial.FinancialProjectSettingsDto
 
 class FinancialProjectDto : ProjectDto(projectType = FINANCIAL_PROJECT_TYPE) {
 

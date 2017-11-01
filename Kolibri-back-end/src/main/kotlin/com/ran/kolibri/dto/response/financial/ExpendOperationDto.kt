@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
 class ExpendOperationDto : OperationDto(operationType = EXPEND_OPERATION_TYPE) {
 

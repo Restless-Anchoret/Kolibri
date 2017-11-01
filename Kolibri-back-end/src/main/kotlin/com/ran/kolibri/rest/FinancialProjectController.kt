@@ -1,10 +1,10 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
-import com.ran.kolibri.dto.financial.AccountDto
-import com.ran.kolibri.dto.financial.OperationCategoryDto
-import com.ran.kolibri.dto.financial.OperationDto
-import com.ran.kolibri.dto.project.FinancialProjectDto
+import com.ran.kolibri.dto.response.financial.AccountDto
+import com.ran.kolibri.dto.response.financial.OperationCategoryDto
+import com.ran.kolibri.dto.response.financial.OperationDto
+import com.ran.kolibri.dto.response.project.FinancialProjectDto
 import com.ran.kolibri.dto.request.*
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.service.AccountService

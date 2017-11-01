@@ -1,7 +1,7 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
-import com.ran.kolibri.dto.base.NamedEntityDto
-import com.ran.kolibri.dto.other.CommentDto
+import com.ran.kolibri.dto.response.base.NamedEntityDto
+import com.ran.kolibri.dto.response.comment.CommentDto
 import java.util.*
 
 class AccountDto : NamedEntityDto() {

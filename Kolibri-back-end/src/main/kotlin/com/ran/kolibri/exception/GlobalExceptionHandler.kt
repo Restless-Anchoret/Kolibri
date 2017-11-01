@@ -1,6 +1,6 @@
 package com.ran.kolibri.exception
 
-import com.ran.kolibri.dto.other.ExceptionDto
+import com.ran.kolibri.dto.exception.ExceptionDto
 import org.apache.log4j.Logger
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler

@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
 class IncomeOperationDto : OperationDto(operationType = INCOME_OPERATION_TYPE) {
 

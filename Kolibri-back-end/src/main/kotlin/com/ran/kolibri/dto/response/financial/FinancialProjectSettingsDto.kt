@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
 data class FinancialProjectSettingsDto(
         val defaultAccount: AccountDto? = null,

@@ -1,9 +1,9 @@
 package com.ran.kolibri.component
 
-import com.ran.kolibri.dto.financial.ExpendOperationDto
-import com.ran.kolibri.dto.financial.IncomeOperationDto
-import com.ran.kolibri.dto.financial.TransferOperationDto
-import com.ran.kolibri.dto.project.FinancialProjectDto
+import com.ran.kolibri.dto.response.financial.ExpendOperationDto
+import com.ran.kolibri.dto.response.financial.IncomeOperationDto
+import com.ran.kolibri.dto.response.financial.TransferOperationDto
+import com.ran.kolibri.dto.response.project.FinancialProjectDto
 import com.ran.kolibri.entity.financial.ExpendOperation
 import com.ran.kolibri.entity.financial.IncomeOperation
 import com.ran.kolibri.entity.financial.TransferOperation

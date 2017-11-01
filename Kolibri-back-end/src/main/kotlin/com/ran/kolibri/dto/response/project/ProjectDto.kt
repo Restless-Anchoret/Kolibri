@@ -1,10 +1,10 @@
-package com.ran.kolibri.dto.project
+package com.ran.kolibri.dto.response.project
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.ran.kolibri.dto.base.NamedEntityDto
-import com.ran.kolibri.dto.other.CommentDto
-import com.ran.kolibri.dto.project.ProjectDto.Companion.FINANCIAL_PROJECT_TYPE
+import com.ran.kolibri.dto.response.base.NamedEntityDto
+import com.ran.kolibri.dto.response.comment.CommentDto
+import com.ran.kolibri.dto.response.project.ProjectDto.Companion.FINANCIAL_PROJECT_TYPE
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
               include = JsonTypeInfo.As.PROPERTY,

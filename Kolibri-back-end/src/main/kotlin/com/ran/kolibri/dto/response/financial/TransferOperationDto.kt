@@ -1,4 +1,4 @@
-package com.ran.kolibri.dto.financial
+package com.ran.kolibri.dto.response.financial
 
 class TransferOperationDto : OperationDto(operationType = TRANSFER_OPERATION_TYPE) {
 
