@@ -1,7 +1,7 @@
 package com.ran.kolibri.service
 
-import com.ran.kolibri.entity.other.Comment
-import com.ran.kolibri.entity.other.CommentsHolder
+import com.ran.kolibri.entity.comment.Comment
+import com.ran.kolibri.entity.comment.CommentsHolder
 import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.other.CommentRepository
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Service
 class CommentService {

@@ -1,16 +1,17 @@
 package com.ran.kolibri.entity.financial
 
 import com.ran.kolibri.entity.base.BaseEntity
-import com.ran.kolibri.entity.other.Comment
-import com.ran.kolibri.entity.other.CommentsHolder
+import com.ran.kolibri.entity.comment.Comment
+import com.ran.kolibri.entity.comment.CommentsHolder
 import com.ran.kolibri.entity.project.FinancialProject
 import java.util.*
 import javax.persistence.*
 import javax.persistence.CascadeType.*
+import javax.persistence.InheritanceType.JOINED
 import javax.validation.constraints.NotNull
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = JOINED)
 abstract class Operation(
         @NotNull
         var moneyAmount: Double,
