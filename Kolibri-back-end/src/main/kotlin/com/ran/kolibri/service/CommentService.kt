@@ -4,7 +4,7 @@ import com.ran.kolibri.entity.comment.Comment
 import com.ran.kolibri.entity.comment.CommentsHolder
 import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.extension.logInfo
-import com.ran.kolibri.repository.other.CommentRepository
+import com.ran.kolibri.repository.comment.CommentRepository
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
