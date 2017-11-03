@@ -1,17 +1,19 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
-import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.dto.request.common.CommentTextDto
-import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
 import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
+import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
+import com.ran.kolibri.dto.response.project.ProjectDto
+import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
+import com.ran.kolibri.security.annotation.ProjectId
+import com.ran.kolibri.security.annotation.ProjectProtected
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -28,6 +30,13 @@ class ProjectController {
     @Autowired
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
+    @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
+    @ProjectProtected
+    fun getProjectById(@PathVariable("projectId") @ProjectId projectId: Long): ProjectDto {
+        val project = projectService.getProjectById(projectId)
+        return orikaMapperFacade.map(project)
+    }
+
     @RequestMapping(method = arrayOf(GET))
     fun getProjectsPage(@RequestParam(value = "isTemplate", defaultValue = "false") isTemplate: Boolean,
                         @RequestParam(value = "name", required = false) name: String?,
@@ -41,7 +50,7 @@ class ProjectController {
         dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
         val project = projectService.createEmptyFinancialProject(createProjectDto.name!!,
                 createProjectDto.description!!, createProjectDto.isTemplate!!)
-        return orikaMapperFacade.map(project, ProjectDto::class.java)
+        return orikaMapperFacade.map(project)
     }
 
     @RequestMapping(value = "/create-from-template/{templateId}", method = arrayOf(POST))
@@ -50,7 +59,7 @@ class ProjectController {
         dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
         val project = projectService.createProjectFromTemplate(templateId, createProjectDto.name!!,
                 createProjectDto.description!!, createProjectDto.isTemplate!!)
-        return orikaMapperFacade.map(project, ProjectDto::class.java)
+        return orikaMapperFacade.map(project)
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(PUT))
@@ -59,7 +68,7 @@ class ProjectController {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createOrEditProjectDto)
         val project = projectService.editProject(projectId, createOrEditProjectDto.name!!,
                 createOrEditProjectDto.description!!)
-        return orikaMapperFacade.map(project, ProjectDto::class.java)
+        return orikaMapperFacade.map(project)
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(DELETE))
@@ -73,7 +82,7 @@ class ProjectController {
                           @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         projectService.addProjectComment(projectId, commentTextDto.text!!)
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity(OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(PUT))
@@ -82,14 +91,14 @@ class ProjectController {
                            @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         projectService.editProjectComment(projectId, commentIndex, commentTextDto.text!!)
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity(OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(DELETE))
     fun removeProjectComment(@PathVariable("projectId") projectId: Long,
                              @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         projectService.removeProjectComment(projectId, commentIndex)
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity(OK)
     }
 
 }

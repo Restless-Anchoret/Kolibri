@@ -4,9 +4,13 @@ import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.entity.project.FinancialProject
+import com.ran.kolibri.entity.user.User
+import com.ran.kolibri.entity.user.UserRole.ORDINARY_USER
+import com.ran.kolibri.entity.user.UserStatus.DISABLED
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
+import com.ran.kolibri.repository.user.UserRepository
 import com.ran.kolibri.service.ProjectService
 import com.ran.kolibri.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +25,11 @@ import org.springframework.transaction.annotation.Transactional
 class DebugDataPopulator {
 
     companion object {
+        private val DISABLED_USER_LOGIN = "disabled.user"
+
         private val TEMPLATE_PROJECT_NAME = "Default Template Project"
         private val FINANCIAL_PROJECT_NAME = "Default Financial Project"
+        private val DISABLED_USER_PROJECT_NAME = "Disabled User Financial Project"
 
         private val ACCOUNTS_QUANTITY = 8
         private val OPERATION_CATEGORIES_QUANTITY = 20
@@ -34,6 +41,8 @@ class DebugDataPopulator {
     lateinit var accountRepository: AccountRepository
     @Autowired
     lateinit var operationCategoryRepository: OperationCategoryRepository
+    @Autowired
+    lateinit var userRepository: UserRepository
 
     @Autowired
     lateinit var userService: UserService
@@ -55,18 +64,27 @@ class DebugDataPopulator {
             return
         }
 
-        val projects = fillFinancialProjects()
+        val users = fillUsers()
+        val projects = fillFinancialProjects(users[0])
         fillAccounts(projects[0])
         fillOperationCategories(projects[0])
     }
 
-    private fun fillFinancialProjects(): List<FinancialProject> {
+    private fun fillUsers(): List<User> {
+        val disabledUser = User(DISABLED_USER_LOGIN, "fake", ORDINARY_USER, DISABLED)
+        userRepository.save(disabledUser)
+        return listOf(disabledUser)
+    }
+
+    private fun fillFinancialProjects(disabledUser: User): List<FinancialProject> {
         val adminUser = userService.getAdminUser()
         val templateProject = projectService.createEmptyFinancialProject(
                 TEMPLATE_PROJECT_NAME, DEFAULT_DESCRIPTION, true, adminUser)
         val financialProject = projectService.createEmptyFinancialProject(
                 FINANCIAL_PROJECT_NAME, DEFAULT_DESCRIPTION, false, adminUser)
-        return listOf(financialProject, templateProject)
+        val disabledUserProject = projectService.createEmptyFinancialProject(
+                DISABLED_USER_PROJECT_NAME, DEFAULT_DESCRIPTION, false, disabledUser)
+        return listOf(financialProject, templateProject, disabledUserProject)
     }
 
     private fun fillAccounts(project: FinancialProject): List<Account> {

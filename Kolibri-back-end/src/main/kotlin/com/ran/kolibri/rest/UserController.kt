@@ -32,13 +32,13 @@ class UserController {
     @Autowired
     lateinit var jwtGenerator: JwtGenerator
     @Autowired
-    lateinit var mapperFacade: MapperFacade
+    lateinit var orikaMapperFacade: MapperFacade
 
     @RequestMapping(value = "/login", method = arrayOf(POST))
     fun login(@RequestBody loginRequestDto: LoginRequestDto,
               response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.login(loginRequestDto.login!!, loginRequestDto.password!!)
-        val userData = mapperFacade.map<UserData>(user)
+        val userData = orikaMapperFacade.map<UserData>(user)
         jwtGenerator.encodeJwt(userData, response)
         return ResponseEntity(OK)
     }
@@ -48,26 +48,26 @@ class UserController {
                      @RequestParam(value = "userStatus", required = false) userStatus: UserStatus?,
                      pageable: Pageable): Page<UserDto> {
         val usersPage = userService.getUsersPage(pageable, login, UserRole.ORDINARY_USER, userStatus)
-        return mapperFacade.mapAsPage(usersPage, pageable)
+        return orikaMapperFacade.mapAsPage(usersPage, pageable)
     }
 
     @RequestMapping(value = "/{id}", method = arrayOf(GET))
     fun getUserById(@PathVariable("id") id: Long): UserDto {
         val user = userService.getUserById(id)
-        return mapperFacade.map(user)
+        return orikaMapperFacade.map(user)
     }
 
     @RequestMapping(value = "/me", method = arrayOf(GET))
     fun getCurrentUser(): UserDto {
         val user = userService.getAuthenticatedUser()
-        return mapperFacade.map(user)
+        return orikaMapperFacade.map(user)
     }
 
     @RequestMapping(method = arrayOf(POST))
     @AdminProtected
     fun createUser(@RequestBody createUserRequestDto: CreateUserRequestDto): UserDto {
         val user = userService.createUser(createUserRequestDto.login!!)
-        return mapperFacade.map(user)
+        return orikaMapperFacade.map(user)
     }
 
     @RequestMapping(value = "/{id}", method = arrayOf(PUT))

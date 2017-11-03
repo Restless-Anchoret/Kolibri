@@ -39,12 +39,6 @@ class FinancialProjectController {
     @Autowired
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
-    @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
-    fun getFinancialProjectById(@PathVariable("projectId") projectId: Long): FinancialProjectDto {
-        val project = financialProjectService.getFinancialProjectById(projectId)
-        return orikaMapperFacade.map(project, FinancialProjectDto::class.java)
-    }
-
     @RequestMapping(path = arrayOf("/{projectId}/settings"), method = arrayOf(PUT))
     fun setFinancialProjectSettings(@PathVariable("projectId") projectId: Long,
                                     @RequestBody setFinancialProjectSettingsRequestDto:
