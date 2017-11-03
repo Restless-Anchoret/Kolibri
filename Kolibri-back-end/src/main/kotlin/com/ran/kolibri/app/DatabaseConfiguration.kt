@@ -15,16 +15,13 @@ import com.ran.kolibri.app.Config.JDBC_URL_PROD
 import com.ran.kolibri.app.Config.JDBC_USERNAME
 import com.ran.kolibri.app.Config.JDBC_USE_UNICODE
 import liquibase.integration.spring.SpringLiquibase
-import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.core.env.Environment
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
 import org.springframework.jdbc.datasource.DriverManagerDataSource
-import org.springframework.orm.hibernate5.HibernateTransactionManager
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean
 import java.util.*
 import javax.sql.DataSource
@@ -88,19 +85,6 @@ class DatabaseConfiguration {
         sessionFactory.setPackagesToScan("com.ran.kolibri.entity")
         sessionFactory.hibernateProperties = hibernateProperties
         return sessionFactory
-    }
-
-    @Bean
-    @Autowired
-    fun transactionManager(sessionFactory: SessionFactory): HibernateTransactionManager {
-        val txManager = HibernateTransactionManager()
-        txManager.sessionFactory = sessionFactory
-        return txManager
-    }
-
-    @Bean
-    fun exceptionTranslation(): PersistenceExceptionTranslationPostProcessor {
-        return PersistenceExceptionTranslationPostProcessor()
     }
 
     @Bean
