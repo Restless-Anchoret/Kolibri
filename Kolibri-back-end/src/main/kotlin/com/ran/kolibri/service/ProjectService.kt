@@ -3,6 +3,7 @@ package com.ran.kolibri.service
 import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.entity.project.Project
+import com.ran.kolibri.entity.user.User
 import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.InternalServerErrorException
 import com.ran.kolibri.exception.NotFoundException
@@ -24,6 +25,8 @@ class ProjectService {
     lateinit var financialProjectService: FinancialProjectService
     @Autowired
     lateinit var commentService: CommentService
+    @Autowired
+    lateinit var userService: UserService
 
     @Autowired
     lateinit var projectRepository: ProjectRepository
@@ -45,8 +48,11 @@ class ProjectService {
 
     @Transactional
     fun createEmptyFinancialProject(name: String, description: String,
-                                    isTemplate: Boolean): FinancialProject {
+                                    isTemplate: Boolean, owner: User? = null): FinancialProject {
         val financialProject = FinancialProject(name, description, isTemplate)
+        financialProject.owner = owner ?: userService.getAuthenticatedUser()
+        projectRepository.save(financialProject)
+
         val settings = FinancialProjectSettings()
         settings.financialProject = financialProject
         financialProjectSettingsRepository.save(settings)

@@ -1,4 +1,4 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.component
 
 import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account
@@ -7,14 +7,18 @@ import com.ran.kolibri.entity.project.FinancialProject
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
+import com.ran.kolibri.service.ProjectService
+import com.ran.kolibri.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
-import org.springframework.stereotype.Service
+import org.springframework.context.event.ContextRefreshedEvent
+import org.springframework.context.event.EventListener
+import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Component
 @Profile(DEV)
-class DebugDataService {
+class DebugDataPopulator {
 
     companion object {
         private val TEMPLATE_PROJECT_NAME = "Default Template Project"
@@ -32,30 +36,36 @@ class DebugDataService {
     lateinit var operationCategoryRepository: OperationCategoryRepository
 
     @Autowired
+    lateinit var userService: UserService
+    @Autowired
     lateinit var projectService: ProjectService
 
+    @EventListener
     @Transactional
-    fun populateDebugData() {
-        logInfo{ "Before debug data population" }
+    fun handleContextRefresh(event: ContextRefreshedEvent) {
+        logInfo { "Before debug data population" }
+        fillEntities()
+        logInfo { "After debug data population" }
+    }
 
+    private fun fillEntities() {
         val defaultFinancialProject = projectService.getProjects(false, FINANCIAL_PROJECT_NAME, null)
         if (defaultFinancialProject.hasContent()) {
-            logInfo{ "Debug data has been already populated" }
+            logInfo { "Debug data has been already populated" }
             return
         }
 
         val projects = fillFinancialProjects()
         fillAccounts(projects[0])
         fillOperationCategories(projects[0])
-
-        logInfo{ "After debug data population" }
     }
 
     private fun fillFinancialProjects(): List<FinancialProject> {
+        val adminUser = userService.getAdminUser()
         val templateProject = projectService.createEmptyFinancialProject(
-                TEMPLATE_PROJECT_NAME, "", true)
+                TEMPLATE_PROJECT_NAME, DEFAULT_DESCRIPTION, true, adminUser)
         val financialProject = projectService.createEmptyFinancialProject(
-                FINANCIAL_PROJECT_NAME, "", false)
+                FINANCIAL_PROJECT_NAME, DEFAULT_DESCRIPTION, false, adminUser)
         return listOf(financialProject, templateProject)
     }
 
