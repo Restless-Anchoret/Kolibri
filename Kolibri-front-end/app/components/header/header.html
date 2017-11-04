@@ -6,10 +6,12 @@
                     <span class="glyphicon glyphicon-align-justify"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a ui-sref="projects">Projects</a></li>
-                    <li><a ui-sref="templates">Templates</a></li>
-                    <li><a ui-sref="commits">Commits</a></li>
-                    <li><a ui-sref="settings">Settings</a></li>
+                    <!-- todo: remove comments from here -->
+                    <li><a ui-sref="projects">Projects</a></li>    <!-- accessed by the current User -->
+                    <li><a ui-sref="templates">Profile</a></li>    <!-- login, changing password -->
+                    <li><a ui-sref="commits">Repositories</a></li> <!-- of the current User -->
+                    <li><a ui-sref="settings">Users</a></li>       <!-- all - editing mode only for admin -->
+                    <li><a ui-sref="settings">Templates</a></li>
                 </ul>
             </li>
             <li><a class="brand" ui-sref="projects">Kolibri</a></li>
