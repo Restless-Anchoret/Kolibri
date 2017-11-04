@@ -1,6 +1,7 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
+import com.ran.kolibri.dto.export.project.ProjectExportDto
 import com.ran.kolibri.dto.request.common.CommentTextDto
 import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
 import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
@@ -8,6 +9,8 @@ import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.annotation.ProjectId
+import com.ran.kolibri.service.ExportService
+import com.ran.kolibri.service.ImportService
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +27,10 @@ class ProjectController {
 
     @Autowired
     lateinit var projectService: ProjectService
+    @Autowired
+    lateinit var exportService: ExportService
+    @Autowired
+    lateinit var importService: ImportService
     @Autowired
     lateinit var orikaMapperFacade: MapperFacade
     @Autowired
@@ -73,6 +80,16 @@ class ProjectController {
     fun deleteProject(@PathVariable("projectId") @ProjectId projectId: Long): ResponseEntity<Any> {
         projectService.deleteProject(projectId)
         return ResponseEntity(OK)
+    }
+
+    @RequestMapping(value = "{projectId}/export", method = arrayOf(POST))
+    fun exportProject(@PathVariable("projectId") @ProjectId projectId: Long): ProjectExportDto {
+        return exportService.exportProject(projectId)
+    }
+
+    @RequestMapping(value = "/import", method = arrayOf(POST))
+    fun importProject(@RequestBody imported: ProjectExportDto) {
+        importService.importProject(imported)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment"), method = arrayOf(POST))
