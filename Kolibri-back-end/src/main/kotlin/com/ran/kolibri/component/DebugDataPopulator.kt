@@ -8,15 +8,20 @@ import com.ran.kolibri.entity.user.User
 import com.ran.kolibri.entity.user.UserRole.ORDINARY_USER
 import com.ran.kolibri.entity.user.UserStatus.DISABLED
 import com.ran.kolibri.extension.logInfo
+import com.ran.kolibri.extension.map
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.user.UserRepository
+import com.ran.kolibri.security.JwtAuthentication
+import com.ran.kolibri.security.UserData
 import com.ran.kolibri.service.ProjectService
 import com.ran.kolibri.service.UserService
+import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -48,6 +53,8 @@ class DebugDataPopulator {
     lateinit var userService: UserService
     @Autowired
     lateinit var projectService: ProjectService
+    @Autowired
+    lateinit var orikaMapperFacade: MapperFacade
 
     @EventListener
     @Transactional
@@ -58,6 +65,10 @@ class DebugDataPopulator {
     }
 
     private fun fillEntities() {
+        val adminUser = userService.getAdminUser()
+        val adminUserData = orikaMapperFacade.map<UserData>(adminUser)
+        SecurityContextHolder.getContext().authentication = JwtAuthentication(adminUserData)
+
         val defaultFinancialProject = projectService.getProjects(false, FINANCIAL_PROJECT_NAME, null)
         if (defaultFinancialProject.hasContent()) {
             logInfo { "Debug data has been already populated" }
@@ -77,11 +88,10 @@ class DebugDataPopulator {
     }
 
     private fun fillFinancialProjects(disabledUser: User): List<FinancialProject> {
-        val adminUser = userService.getAdminUser()
         val templateProject = projectService.createEmptyFinancialProject(
-                TEMPLATE_PROJECT_NAME, DEFAULT_DESCRIPTION, true, adminUser)
+                TEMPLATE_PROJECT_NAME, DEFAULT_DESCRIPTION, true)
         val financialProject = projectService.createEmptyFinancialProject(
-                FINANCIAL_PROJECT_NAME, DEFAULT_DESCRIPTION, false, adminUser)
+                FINANCIAL_PROJECT_NAME, DEFAULT_DESCRIPTION, false)
         val disabledUserProject = projectService.createEmptyFinancialProject(
                 DISABLED_USER_PROJECT_NAME, DEFAULT_DESCRIPTION, false, disabledUser)
         return listOf(financialProject, templateProject, disabledUserProject)

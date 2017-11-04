@@ -1,14 +1,15 @@
 package com.ran.kolibri.rest
 
 import com.ran.kolibri.component.DtoPropertyChecker
+import com.ran.kolibri.dto.request.common.CommentTextDto
+import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
+import com.ran.kolibri.dto.request.financial.*
 import com.ran.kolibri.dto.response.financial.AccountDto
 import com.ran.kolibri.dto.response.financial.OperationCategoryDto
 import com.ran.kolibri.dto.response.financial.OperationDto
 import com.ran.kolibri.dto.response.project.FinancialProjectDto
-import com.ran.kolibri.dto.request.common.CommentTextDto
-import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
-import com.ran.kolibri.dto.request.financial.*
 import com.ran.kolibri.extension.mapAsPage
+import com.ran.kolibri.security.annotation.ProjectId
 import com.ran.kolibri.service.AccountService
 import com.ran.kolibri.service.FinancialProjectService
 import com.ran.kolibri.service.OperationCategoryService
@@ -40,7 +41,7 @@ class FinancialProjectController {
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
     @RequestMapping(path = arrayOf("/{projectId}/settings"), method = arrayOf(PUT))
-    fun setFinancialProjectSettings(@PathVariable("projectId") projectId: Long,
+    fun setFinancialProjectSettings(@PathVariable("projectId") @ProjectId projectId: Long,
                                     @RequestBody setFinancialProjectSettingsRequestDto:
                                     SetFinancialProjectSettingsRequestDto): FinancialProjectDto {
         val project = financialProjectService.setFinancialProjectSettings(projectId,
@@ -50,7 +51,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts"), method = arrayOf(GET))
-    fun getFinancialProjectAccounts(@PathVariable("projectId") projectId: Long,
+    fun getFinancialProjectAccounts(@PathVariable("projectId") @ProjectId projectId: Long,
                                     @RequestParam(value = "name", required = false) name: String?,
                                     pageable: Pageable): Page<AccountDto> {
         val accountsPage = accountService.getAccountsByProjectId(projectId, name, pageable)
@@ -58,7 +59,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories"), method = arrayOf(GET))
-    fun getFinancialProjectOperationCategories(@PathVariable("projectId") projectId: Long,
+    fun getFinancialProjectOperationCategories(@PathVariable("projectId") @ProjectId projectId: Long,
                                                @RequestParam(value = "name", required = false) name: String?,
                                                pageable: Pageable): Page<OperationCategoryDto> {
         val operationCategoriesPage = operationCategoryService.getOperationCategoriesByProjectId(projectId, name, pageable)
@@ -66,14 +67,14 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations"), method = arrayOf(GET))
-    fun getFinancialProjectOperations(@PathVariable("projectId") projectId: Long,
+    fun getFinancialProjectOperations(@PathVariable("projectId") @ProjectId projectId: Long,
                                       pageable: Pageable): Page<OperationDto> {
         val operationsPage = operationService.getOperationsByProjectId(projectId, pageable)
         return orikaMapperFacade.mapAsPage(operationsPage, pageable)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/income"), method = arrayOf(POST))
-    fun addIncomeOperation(@PathVariable("projectId") projectId: Long,
+    fun addIncomeOperation(@PathVariable("projectId") @ProjectId projectId: Long,
                            @RequestBody addIncomeOperationDto: AddIncomeOperationRequestDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddIncomeOperationRequestDto(addIncomeOperationDto)
         operationService.addIncomeOperation(projectId,
@@ -84,7 +85,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/expend"), method = arrayOf(POST))
-    fun addExpendOperation(@PathVariable("projectId") projectId: Long,
+    fun addExpendOperation(@PathVariable("projectId") @ProjectId projectId: Long,
                            @RequestBody addExpendOperationDto: AddExpendOperationRequestDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddExpendOperationRequestDto(addExpendOperationDto)
         operationService.addExpendOperation(projectId,
@@ -95,7 +96,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/transfer"), method = arrayOf(POST))
-    fun addTransferOperation(@PathVariable("projectId") projectId: Long,
+    fun addTransferOperation(@PathVariable("projectId") @ProjectId projectId: Long,
                              @RequestBody addTransferOperationDto: AddTransferOperationRequestDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkAddTransferOperationRequestDto(addTransferOperationDto)
         operationService.addTransferOperation(projectId,
@@ -106,13 +107,15 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}"), method = arrayOf(DELETE))
-    fun removeOperation(@PathVariable("operationId") operationId: Long): ResponseEntity<Any> {
+    fun removeOperation(@PathVariable("projectId") @ProjectId projectId: Long,
+                        @PathVariable("operationId") operationId: Long): ResponseEntity<Any> {
         operationService.removeOperation(operationId)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}"), method = arrayOf(PUT))
-    fun editOperation(@PathVariable("operationId") operationId: Long,
+    fun editOperation(@PathVariable("projectId") @ProjectId projectId: Long,
+                      @PathVariable("operationId") operationId: Long,
                       @RequestBody editOperationDto: EditOperationRequestDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkEditOperationRequestDto(editOperationDto)
         operationService.editOperation(operationId, editOperationDto.operationCategoryId!!,
@@ -121,7 +124,7 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/create"), method = arrayOf(POST))
-    fun createAccount(@PathVariable("projectId") projectId: Long,
+    fun createAccount(@PathVariable("projectId") @ProjectId projectId: Long,
                       @RequestBody createNamedEntityRequestDto: CreateOrEditNamedEntityRequestDto): AccountDto {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDto)
         val account = accountService.createAccount(projectId,
@@ -130,7 +133,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}"), method = arrayOf(PUT))
-    fun editAccount(@PathVariable("accountId") accountId: Long,
+    fun editAccount(@PathVariable("projectId") @ProjectId projectId: Long,
+                    @PathVariable("accountId") accountId: Long,
                     @RequestBody editAccountRequestDto: EditAccountRequestDto): AccountDto {
         dtoPropertyChecker.checkEditAccountDto(editAccountRequestDto)
         val account = accountService.editAccount(accountId, editAccountRequestDto.name!!,
@@ -139,13 +143,14 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}"), method = arrayOf(DELETE))
-    fun removeAccount(@PathVariable("accountId") accountId: Long): ResponseEntity<Any> {
+    fun removeAccount(@PathVariable("projectId") @ProjectId projectId: Long,
+                      @PathVariable("accountId") accountId: Long): ResponseEntity<Any> {
         accountService.removeAccount(accountId)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/create"), method = arrayOf(POST))
-    fun createOperationCategory(@PathVariable("projectId") projectId: Long,
+    fun createOperationCategory(@PathVariable("projectId") @ProjectId projectId: Long,
                                 @RequestBody createNamedEntityRequestDto: CreateOrEditNamedEntityRequestDto)
                                     : OperationCategoryDto {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDto)
@@ -155,7 +160,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}"), method = arrayOf(PUT))
-    fun editOperationCategory(@PathVariable("categoryId") operationCategoryId: Long,
+    fun editOperationCategory(@PathVariable("projectId") @ProjectId projectId: Long,
+                              @PathVariable("categoryId") operationCategoryId: Long,
                               @RequestBody createNamedEntityRequestDto: CreateOrEditNamedEntityRequestDto)
                                 : OperationCategoryDto {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createNamedEntityRequestDto)
@@ -165,13 +171,15 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}"), method = arrayOf(DELETE))
-    fun removeOperationCategory(@PathVariable("categoryId") operationCategoryId: Long): ResponseEntity<Any> {
+    fun removeOperationCategory(@PathVariable("projectId") @ProjectId projectId: Long,
+                                @PathVariable("categoryId") operationCategoryId: Long): ResponseEntity<Any> {
         operationCategoryService.removeOperationCategory(operationCategoryId)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment"), method = arrayOf(POST))
-    fun addOperationComment(@PathVariable("operationId") operationId: Long,
+    fun addOperationComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                            @PathVariable("operationId") operationId: Long,
                             @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         operationService.addOperationComment(operationId, commentTextDto.text!!)
@@ -179,7 +187,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment/{commentIndex}"), method = arrayOf(PUT))
-    fun editOperationComment(@PathVariable("operationId") operationId: Long,
+    fun editOperationComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                             @PathVariable("operationId") operationId: Long,
                              @PathVariable("commentIndex") commentIndex: Int,
                              @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
@@ -188,14 +197,16 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/operations/{operationId}/comment/{commentIndex}"), method = arrayOf(DELETE))
-    fun removeOperationComment(@PathVariable("operationId") operationId: Long,
+    fun removeOperationComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                               @PathVariable("operationId") operationId: Long,
                                @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         operationService.removeOperationComment(operationId, commentIndex)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}/comment"), method = arrayOf(POST))
-    fun addAccountComment(@PathVariable("accountId") accountId: Long,
+    fun addAccountComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                          @PathVariable("accountId") accountId: Long,
                           @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         accountService.addAccountComment(accountId, commentTextDto.text!!)
@@ -203,7 +214,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}/comment/{commentIndex}"), method = arrayOf(PUT))
-    fun editAccountComment(@PathVariable("accountId") accountId: Long,
+    fun editAccountComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                           @PathVariable("accountId") accountId: Long,
                            @PathVariable("commentIndex") commentIndex: Int,
                            @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
@@ -212,14 +224,16 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/accounts/{accountId}/comment/{commentIndex}"), method = arrayOf(DELETE))
-    fun removeAccountComment(@PathVariable("accountId") accountId: Long,
+    fun removeAccountComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                             @PathVariable("accountId") accountId: Long,
                              @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         accountService.removeAccountComment(accountId, commentIndex)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}/comment"), method = arrayOf(POST))
-    fun addOperationCategoryComment(@PathVariable("categoryId") categoryId: Long,
+    fun addOperationCategoryComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                                    @PathVariable("categoryId") categoryId: Long,
                                     @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         operationCategoryService.addOperationCategoryComment(categoryId, commentTextDto.text!!)
@@ -227,7 +241,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}/comment/{commentIndex}"), method = arrayOf(PUT))
-    fun editOperationCategoryComment(@PathVariable("categoryId") categoryId: Long,
+    fun editOperationCategoryComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                                     @PathVariable("categoryId") categoryId: Long,
                                      @PathVariable("commentIndex") commentIndex: Int,
                                      @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
@@ -236,7 +251,8 @@ class FinancialProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/categories/{categoryId}/comment/{commentIndex}"), method = arrayOf(DELETE))
-    fun removeOperationCategoryComment(@PathVariable("categoryId") categoryId: Long,
+    fun removeOperationCategoryComment(@PathVariable("projectId") @ProjectId projectId: Long,
+                                       @PathVariable("categoryId") categoryId: Long,
                                        @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         operationCategoryService.removeOperationCategoryComment(categoryId, commentIndex)
         return ResponseEntity(HttpStatus.OK)

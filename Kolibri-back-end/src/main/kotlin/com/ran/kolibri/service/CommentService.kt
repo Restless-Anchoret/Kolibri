@@ -3,6 +3,7 @@ package com.ran.kolibri.service
 import com.ran.kolibri.entity.comment.Comment
 import com.ran.kolibri.entity.comment.CommentsHolder
 import com.ran.kolibri.exception.BadRequestException
+import com.ran.kolibri.exception.ForbiddenException
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.comment.CommentRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,6 +17,9 @@ class CommentService {
     @Autowired
     lateinit var commentRepository: CommentRepository
 
+    @Autowired
+    lateinit var userService: UserService
+
     @Transactional
     fun <T : CommentsHolder> addComment(commentsHolder: T,
                                         holderRepository: CrudRepository<T, Long>,
@@ -27,6 +31,7 @@ class CommentService {
         }
 
         val comment = Comment(text)
+        comment.author = userService.getAuthenticatedUser()
         commentRepository.save(comment)
 
         commentsHolder.comments.add(comment)
@@ -49,6 +54,10 @@ class CommentService {
         }
 
         val comment = commentsHolder.comments[commentIndex]
+        if (comment.author?.id != userService.getAuthenticatedUserData().id) {
+            throw ForbiddenException("Forbidden to edit a comment of another User")
+        }
+
         comment.text = text
         commentRepository.save(comment)
         logInfo { "Comment was edited" }
@@ -61,6 +70,11 @@ class CommentService {
         logInfo { "Removing a comment: commentIndex = $commentIndex" }
         if (commentIndex !in 0..(commentsHolder.comments.size - 1)) {
             throw BadRequestException("Comment does not exist")
+        }
+
+        val comment = commentsHolder.comments[commentIndex]
+        if (comment.author?.id != userService.getAuthenticatedUserData().id) {
+            throw ForbiddenException("Forbidden to remove a comment of another User")
         }
 
         val oldComments = commentsHolder.comments.map { it }
@@ -84,6 +98,7 @@ class CommentService {
                                            holderRepository: CrudRepository<T, Long>) {
         commentsHolderFrom.comments.forEach { comment ->
             val newComment = comment.clone()
+            newComment.author = comment.author
             commentRepository.save(newComment)
             commentsHolderTo.comments.add(newComment)
         }

@@ -21,7 +21,7 @@ class ProjectProtectedAdvice {
     @Autowired
     lateinit var projectRepository: ProjectRepository
 
-    @Around("@annotation(com.ran.kolibri.security.annotation.ProjectProtected)")
+    @Around("@within(org.springframework.web.bind.annotation.RestController)")
     @Transactional
     fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any {
         val method = (joinPoint.signature as MethodSignature).method

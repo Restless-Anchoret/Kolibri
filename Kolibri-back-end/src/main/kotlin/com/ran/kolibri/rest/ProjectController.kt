@@ -8,7 +8,6 @@ import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.annotation.ProjectId
-import com.ran.kolibri.security.annotation.ProjectProtected
 import com.ran.kolibri.service.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,7 +30,6 @@ class ProjectController {
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
     @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
-    @ProjectProtected
     fun getProjectById(@PathVariable("projectId") @ProjectId projectId: Long): ProjectDto {
         val project = projectService.getProjectById(projectId)
         return orikaMapperFacade.map(project)
@@ -54,7 +52,7 @@ class ProjectController {
     }
 
     @RequestMapping(value = "/create-from-template/{templateId}", method = arrayOf(POST))
-    fun createProjectFromTemplate(@PathVariable("templateId") templateId: Long,
+    fun createProjectFromTemplate(@PathVariable("templateId") @ProjectId templateId: Long,
                                   @RequestBody createProjectDto: CreateProjectRequestDto): ProjectDto {
         dtoPropertyChecker.checkCreateProjectDto(createProjectDto)
         val project = projectService.createProjectFromTemplate(templateId, createProjectDto.name!!,
@@ -63,7 +61,7 @@ class ProjectController {
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(PUT))
-    fun editProject(@PathVariable("projectId") projectId: Long,
+    fun editProject(@PathVariable("projectId") @ProjectId projectId: Long,
                     @RequestBody createOrEditProjectDto: CreateOrEditNamedEntityRequestDto): ProjectDto {
         dtoPropertyChecker.checkCreateOrEditNamedEntityDto(createOrEditProjectDto)
         val project = projectService.editProject(projectId, createOrEditProjectDto.name!!,
@@ -72,13 +70,13 @@ class ProjectController {
     }
 
     @RequestMapping(value = "{projectId}", method = arrayOf(DELETE))
-    fun deleteProject(@PathVariable("projectId") projectId: Long): ResponseEntity<Any> {
+    fun deleteProject(@PathVariable("projectId") @ProjectId projectId: Long): ResponseEntity<Any> {
         projectService.deleteProject(projectId)
         return ResponseEntity(OK)
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment"), method = arrayOf(POST))
-    fun addProjectComment(@PathVariable("projectId") projectId: Long,
+    fun addProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                           @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
         projectService.addProjectComment(projectId, commentTextDto.text!!)
@@ -86,7 +84,7 @@ class ProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(PUT))
-    fun editProjectComment(@PathVariable("projectId") projectId: Long,
+    fun editProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                            @PathVariable("commentIndex") commentIndex: Int,
                            @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
@@ -95,7 +93,7 @@ class ProjectController {
     }
 
     @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(DELETE))
-    fun removeProjectComment(@PathVariable("projectId") projectId: Long,
+    fun removeProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                              @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         projectService.removeProjectComment(projectId, commentIndex)
         return ResponseEntity(OK)

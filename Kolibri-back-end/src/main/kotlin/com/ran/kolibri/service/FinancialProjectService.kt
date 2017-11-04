@@ -5,6 +5,7 @@ import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.financial.IncomeOperation
 import com.ran.kolibri.entity.financial.TransferOperation
 import com.ran.kolibri.entity.project.FinancialProject
+import com.ran.kolibri.entity.user.User
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.extension.logDebug
 import com.ran.kolibri.extension.logInfo
@@ -28,6 +29,8 @@ class FinancialProjectService {
     lateinit var operationCategoryService: OperationCategoryService
     @Autowired
     lateinit var commentService: CommentService
+    @Autowired
+    lateinit var userService: UserService
 
     @Autowired
     lateinit var financialProjectRepository: FinancialProjectRepository
@@ -83,11 +86,12 @@ class FinancialProjectService {
     }
 
     @Transactional
-    fun createFinancialProjectFromTemplate(projectId: Long, name: String,
-                                           description: String, isTemplate: Boolean): FinancialProject {
+    fun createFinancialProjectFromTemplate(projectId: Long, name: String, description: String, isTemplate: Boolean,
+                                           owner: User = userService.getAuthenticatedUser()): FinancialProject {
         val templateProject = getFinancialProjectById(projectId)
 
         val newProject = FinancialProject(name, description, isTemplate)
+        newProject.owner = owner
         financialProjectRepository.save(newProject)
         commentService.cloneComments(templateProject, newProject, financialProjectRepository)
 

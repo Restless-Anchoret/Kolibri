@@ -35,7 +35,9 @@ class ProjectService {
 
     @Transactional
     fun getProjects(isTemplate: Boolean, name: String?, pageable: Pageable?): Page<Project> {
-        val specification = Specifications.where(ProjectSpecificationFactory.byIsTemplate<Project>(isTemplate))
+        val user = userService.getAuthenticatedUser()
+        val specification = Specifications.where(ProjectSpecificationFactory.byIsAccessible<Project>(user))
+                .and(ProjectSpecificationFactory.byIsTemplate<Project>(isTemplate))
                 .and(BaseSpecificationFactory.byName<Project>(name))
         return projectRepository.findAll(specification, pageable)
     }
@@ -47,10 +49,10 @@ class ProjectService {
     }
 
     @Transactional
-    fun createEmptyFinancialProject(name: String, description: String,
-                                    isTemplate: Boolean, owner: User? = null): FinancialProject {
+    fun createEmptyFinancialProject(name: String, description: String, isTemplate: Boolean,
+                                    owner: User = userService.getAuthenticatedUser()): FinancialProject {
         val financialProject = FinancialProject(name, description, isTemplate)
-        financialProject.owner = owner ?: userService.getAuthenticatedUser()
+        financialProject.owner = owner
         projectRepository.save(financialProject)
 
         val settings = FinancialProjectSettings()
