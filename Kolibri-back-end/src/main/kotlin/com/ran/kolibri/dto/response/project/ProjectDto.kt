@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.ran.kolibri.dto.response.base.NamedEntityDto
 import com.ran.kolibri.dto.response.comment.CommentDto
 import com.ran.kolibri.dto.response.project.ProjectDto.Companion.FINANCIAL_PROJECT_TYPE
-import com.ran.kolibri.dto.response.user.UserDto
+import com.ran.kolibri.dto.response.user.UserBriefDto
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
               include = JsonTypeInfo.As.PROPERTY,
@@ -13,16 +13,16 @@ import com.ran.kolibri.dto.response.user.UserDto
 @JsonSubTypes(
         JsonSubTypes.Type(value = FinancialProjectDto::class, name = FINANCIAL_PROJECT_TYPE))
 abstract class ProjectDto(
-        var isTemplate: Boolean? = null,
-        var projectType: String? = null,
-        var owner: UserDto? = null,
-        var usersWithAccess: List<UserDto>? = null,
-        var comments: List<CommentDto>? = null
+        var projectType: String
 ) : NamedEntityDto() {
 
     companion object {
         const val FINANCIAL_PROJECT_TYPE = "financial"
-        const val FINANCIAL_EXPORT_PROJECT_TYPE = "financialExport"
     }
+
+    var isTemplate: Boolean? = null
+    var owner: UserBriefDto? = null
+    var usersWithAccess: List<UserBriefDto>? = null
+    var comments: List<CommentDto>? = null
 
 }
