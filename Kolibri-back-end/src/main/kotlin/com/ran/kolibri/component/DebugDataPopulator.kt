@@ -14,6 +14,7 @@ import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.user.UserRepository
 import com.ran.kolibri.security.JwtAuthentication
 import com.ran.kolibri.security.UserData
+import com.ran.kolibri.service.OperationService
 import com.ran.kolibri.service.ProjectService
 import com.ran.kolibri.service.UserService
 import ma.glasnost.orika.MapperFacade
@@ -24,6 +25,7 @@ import org.springframework.context.event.EventListener
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Component
 @Profile(DEV)
@@ -54,6 +56,8 @@ class DebugDataPopulator {
     @Autowired
     lateinit var projectService: ProjectService
     @Autowired
+    lateinit var operationService: OperationService
+    @Autowired
     lateinit var orikaMapperFacade: MapperFacade
 
     @EventListener
@@ -77,8 +81,9 @@ class DebugDataPopulator {
 
         val users = fillUsers()
         val projects = fillFinancialProjects(users[0])
-        fillAccounts(projects[0])
-        fillOperationCategories(projects[0])
+        val accounts = fillAccounts(projects[0])
+        val operationCategories = fillOperationCategories(projects[0])
+        fillOperations(projects[0], accounts, operationCategories)
     }
 
     private fun fillUsers(): List<User> {
@@ -106,6 +111,7 @@ class DebugDataPopulator {
     private fun fillAccount(project: FinancialProject, accountName: String): Account {
         val account = Account(accountName, DEFAULT_DESCRIPTION)
         account.project = project
+        account.currentMoneyAmount = 1000.0
         accountRepository.save(account)
         return account
     }
@@ -123,6 +129,18 @@ class DebugDataPopulator {
         operationCategory.project = project
         operationCategoryRepository.save(operationCategory)
         return operationCategory
+    }
+
+    private fun fillOperations(project: FinancialProject,
+                               accounts: List<Account>,
+                               operationCategories: List<OperationCategory>) {
+        val now = Date()
+        operationService.addIncomeOperation(project.id!!, accounts[2].id!!,
+                operationCategories[4].id!!, 500.0, DEFAULT_DESCRIPTION, now)
+        operationService.addExpendOperation(project.id!!, accounts[3].id!!,
+                operationCategories[8].id!!, 300.0, DEFAULT_DESCRIPTION, now)
+        operationService.addTransferOperation(project.id!!, accounts[7].id!!, accounts[0].id!!,
+                operationCategories[13].id!!, 200.0, DEFAULT_DESCRIPTION, now)
     }
 
 }
