@@ -6,7 +6,7 @@ import com.ran.kolibri.dto.response.vcs.GitRepositoryDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.annotation.RepositoryId
-import com.ran.kolibri.service.vcs.PersistenceGitRepositoryService
+import com.ran.kolibri.service.vcs.GitRepositoryPersistenceService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -23,19 +23,19 @@ import org.springframework.web.bind.annotation.RestController
 class RepositoriesController {
 
     @Autowired
-    lateinit var persistenceGitRepositoryService: PersistenceGitRepositoryService
+    lateinit var gitRepositoryPersistenceService: GitRepositoryPersistenceService
     @Autowired
     lateinit var orikaMapperFacade: MapperFacade
 
     @RequestMapping(method = arrayOf(GET))
     fun getCurrentUserGitRepositoriesPage(pageable: Pageable): Page<GitRepositoryDto> {
-        val gitRepositoriesPage = persistenceGitRepositoryService.getCurrentUserGitRepositoriesPage(pageable)
+        val gitRepositoriesPage = gitRepositoryPersistenceService.getCurrentUserGitRepositoriesPage(pageable)
         return orikaMapperFacade.mapAsPage(gitRepositoriesPage, pageable)
     }
 
     @RequestMapping(value = "/{repositoryId}", method = arrayOf(GET))
     fun getGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitRepositoryDto? {
-        val gitRepository = persistenceGitRepositoryService.getGitRepositoryById(repositoryId)
+        val gitRepository = gitRepositoryPersistenceService.getGitRepositoryById(repositoryId)
         return orikaMapperFacade.map(gitRepository)
     }
 
