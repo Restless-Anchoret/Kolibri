@@ -36,7 +36,7 @@ class ProjectController {
     @Autowired
     lateinit var dtoPropertyChecker: DtoPropertyChecker
 
-    @RequestMapping(path = arrayOf("/{projectId}"), method = arrayOf(GET))
+    @RequestMapping(value = "/{projectId}", method = arrayOf(GET))
     fun getProjectById(@PathVariable("projectId") @ProjectId projectId: Long): ProjectDto {
         val project = projectService.getProjectById(projectId)
         return orikaMapperFacade.map(project)
@@ -92,7 +92,7 @@ class ProjectController {
         importService.importProject(imported)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/comment"), method = arrayOf(POST))
+    @RequestMapping(value = "/{projectId}/comment", method = arrayOf(POST))
     fun addProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                           @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
         dtoPropertyChecker.checkCommentTextDto(commentTextDto)
@@ -100,7 +100,7 @@ class ProjectController {
         return ResponseEntity(OK)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(PUT))
+    @RequestMapping(value = "/{projectId}/comment/{commentIndex}", method = arrayOf(PUT))
     fun editProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                            @PathVariable("commentIndex") commentIndex: Int,
                            @RequestBody commentTextDto: CommentTextDto): ResponseEntity<Any> {
@@ -109,7 +109,7 @@ class ProjectController {
         return ResponseEntity(OK)
     }
 
-    @RequestMapping(path = arrayOf("/{projectId}/comment/{commentIndex}"), method = arrayOf(DELETE))
+    @RequestMapping(value = "/{projectId}/comment/{commentIndex}", method = arrayOf(DELETE))
     fun removeProjectComment(@PathVariable("projectId") @ProjectId projectId: Long,
                              @PathVariable("commentIndex") commentIndex: Int): ResponseEntity<Any> {
         projectService.removeProjectComment(projectId, commentIndex)
