@@ -1,10 +1,10 @@
 package com.ran.kolibri.service.vcs
 
 import com.ran.kolibri.entity.vcs.GitRepository
+import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.vcs.GitRepositoryRepository
 import com.ran.kolibri.service.user.UserService
 import com.ran.kolibri.specification.vcs.GitRepositorySpecificationFactory
-import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
