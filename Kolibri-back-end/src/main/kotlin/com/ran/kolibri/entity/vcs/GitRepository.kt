@@ -10,21 +10,32 @@ import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.Temporal
 import javax.persistence.TemporalType.TIMESTAMP
+import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import kotlin.collections.ArrayList
 
 @Entity
-class VcsRepository(
+class GitRepository(
         name: String = "",
         description: String = "",
         @NotEmpty
         val url: String = "",
+        @NotEmpty
+        val username: String = "",
+        @NotEmpty
+        val password: String = "",
         @NotNull
         val isActive: Boolean = false,
         @NotNull
+        @Min(1)
         val daysPerCommit: Int = 7,
+        @NotNull
+        @Min(1)
+        val daysForReportsStoring: Int = 30,
         @Temporal(TIMESTAMP)
-        val lastCommitDate: Date? = null
+        val lastCommitDate: Date? = null,
+        @NotNull
+        val isErroreuos: Boolean = false
 ): NamedEntity(name, description) {
 
     @NotNull
