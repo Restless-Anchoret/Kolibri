@@ -19,25 +19,25 @@ class GitRepository(
         name: String = "",
         description: String = "",
         @NotEmpty
-        val url: String = "",
+        var url: String = "",
         @NotEmpty
-        val username: String = "",
+        var username: String = "",
         @NotEmpty
-        val password: String = "",
+        var password: String = "",
         @NotNull
-        val isActive: Boolean = false,
+        var isActive: Boolean = false,
         @NotNull
         @Min(1)
-        val daysPerCommit: Int = 7,
+        var daysPerCommit: Int = 7,
         @NotNull
         @Min(1)
-        val daysForReportsStoring: Int = 30,
+        var daysForReportsStoring: Int = 30,
         @Temporal(TIMESTAMP)
-        val lastCommitDate: Date? = null,
+        var lastCommitDate: Date? = null,
         @NotNull
-        val lastCommitNumber: Int = 0,
+        var lastCommitNumber: Int = 0,
         @NotNull
-        val isErroreuos: Boolean = false
+        var isErroreuos: Boolean = false
 ): NamedEntity(name, description) {
 
     @NotNull

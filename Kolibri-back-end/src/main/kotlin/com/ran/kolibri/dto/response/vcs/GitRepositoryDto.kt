@@ -6,14 +6,14 @@ import java.util.*
 
 class GitRepositoryDto : NamedEntityDto() {
 
-    val url: String? = null
-    val username: String? = null
-    val password: String? = null
-    val isActive: Boolean? = null
-    val daysPerCommit: Int? = null
-    val daysForReportsStoring: Int? = null
-    val lastCommitDate: Date? = null
-    val isErroreuos: Boolean? = null
+    var url: String? = null
+    var username: String? = null
+    var password: String? = null
+    var isActive: Boolean? = null
+    var daysPerCommit: Int? = null
+    var daysForReportsStoring: Int? = null
+    var lastCommitDate: Date? = null
+    var isErroreuos: Boolean? = null
     var projects: List<ProjectBriefDto>? = null
 
 }

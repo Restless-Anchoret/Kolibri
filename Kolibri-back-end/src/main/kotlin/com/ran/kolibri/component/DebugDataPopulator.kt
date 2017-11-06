@@ -4,14 +4,17 @@ import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account
 import com.ran.kolibri.entity.financial.OperationCategory
 import com.ran.kolibri.entity.project.FinancialProject
+import com.ran.kolibri.entity.project.Project
 import com.ran.kolibri.entity.user.User
 import com.ran.kolibri.entity.user.UserRole.ORDINARY_USER
 import com.ran.kolibri.entity.user.UserStatus.DISABLED
+import com.ran.kolibri.entity.vcs.GitRepository
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.repository.financial.AccountRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.user.UserRepository
+import com.ran.kolibri.repository.vcs.GitRepositoryRepository
 import com.ran.kolibri.security.JwtAuthentication
 import com.ran.kolibri.security.UserData
 import com.ran.kolibri.service.financial.OperationService
@@ -42,6 +45,11 @@ class DebugDataPopulator {
         private val OPERATION_CATEGORIES_QUANTITY = 20
 
         private val DEFAULT_DESCRIPTION = "Default description"
+
+        private val TEST_REPOSITORY_NAME = "Kolibri Test Repository"
+        private val TEST_REPOSITORY_URL = "https://bitbucket.org/RestlessAnchoret/kolibri-repository-test"
+        private val TEST_REPOSITORY_USERNAME = "RestlessAnchoret"
+        private val TEST_REPOSITORY_PASSWORD = "bitbeternal23"
     }
 
     @Autowired
@@ -50,6 +58,8 @@ class DebugDataPopulator {
     lateinit var operationCategoryRepository: OperationCategoryRepository
     @Autowired
     lateinit var userRepository: UserRepository
+    @Autowired
+    lateinit var gitRepositoryRepository: GitRepositoryRepository
 
     @Autowired
     lateinit var userService: UserService
@@ -84,6 +94,7 @@ class DebugDataPopulator {
         val accounts = fillAccounts(projects[0])
         val operationCategories = fillOperationCategories(projects[0])
         fillOperations(projects[0], accounts, operationCategories)
+        fillGitRepository(projects[0])
     }
 
     private fun fillUsers(): List<User> {
@@ -141,6 +152,16 @@ class DebugDataPopulator {
                 operationCategories[8].id!!, 300.0, DEFAULT_DESCRIPTION, now)
         operationService.addTransferOperation(project.id!!, accounts[7].id!!, accounts[0].id!!,
                 operationCategories[13].id!!, 200.0, DEFAULT_DESCRIPTION, now)
+    }
+
+    private fun fillGitRepository(project: Project): GitRepository {
+        val user = userService.getAdminUser()
+        val repository = GitRepository(TEST_REPOSITORY_NAME, DEFAULT_DESCRIPTION,
+                TEST_REPOSITORY_URL, TEST_REPOSITORY_USERNAME, TEST_REPOSITORY_PASSWORD)
+        repository.owner = user
+        repository.projects.add(project)
+        gitRepositoryRepository.save(repository)
+        return repository
     }
 
 }

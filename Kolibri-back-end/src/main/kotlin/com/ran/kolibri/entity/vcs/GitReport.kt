@@ -11,12 +11,12 @@ import javax.persistence.TemporalType.TIMESTAMP
 @Entity
 class GitReport(
         @Enumerated(STRING)
-        val type: GitReportType = SUCCESS,
+        var type: GitReportType = SUCCESS,
         @NotEmpty
-        val message: String = "",
-        val exception: String? = null,
+        var message: String = "",
+        var exception: String? = null,
         @Temporal(TIMESTAMP)
-        val date: Date = Date()
+        var date: Date = Date()
 ) : BaseEntity() {
 
     @ManyToOne

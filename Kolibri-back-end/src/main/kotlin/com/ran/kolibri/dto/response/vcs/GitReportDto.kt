@@ -6,9 +6,9 @@ import java.util.*
 
 class GitReportDto : BaseEntityDto() {
 
-    val type: GitReportType? = null
-    val message: String? = null
-    val exception: String? = null
-    val date: Date? = null
+    var type: GitReportType? = null
+    var message: String? = null
+    var exception: String? = null
+    var date: Date? = null
 
 }
