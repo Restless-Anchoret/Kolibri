@@ -1,4 +1,4 @@
-package com.ran.kolibri.component
+package com.ran.kolibri.component.startup
 
 import com.ran.kolibri.app.ApplicationProfile.DEV
 import com.ran.kolibri.entity.financial.Account

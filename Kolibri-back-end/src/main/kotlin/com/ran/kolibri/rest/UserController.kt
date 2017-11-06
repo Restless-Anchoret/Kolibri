@@ -11,7 +11,7 @@ import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.JwtGenerator
 import com.ran.kolibri.security.UserData
-import com.ran.kolibri.security.annotation.AdminProtected
+import com.ran.kolibri.component.aspect.annotation.AdminProtected
 import com.ran.kolibri.service.user.UserService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired

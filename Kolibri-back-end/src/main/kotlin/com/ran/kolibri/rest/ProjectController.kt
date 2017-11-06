@@ -1,6 +1,6 @@
 package com.ran.kolibri.rest
 
-import com.ran.kolibri.component.DtoPropertyChecker
+import com.ran.kolibri.component.util.DtoPropertyChecker
 import com.ran.kolibri.dto.export.project.ProjectExportDto
 import com.ran.kolibri.dto.request.common.CommentTextDto
 import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
@@ -8,7 +8,7 @@ import com.ran.kolibri.dto.request.project.CreateProjectRequestDto
 import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
-import com.ran.kolibri.security.annotation.ProjectId
+import com.ran.kolibri.component.aspect.annotation.ProjectId
 import com.ran.kolibri.service.export.ExportService
 import com.ran.kolibri.service.export.ImportService
 import com.ran.kolibri.service.project.ProjectService

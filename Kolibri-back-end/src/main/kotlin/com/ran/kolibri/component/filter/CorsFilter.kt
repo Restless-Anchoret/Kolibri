@@ -1,4 +1,4 @@
-package com.ran.kolibri.component
+package com.ran.kolibri.component.filter
 
 import org.springframework.stereotype.Component
 import javax.servlet.*

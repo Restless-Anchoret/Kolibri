@@ -5,7 +5,7 @@ import com.ran.kolibri.dto.response.vcs.GitReportDto
 import com.ran.kolibri.dto.response.vcs.GitRepositoryDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
-import com.ran.kolibri.security.annotation.RepositoryId
+import com.ran.kolibri.component.aspect.annotation.RepositoryId
 import com.ran.kolibri.service.vcs.GitRepositoryPersistenceService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired

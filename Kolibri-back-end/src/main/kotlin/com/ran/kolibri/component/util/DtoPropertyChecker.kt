@@ -1,4 +1,4 @@
-package com.ran.kolibri.component
+package com.ran.kolibri.component.util
 
 import com.ran.kolibri.dto.request.common.CommentTextDto
 import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto

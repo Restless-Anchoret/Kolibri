@@ -1,10 +1,10 @@
-package com.ran.kolibri.security
+package com.ran.kolibri.component.aspect
 
 import com.ran.kolibri.exception.ForbiddenException
 import com.ran.kolibri.repository.project.ProjectRepository
 import com.ran.kolibri.repository.vcs.GitRepositoryRepository
-import com.ran.kolibri.security.annotation.ProjectId
-import com.ran.kolibri.security.annotation.RepositoryId
+import com.ran.kolibri.component.aspect.annotation.ProjectId
+import com.ran.kolibri.component.aspect.annotation.RepositoryId
 import com.ran.kolibri.service.user.UserService
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around

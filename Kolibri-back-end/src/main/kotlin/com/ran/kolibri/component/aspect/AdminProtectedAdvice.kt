@@ -1,4 +1,4 @@
-package com.ran.kolibri.security
+package com.ran.kolibri.component.aspect
 
 import com.ran.kolibri.entity.user.UserRole
 import com.ran.kolibri.exception.ForbiddenException
@@ -16,7 +16,7 @@ class AdminProtectedAdvice {
     @Autowired
     lateinit var userService: UserService
 
-    @Around("@annotation(com.ran.kolibri.security.annotation.AdminProtected)")
+    @Around("@annotation(com.ran.kolibri.component.aspect.annotation.AdminProtected)")
     fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any {
         val userData = userService.getAuthenticatedUserData()
         if (userData.userRole != UserRole.ADMIN) {

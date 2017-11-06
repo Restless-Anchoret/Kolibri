@@ -1,6 +1,6 @@
 package com.ran.kolibri.rest
 
-import com.ran.kolibri.component.DtoPropertyChecker
+import com.ran.kolibri.component.util.DtoPropertyChecker
 import com.ran.kolibri.dto.request.common.CommentTextDto
 import com.ran.kolibri.dto.request.common.CreateOrEditNamedEntityRequestDto
 import com.ran.kolibri.dto.request.financial.*
@@ -9,7 +9,7 @@ import com.ran.kolibri.dto.response.financial.OperationCategoryDto
 import com.ran.kolibri.dto.response.financial.OperationDto
 import com.ran.kolibri.dto.response.project.FinancialProjectDto
 import com.ran.kolibri.extension.mapAsPage
-import com.ran.kolibri.security.annotation.ProjectId
+import com.ran.kolibri.component.aspect.annotation.ProjectId
 import com.ran.kolibri.service.financial.AccountService
 import com.ran.kolibri.service.financial.FinancialProjectService
 import com.ran.kolibri.service.financial.OperationCategoryService
