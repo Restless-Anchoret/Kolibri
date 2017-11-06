@@ -1,4 +1,4 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.service.financial
 
 import com.ran.kolibri.entity.financial.ExpendOperation
 import com.ran.kolibri.entity.financial.FinancialProjectSettings
@@ -14,6 +14,8 @@ import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
 import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.financial.OperationRepository
 import com.ran.kolibri.repository.project.FinancialProjectRepository
+import com.ran.kolibri.service.comment.CommentService
+import com.ran.kolibri.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,4 +1,4 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.service.user
 
 import com.ran.kolibri.entity.user.User
 import com.ran.kolibri.entity.user.UserRole

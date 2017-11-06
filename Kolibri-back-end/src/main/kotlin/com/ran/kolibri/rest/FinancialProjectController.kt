@@ -10,10 +10,10 @@ import com.ran.kolibri.dto.response.financial.OperationDto
 import com.ran.kolibri.dto.response.project.FinancialProjectDto
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.annotation.ProjectId
-import com.ran.kolibri.service.AccountService
-import com.ran.kolibri.service.FinancialProjectService
-import com.ran.kolibri.service.OperationCategoryService
-import com.ran.kolibri.service.OperationService
+import com.ran.kolibri.service.financial.AccountService
+import com.ran.kolibri.service.financial.FinancialProjectService
+import com.ran.kolibri.service.financial.OperationCategoryService
+import com.ran.kolibri.service.financial.OperationService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page

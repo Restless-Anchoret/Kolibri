@@ -9,9 +9,9 @@ import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.security.annotation.ProjectId
-import com.ran.kolibri.service.ExportService
-import com.ran.kolibri.service.ImportService
-import com.ran.kolibri.service.ProjectService
+import com.ran.kolibri.service.export.ExportService
+import com.ran.kolibri.service.export.ImportService
+import com.ran.kolibri.service.project.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page

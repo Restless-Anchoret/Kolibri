@@ -1,8 +1,9 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.service.export
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ran.kolibri.dto.export.project.ProjectExportDto
 import com.ran.kolibri.extension.map
+import com.ran.kolibri.service.project.ProjectService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

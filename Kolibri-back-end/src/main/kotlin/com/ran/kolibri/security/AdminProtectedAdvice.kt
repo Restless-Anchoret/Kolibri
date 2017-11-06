@@ -2,7 +2,7 @@ package com.ran.kolibri.security
 
 import com.ran.kolibri.entity.user.UserRole
 import com.ran.kolibri.exception.ForbiddenException
-import com.ran.kolibri.service.UserService
+import com.ran.kolibri.service.user.UserService
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect

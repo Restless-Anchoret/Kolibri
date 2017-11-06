@@ -14,9 +14,9 @@ import com.ran.kolibri.repository.financial.OperationCategoryRepository
 import com.ran.kolibri.repository.user.UserRepository
 import com.ran.kolibri.security.JwtAuthentication
 import com.ran.kolibri.security.UserData
-import com.ran.kolibri.service.OperationService
-import com.ran.kolibri.service.ProjectService
-import com.ran.kolibri.service.UserService
+import com.ran.kolibri.service.financial.OperationService
+import com.ran.kolibri.service.project.ProjectService
+import com.ran.kolibri.service.user.UserService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile

@@ -1,4 +1,4 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.service.project
 
 import com.ran.kolibri.entity.financial.FinancialProjectSettings
 import com.ran.kolibri.entity.project.FinancialProject
@@ -9,6 +9,9 @@ import com.ran.kolibri.exception.InternalServerErrorException
 import com.ran.kolibri.exception.NotFoundException
 import com.ran.kolibri.repository.financial.FinancialProjectSettingsRepository
 import com.ran.kolibri.repository.project.ProjectRepository
+import com.ran.kolibri.service.user.UserService
+import com.ran.kolibri.service.comment.CommentService
+import com.ran.kolibri.service.financial.FinancialProjectService
 import com.ran.kolibri.specification.base.BaseSpecificationFactory
 import com.ran.kolibri.specification.project.ProjectSpecificationFactory
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,4 +1,4 @@
-package com.ran.kolibri.service
+package com.ran.kolibri.service.comment
 
 import com.ran.kolibri.entity.comment.Comment
 import com.ran.kolibri.entity.comment.CommentsHolder
@@ -6,6 +6,7 @@ import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.ForbiddenException
 import com.ran.kolibri.extension.logInfo
 import com.ran.kolibri.repository.comment.CommentRepository
+import com.ran.kolibri.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Service
