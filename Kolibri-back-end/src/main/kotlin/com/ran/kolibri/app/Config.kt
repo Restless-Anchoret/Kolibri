@@ -17,9 +17,6 @@ object Config {
     const val HIBERNATE_SHOW_SQL = "\${hibernate.show_sql}"
     const val HIBERNATE_HBM2DDL_AUTO = "\${hibernate.hbm2ddl.auto}"
 
-    // VCS properties
-    const val VCS_REPOSITORIES_FILE_PATH = "\${vcs.repositories-file-path}"
-
     // JWT properties
     const val JWT_EXPIRE_DAYS = "\${jwt.expire-days}"
     const val JWT_REFRESH_DAYS = "\${jwt.refresh-days}"
