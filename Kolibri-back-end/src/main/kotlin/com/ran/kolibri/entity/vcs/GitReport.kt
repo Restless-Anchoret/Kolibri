@@ -16,7 +16,8 @@ class GitReport(
         var message: String = "",
         var exception: String? = null,
         @Temporal(TIMESTAMP)
-        var date: Date = Date()
+        var date: Date = Date(),
+        var timeInMilliseconds: Long = 0
 ) : BaseEntity() {
 
     @ManyToOne

@@ -10,5 +10,6 @@ class GitReportDto : BaseEntityDto() {
     var message: String? = null
     var exception: String? = null
     var date: Date? = null
+    var timeInMilliseconds: Long? = null
 
 }
