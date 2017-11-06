@@ -34,7 +34,7 @@ class RepositoriesController {
     }
 
     @RequestMapping(value = "/{repositoryId}", method = arrayOf(GET))
-    fun getGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitRepositoryDto? {
+    fun getGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitRepositoryDto {
         val gitRepository = gitRepositoryPersistenceService.getGitRepositoryById(repositoryId)
         return orikaMapperFacade.map(gitRepository)
     }
@@ -51,6 +51,7 @@ class RepositoriesController {
 
     @RequestMapping(value = "/{repositoryId}", method = arrayOf(DELETE))
     fun removeGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): ResponseEntity<Any> {
+        gitRepositoryPersistenceService.removeGitRepositoryById(repositoryId)
         return ResponseEntity(OK)
     }
 
@@ -65,8 +66,10 @@ class RepositoriesController {
     }
 
     @RequestMapping(value = "/{repositoryId}/reports", method = arrayOf(GET))
-    fun getGitReportsPage(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): Page<GitReportDto>? {
-        return null
+    fun getGitReportsPage(@PathVariable("repositoryId") @RepositoryId repositoryId: Long,
+                          pageable: Pageable): Page<GitReportDto> {
+        val gitReports = gitRepositoryPersistenceService.getGitReportsPageByGitRepositoryId(repositoryId, pageable)
+        return orikaMapperFacade.mapAsPage(gitReports, pageable)
     }
 
 }

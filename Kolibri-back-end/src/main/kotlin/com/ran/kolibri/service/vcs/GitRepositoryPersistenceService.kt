@@ -1,9 +1,12 @@
 package com.ran.kolibri.service.vcs
 
+import com.ran.kolibri.entity.vcs.GitReport
 import com.ran.kolibri.entity.vcs.GitRepository
 import com.ran.kolibri.exception.NotFoundException
+import com.ran.kolibri.repository.vcs.GitReportRepository
 import com.ran.kolibri.repository.vcs.GitRepositoryRepository
 import com.ran.kolibri.service.user.UserService
+import com.ran.kolibri.specification.vcs.GitReportSpecificationFactory
 import com.ran.kolibri.specification.vcs.GitRepositorySpecificationFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -17,6 +20,8 @@ class GitRepositoryPersistenceService {
 
     @Autowired
     lateinit var gitRepositoryRepository: GitRepositoryRepository
+    @Autowired
+    lateinit var gitReportRepository: GitReportRepository
     @Autowired
     lateinit var userService: UserService
 
@@ -38,6 +43,17 @@ class GitRepositoryPersistenceService {
     fun getCurrentUserGitRepositoriesPage(pageable: Pageable, isActive: Boolean? = null): Page<GitRepository> {
         val currentUserId = userService.getAuthenticatedUserData().id
         return getGitRepositoriesPage(pageable, currentUserId, isActive)
+    }
+
+    @Transactional
+    fun removeGitRepositoryById(id: Long) {
+        gitRepositoryRepository.delete(id)
+    }
+
+    @Transactional
+    fun getGitReportsPageByGitRepositoryId(repositoryId: Long, pageable: Pageable): Page<GitReport> {
+        val specification = GitReportSpecificationFactory.byGitRepositoryId(repositoryId)
+        return gitReportRepository.findAll(specification, pageable)
     }
 
 }
