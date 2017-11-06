@@ -35,7 +35,7 @@ class GitRepository(
         @Temporal(TIMESTAMP)
         val lastCommitDate: Date? = null,
         @NotNull
-        val lastCommitNumber: Int? = null,
+        val lastCommitNumber: Int = 0,
         @NotNull
         val isErroreuos: Boolean = false
 ): NamedEntity(name, description) {
