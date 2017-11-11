@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.PrintWriter
 import java.nio.file.Files.*
+import java.nio.file.Path
 import java.nio.file.Paths
 
 @Service
@@ -22,9 +23,9 @@ class FileService {
     }
 
     @Value(APP_DIRECTORY_ROOT)
-    lateinit var appDirectoryRoot: String
+    private lateinit var appDirectoryRoot: String
 
-    val actualAppDirectoryRoot: String by lazy {
+    private val actualAppDirectoryRoot: String by lazy {
         if (appDirectoryRoot.isEmpty()) {
             "${System.getProperty("user.home")}/$DEFAULT_APP_DIRECTORY_ROOT_PREFIX"
         } else {
@@ -34,7 +35,7 @@ class FileService {
 
     @FileExceptionWrap
     fun initializeAppDirectory() {
-        val appDirectoryPath = Paths.get(actualAppDirectoryRoot)
+        val appDirectoryPath = getDirectoryPath()
         if (exists(appDirectoryPath) && !isDirectory(appDirectoryPath)) {
             logError { "App directory root path is not a directory" }
             throw FileException("App directory root path is not a directory")
@@ -47,7 +48,7 @@ class FileService {
 
     @FileExceptionWrap
     fun createDirectoryIfNotExists(vararg pathDirectories: String) {
-        val directoryPath = Paths.get(actualAppDirectoryRoot, *pathDirectories)
+        val directoryPath = getDirectoryPath(*pathDirectories)
         if (notExists(directoryPath)) {
             if (!pathDirectories.isEmpty()) {
                 val pathDirectoriesSlice = pathDirectories.asList().subList(0, pathDirectories.size - 1).toTypedArray()
@@ -59,16 +60,32 @@ class FileService {
     }
 
     @FileExceptionWrap
+    fun deleteDirectoryIfExists(vararg pathDirectories: String) {
+        val directoryPath = getDirectoryPath(*pathDirectories)
+        if (exists(directoryPath) && isDirectory(directoryPath)) {
+            delete(directoryPath)
+        }
+    }
+
+    @FileExceptionWrap
     fun writeToFile(content: String, fileName: String, vararg pathDirectories: String) {
         createDirectoryIfNotExists(*pathDirectories)
-        val directoryPath = Paths.get(actualAppDirectoryRoot, *pathDirectories)
-        val filePath = directoryPath.resolve(fileName)
+        val filePath = getFilePath(fileName, *pathDirectories)
         if (notExists(filePath)) {
             createFile(filePath)
         }
         PrintWriter(filePath.toString()).use { writer ->
             writer.println(content)
         }
+    }
+
+    fun getDirectoryPath(vararg pathDirectories: String): Path {
+        return Paths.get(actualAppDirectoryRoot, *pathDirectories)
+    }
+
+    fun getFilePath(fileName: String, vararg pathDirectories: String): Path {
+        val directoryPath = getDirectoryPath(*pathDirectories)
+        return directoryPath.resolve(fileName)
     }
 
 }

@@ -56,12 +56,13 @@ class RepositoriesController {
     }
 
     @RequestMapping(value = "/{repositoryId}/commit", method = arrayOf(POST))
-    fun commitGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitCommitDto? {
+    fun commitGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitReportDto? {
         return null
     }
 
     @RequestMapping(value = "/{repositoryId}/commits", method = arrayOf(GET))
-    fun getGitCommitsPage(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): Page<GitCommitDto>? {
+    fun getGitCommitsPage(@PathVariable("repositoryId") @RepositoryId repositoryId: Long,
+                          pageable: Pageable): Page<GitCommitDto>? {
         return null
     }
 

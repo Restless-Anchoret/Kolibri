@@ -17,6 +17,11 @@ object Config {
     const val HIBERNATE_SHOW_SQL = "\${hibernate.show_sql}"
     const val HIBERNATE_HBM2DDL_AUTO = "\${hibernate.hbm2ddl.auto}"
 
+    // VCS properties
+    const val VCS_COMMIT_AUTHOR = "\${vcs.commit-author}"
+    const val VCS_COMMIT_EMAIL = "\${vcs.commit-email}"
+    const val VCS_COMMIT_MESSAGE = "\${vcs.commit-message}"
+
     // App directory properties
     const val APP_DIRECTORY_ROOT = "\${app-directory.root}"
 

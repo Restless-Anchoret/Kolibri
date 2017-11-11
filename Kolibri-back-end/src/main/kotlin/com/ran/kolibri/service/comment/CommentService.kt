@@ -82,9 +82,9 @@ class CommentService {
         commentRepository.delete(oldComments)
 
         commentsHolder.comments.clear()
-        oldComments.forEachIndexed { index, comment ->
+        oldComments.forEachIndexed { index, oldComment ->
             if (index != commentIndex) {
-                val newComment = comment.clone()
+                val newComment = oldComment.clone()
                 commentRepository.save(newComment)
                 commentsHolder.comments.add(newComment)
             }
