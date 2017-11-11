@@ -7,6 +7,7 @@ import com.ran.kolibri.extension.logError
 import com.ran.kolibri.extension.logInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.io.PrintWriter
 import java.nio.file.Files.*
 import java.nio.file.Paths
 
@@ -38,16 +39,35 @@ class FileService {
             logError { "App directory root path is not a directory" }
             throw FileException("App directory root path is not a directory")
         }
-        if (notExists(appDirectoryPath)) {
-            logInfo { "App directory does not exist, creating it" }
-            createDirectory(appDirectoryPath)
-        }
+        createDirectoryIfNotExists()
         APP_DIRECTORY_SUBDIRECTORIES_NAMES.forEach { subdirectoryName ->
-            val folderPath = appDirectoryPath.resolve(subdirectoryName)
-            if (notExists(folderPath)) {
-                logInfo { "Directory $subdirectoryName does not exist, creating it" }
-                createDirectory(folderPath)
+            createDirectoryIfNotExists(subdirectoryName)
+        }
+    }
+
+    @FileExceptionWrap
+    fun createDirectoryIfNotExists(vararg pathDirectories: String) {
+        val directoryPath = Paths.get(actualAppDirectoryRoot, *pathDirectories)
+        if (notExists(directoryPath)) {
+            if (!pathDirectories.isEmpty()) {
+                val pathDirectoriesSlice = pathDirectories.asList().subList(0, pathDirectories.size - 1).toTypedArray()
+                createDirectoryIfNotExists(*pathDirectoriesSlice)
             }
+            logInfo { "Directory $directoryPath does not exist, creating it" }
+            createDirectory(directoryPath)
+        }
+    }
+
+    @FileExceptionWrap
+    fun writeToFile(content: String, fileName: String, vararg pathDirectories: String) {
+        createDirectoryIfNotExists(*pathDirectories)
+        val directoryPath = Paths.get(actualAppDirectoryRoot, *pathDirectories)
+        val filePath = directoryPath.resolve(fileName)
+        if (notExists(filePath)) {
+            createFile(filePath)
+        }
+        PrintWriter(filePath.toString()).use { writer ->
+            writer.println(content)
         }
     }
 
