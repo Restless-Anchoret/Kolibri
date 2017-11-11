@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 class GlobalExceptionHandler {
 
     companion object {
-        fun handleKolibriExceptionGlobal(exception: KolibriException,
+        fun handleKolibriExceptionGlobal(exception: RestApiException,
                                          httpServletResponse: HttpServletResponse) {
             logError(exception) { exception.message!! }
             val exceptionDto = ExceptionDto(exception.message, exception.httpStatus.value())
@@ -22,8 +22,8 @@ class GlobalExceptionHandler {
         }
     }
 
-    @ExceptionHandler(KolibriException::class)
-    fun handleKolibriException(exception: KolibriException,
+    @ExceptionHandler(RestApiException::class)
+    fun handleKolibriException(exception: RestApiException,
                                httpServletResponse: HttpServletResponse) {
         handleKolibriExceptionGlobal(exception, httpServletResponse)
     }
