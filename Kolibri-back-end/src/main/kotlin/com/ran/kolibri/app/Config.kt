@@ -17,8 +17,11 @@ object Config {
     const val HIBERNATE_SHOW_SQL = "\${hibernate.show_sql}"
     const val HIBERNATE_HBM2DDL_AUTO = "\${hibernate.hbm2ddl.auto}"
 
-    //
+    // App directory properties
     const val APP_DIRECTORY_ROOT = "\${app-directory.root}"
+
+    // Scheduling tasks properties
+    const val SCHEDULING_GIT_COMMIT_TASK_PERIOD = "\${scheduling.git-commit-task.period}"
 
     // JWT properties
     const val JWT_EXPIRE_DAYS = "\${jwt.expire-days}"
