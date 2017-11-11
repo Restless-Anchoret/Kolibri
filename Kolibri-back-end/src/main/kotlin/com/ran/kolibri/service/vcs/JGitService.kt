@@ -41,7 +41,7 @@ class JGitService {
 
     @FileExceptionWrap
     fun gitClone(repository: GitRepository) {
-        val pathArray = arrayOf(REPOS_DIRECTORY, repository.id.toString())
+        val pathArray = arrayOf(REPOS_DIRECTORY, fileService.getRepositoryDirectoryName(repository.id!!))
         try {
             fileService.deleteDirectoryIfExists(*pathArray)
             fileService.createDirectoryIfNotExists(*pathArray)
@@ -117,7 +117,7 @@ class JGitService {
 
     private fun getGit(repository: GitRepository): Git {
         val repositoryDirectoryPath = fileService.getDirectoryPath(
-                REPOS_DIRECTORY, repository.id.toString())
+                REPOS_DIRECTORY, fileService.getRepositoryDirectoryName(repository.id!!))
         return Git.open(repositoryDirectoryPath.toFile())
     }
 

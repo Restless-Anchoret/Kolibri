@@ -20,6 +20,9 @@ class FileService {
 
         private val DEFAULT_APP_DIRECTORY_ROOT_PREFIX = ".Kolibri"
         private val APP_DIRECTORY_SUBDIRECTORIES_NAMES = listOf(REPOS_DIRECTORY)
+
+        private val REPOSITORY_DIRECTORY_NAME_FORMAT = "repository-%s"
+        private val EXPORTED_PROJECT_FILE_NAME_FORMAT = "project-%s"
     }
 
     @Value(APP_DIRECTORY_ROOT)
@@ -86,6 +89,14 @@ class FileService {
     fun getFilePath(fileName: String, vararg pathDirectories: String): Path {
         val directoryPath = getDirectoryPath(*pathDirectories)
         return directoryPath.resolve(fileName)
+    }
+
+    fun getRepositoryDirectoryName(repositoryId: Long): String {
+        return REPOSITORY_DIRECTORY_NAME_FORMAT.format(repositoryId)
+    }
+
+    fun getExportedProjectFileName(projectId: Long): String {
+        return EXPORTED_PROJECT_FILE_NAME_FORMAT.format(projectId)
     }
 
 }

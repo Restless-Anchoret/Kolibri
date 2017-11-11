@@ -46,6 +46,19 @@ class GitRepositoryPersistenceService {
     }
 
     @Transactional
+    fun createGitRepository(name: String, description: String, url: String,
+                            username: String, password: String): GitRepository {
+        val gitRepository = GitRepository(name, description, url, username, password)
+        gitRepositoryRepository.save(gitRepository)
+        return gitRepository
+    }
+
+    @Transactional
+    fun saveGitRepository(gitRepository: GitRepository) {
+        gitRepositoryRepository.save(gitRepository)
+    }
+
+    @Transactional
     fun removeGitRepositoryById(id: Long) {
         gitRepositoryRepository.delete(id)
     }
@@ -54,6 +67,12 @@ class GitRepositoryPersistenceService {
     fun getGitReportsPageByGitRepositoryId(repositoryId: Long, pageable: Pageable): Page<GitReport> {
         val specification = GitReportSpecificationFactory.byGitRepositoryId(repositoryId)
         return gitReportRepository.findAll(specification, pageable)
+    }
+
+    @Transactional
+    fun saveGitReportToGitRepository(gitReport: GitReport, gitRepository: GitRepository) {
+        gitReport.repository = gitRepository
+        gitReportRepository.save(gitReport)
     }
 
 }

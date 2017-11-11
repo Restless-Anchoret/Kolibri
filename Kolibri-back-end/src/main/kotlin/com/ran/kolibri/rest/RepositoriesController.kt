@@ -6,6 +6,9 @@ import com.ran.kolibri.dto.response.vcs.GitRepositoryDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.component.aspect.annotation.RepositoryId
+import com.ran.kolibri.dto.request.vcs.CreateGitRepositoryRequestDto
+import com.ran.kolibri.dto.request.vcs.EditGitRepositoryRequestDto
+import com.ran.kolibri.service.vcs.GitRepositoryManagementService
 import com.ran.kolibri.service.vcs.GitRepositoryPersistenceService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.*
 import org.springframework.web.bind.annotation.RestController
@@ -24,6 +28,8 @@ class RepositoriesController {
 
     @Autowired
     lateinit var gitRepositoryPersistenceService: GitRepositoryPersistenceService
+    @Autowired
+    lateinit var gitRepositoryManagementService: GitRepositoryManagementService
     @Autowired
     lateinit var orikaMapperFacade: MapperFacade
 
@@ -40,30 +46,37 @@ class RepositoriesController {
     }
 
     @RequestMapping(method = arrayOf(POST))
-    fun addGitRepository(): GitRepositoryDto? {
-        return null
+    fun createGitRepository(@RequestBody dto: CreateGitRepositoryRequestDto): GitRepositoryDto {
+        val gitRepository = gitRepositoryManagementService.createGitRepository(
+                dto.name!!, dto.description!!, dto.url!!, dto.username!!, dto.password!!)
+        return orikaMapperFacade.map(gitRepository)
     }
 
     @RequestMapping(value = "/{repositoryId}", method = arrayOf(PUT))
-    fun editGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitRepositoryDto? {
-        return null
+    fun editGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long,
+                          @RequestBody dto: EditGitRepositoryRequestDto): GitRepositoryDto {
+        val gitRepository = gitRepositoryManagementService.editGitRepository(repositoryId,
+                dto.name!!, dto.description!!, dto.url!!, dto.username!!, dto.password!!,
+                dto.isActive!!, dto.daysPerCommit!!, dto.daysForReportsStoring!!)
+        return orikaMapperFacade.map(gitRepository)
     }
 
     @RequestMapping(value = "/{repositoryId}", method = arrayOf(DELETE))
     fun removeGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): ResponseEntity<Any> {
-        gitRepositoryPersistenceService.removeGitRepositoryById(repositoryId)
+        gitRepositoryManagementService.removeGitRepositoryById(repositoryId)
         return ResponseEntity(OK)
     }
 
     @RequestMapping(value = "/{repositoryId}/commit", method = arrayOf(POST))
-    fun commitGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitReportDto? {
-        return null
+    fun commitGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long): GitReportDto {
+        val gitReport = gitRepositoryManagementService.commitGitRepository(repositoryId)
+        return orikaMapperFacade.map(gitReport)
     }
 
     @RequestMapping(value = "/{repositoryId}/commits", method = arrayOf(GET))
     fun getGitCommitsPage(@PathVariable("repositoryId") @RepositoryId repositoryId: Long,
-                          pageable: Pageable): Page<GitCommitDto>? {
-        return null
+                          pageable: Pageable): Page<GitCommitDto> {
+        return gitRepositoryManagementService.getGitRepositoryCommits(repositoryId, pageable)
     }
 
     @RequestMapping(value = "/{repositoryId}/reports", method = arrayOf(GET))
