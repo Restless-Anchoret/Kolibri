@@ -1,19 +1,28 @@
 package com.ran.kolibri.component.startup
 
+import com.ran.kolibri.exception.FileException
+import com.ran.kolibri.exception.StartUpException
 import com.ran.kolibri.extension.logInfo
+import com.ran.kolibri.service.file.FileService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class AppDirectoryInitializer {
 
+    @Autowired
+    lateinit var fileService: FileService
+
     @EventListener
-    @Transactional
     fun handleContextRefresh(event: ContextRefreshedEvent) {
         logInfo { "Before app directory initialization" }
-        // todo
+        try {
+            fileService.initializeAppDirectory()
+        } catch (ex: FileException) {
+            throw StartUpException("FileException while app directory initialization", ex)
+        }
         logInfo { "After app directory initialization" }
     }
 
