@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Aspect
 @Component
-class InstanceProtectedAdvice {
+class InstanceProtectedAspect {
 
     @Autowired
     lateinit var userService: UserService

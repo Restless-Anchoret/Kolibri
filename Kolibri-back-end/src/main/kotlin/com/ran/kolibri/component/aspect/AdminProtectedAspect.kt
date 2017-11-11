@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 
 @Aspect
 @Component
-class AdminProtectedAdvice {
+class AdminProtectedAspect {
 
     @Autowired
     lateinit var userService: UserService
