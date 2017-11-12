@@ -12,11 +12,11 @@ import java.io.IOException
 class FileExceptionWrapAspect {
 
     @Around("@annotation(com.ran.kolibri.component.aspect.annotation.FileExceptionWrap)")
-    fun aroundAdvice(joinPoint: ProceedingJoinPoint) {
+    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any? {
         try {
-            joinPoint.proceed()
+            return joinPoint.proceed()
         } catch (ex: IOException) {
-            throw FileException("IOException was occured", ex)
+            throw FileException("IOException was caught", ex)
         }
     }
 

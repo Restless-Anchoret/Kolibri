@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component
 class LogableAspect {
 
     @Around("@annotation(com.ran.kolibri.component.aspect.annotation.Logable)")
-    fun aroundAdvice(joinPoint: ProceedingJoinPoint) {
+    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any? {
         // todo
+        return joinPoint.proceed()
     }
 
 }

@@ -27,7 +27,7 @@ class InstanceProtectedAspect {
 
     @Around("@within(org.springframework.web.bind.annotation.RestController)")
     @Transactional
-    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any {
+    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any? {
         val projectId = extractIdByAnnotation(joinPoint, ProjectId::class.java)
         if (projectId != null) {
             val authenticatedUserId = userService.getAuthenticatedUserData().id
@@ -51,7 +51,7 @@ class InstanceProtectedAspect {
     }
 
     private fun <T : Annotation> extractIdByAnnotation(joinPoint: ProceedingJoinPoint,
-                                          annotationClass: Class<T>): Long? {
+                                                       annotationClass: Class<T>): Long? {
         val method = (joinPoint.signature as MethodSignature).method
         var parameterIndex = -1
         method.parameters.forEachIndexed { index, parameter ->

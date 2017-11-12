@@ -17,7 +17,7 @@ class AdminProtectedAspect {
     lateinit var userService: UserService
 
     @Around("@annotation(com.ran.kolibri.component.aspect.annotation.AdminProtected)")
-    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any {
+    fun aroundAdvice(joinPoint: ProceedingJoinPoint): Any? {
         val userData = userService.getAuthenticatedUserData()
         if (userData.userRole != UserRole.ADMIN) {
             throw ForbiddenException("Admin role is required")
