@@ -56,8 +56,8 @@ class RepositoriesController {
     fun editGitRepository(@PathVariable("repositoryId") @RepositoryId repositoryId: Long,
                           @RequestBody dto: EditGitRepositoryRequestDto): GitRepositoryDto {
         val gitRepository = gitRepositoryManagementService.editGitRepository(repositoryId,
-                dto.name!!, dto.description!!, dto.url!!, dto.username!!, dto.password!!,
-                dto.isActive!!, dto.daysPerCommit!!, dto.daysForReportsStoring!!)
+                dto.name!!, dto.description!!, dto.username!!, dto.password!!,
+                dto.isActive!!, dto.daysPerCommit!!, dto.daysForReportsStoring!!, dto.projectIds!!)
         return orikaMapperFacade.map(gitRepository)
     }
 

@@ -7,7 +7,7 @@ import com.ran.kolibri.component.aspect.annotation.FileExceptionWrap
 import com.ran.kolibri.entity.vcs.GitRepository
 import com.ran.kolibri.service.file.FileService
 import com.ran.kolibri.service.file.FileService.Companion.REPOS_DIRECTORY
-import com.ran.kolibri.service.vcs.JGitService.Companion.CommitResult.*
+import com.ran.kolibri.service.vcs.JGitCommitResult.*
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.GitAPIException
 import org.eclipse.jgit.revwalk.RevCommit
@@ -20,14 +20,6 @@ import java.util.*
 
 @Service
 class JGitService {
-
-    companion object {
-        enum class CommitResult {
-            COMMITED_SUCCESSFULLY,
-            COMMITED_NOT_COMPLETELY,
-            NOTHING_TO_COMMIT
-        }
-    }
 
     @Autowired
     lateinit var fileService: FileService
@@ -65,17 +57,20 @@ class JGitService {
     }
 
     @FileExceptionWrap
-    fun gitLog(repository: GitRepository, skip: Int, maxCount: Int): List<RevCommit> {
+    fun gitLog(repository: GitRepository, skip: Int = 0, maxCount: Int = 0): List<RevCommit> {
         val git = getGit(repository)
-        return git.log()
-                .setMaxCount(maxCount)
-                .setSkip(skip)
-                .call()
-                .toList()
+        val gitLog = git.log()
+        if (skip > 0) {
+            gitLog.setSkip(skip)
+        }
+        if (maxCount > 0) {
+            gitLog.setMaxCount(maxCount)
+        }
+        return gitLog.call().toList()
     }
 
     @FileExceptionWrap
-    fun gitCommit(repository: GitRepository): CommitResult {
+    fun gitCommit(repository: GitRepository): JGitCommitResult {
         val git = getGit(repository)
         val statusBeforeAdd = git.status().call()
 
@@ -101,9 +96,9 @@ class JGitService {
 
         val statusAfterCommit = git.status().call()
         return if (statusAfterCommit.hasUncommittedChanges()) {
-            COMMITED_NOT_COMPLETELY
+            COMMITTED_NOT_COMPLETELY
         } else {
-            COMMITED_SUCCESSFULLY
+            COMMITTED_SUCCESSFULLY
         }
     }
 

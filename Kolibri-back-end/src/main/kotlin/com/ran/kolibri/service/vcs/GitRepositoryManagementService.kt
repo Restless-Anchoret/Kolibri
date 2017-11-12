@@ -2,16 +2,13 @@ package com.ran.kolibri.service.vcs
 
 import com.ran.kolibri.dto.response.vcs.GitCommitDto
 import com.ran.kolibri.entity.vcs.GitReport
-import com.ran.kolibri.entity.vcs.GitReportType.ERROR
-import com.ran.kolibri.entity.vcs.GitReportType.WARNING
 import com.ran.kolibri.entity.vcs.GitRepository
 import com.ran.kolibri.exception.BadRequestException
 import com.ran.kolibri.exception.FileException
+import com.ran.kolibri.extension.logError
 import com.ran.kolibri.service.export.ExportService
 import com.ran.kolibri.service.file.FileService
 import com.ran.kolibri.service.file.FileService.Companion.REPOS_DIRECTORY
-import com.ran.kolibri.service.vcs.JGitService.Companion.CommitResult
-import com.ran.kolibri.service.vcs.JGitService.Companion.CommitResult.*
 import org.eclipse.jgit.api.errors.GitAPIException
 import org.eclipse.jgit.lib.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +18,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
+import java.util.*
 
 @Service
 class GitRepositoryManagementService {
@@ -47,39 +45,43 @@ class GitRepositoryManagementService {
                 name, description, url, username, password)
         try {
             jgitService.gitClone(gitRepository)
-            return gitRepository
-        } catch (ex: GitAPIException) {
-            gitRepositoryPersistenceService.removeGitRepositoryById(gitRepository.id!!)
-            throw BadRequestException("Unable to clone the repository with the given credentials")
+            return gitRepositoryPersistenceService.saveGitRepositoryLastCommitNumber(
+                    gitRepository, jgitService.gitLog(gitRepository).size)
+        } catch (ex: Exception) {
+            logError(ex) { "Exception while trying to create Git Repository" }
+            val extractedException = tryToExtractException(ex, GitAPIException::class.java)
+            if (extractedException != null) {
+                gitRepositoryPersistenceService.removeGitRepositoryById(gitRepository.id!!)
+                throw BadRequestException("Unable to access the repository with the given credentials", extractedException)
+            }
+            throw ex
         }
     }
 
     @Transactional
-    fun editGitRepository(id: Long, name: String, description: String, url: String,
+    fun editGitRepository(id: Long, name: String, description: String,
                           username: String, password: String, isActive: Boolean,
-                          daysPerCommit: Int, daysForReportsStoring: Int): GitRepository {
+                          daysPerCommit: Int, daysForReportsStoring: Int,
+                          projectIds: List<Long>): GitRepository {
         val gitRepository = gitRepositoryPersistenceService.getGitRepositoryById(id)
-        val isCredentialsModified = (gitRepository.url != url ||
-                gitRepository.username != username || gitRepository.password != password)
 
-        gitRepository.name = name
-        gitRepository.description = description
-        gitRepository.url = url
-        gitRepository.username = username
-        gitRepository.password = password
-        gitRepository.isActive = isActive
-        gitRepository.daysPerCommit = daysPerCommit
-        gitRepository.daysForReportsStoring = daysForReportsStoring
-
-        try {
-            if (isCredentialsModified) {
+        if (gitRepository.username != username || gitRepository.password != password) {
+            try {
+                gitRepository.username = username
+                gitRepository.password = password
                 jgitService.gitPull(gitRepository)
+            } catch (ex: Exception) {
+                logError(ex) { "Exception while trying to edit Git Repository" }
+                val extractedException = tryToExtractException(ex, GitAPIException::class.java)
+                if (extractedException != null) {
+                    throw BadRequestException("Unable to access the repository with the given credentials", extractedException)
+                }
+                throw ex
             }
-            gitRepositoryPersistenceService.saveGitRepository(gitRepository)
-            return gitRepository
-        } catch (ex: GitAPIException) {
-            throw BadRequestException("Unable to pull the repository with the given credentials")
         }
+
+        return gitRepositoryPersistenceService.saveGitRepository(gitRepository, name, description,
+                username, password, isActive, daysPerCommit, daysForReportsStoring, projectIds)
     }
 
     @Transactional
@@ -91,20 +93,21 @@ class GitRepositoryManagementService {
     @Transactional
     fun getGitRepositoryCommits(id: Long, pageable: Pageable): Page<GitCommitDto> {
         val gitRepository = gitRepositoryPersistenceService.getGitRepositoryById(id)
+        val totalCommitsQuantity = gitRepository.lastCommitNumber
         val revCommitsList = jgitService.gitLog(gitRepository, pageable.offset, pageable.pageSize)
         val gitCommitDtoList = revCommitsList.mapIndexed { index, revCommit ->
             val gitCommitDto = GitCommitDto()
             val commitId = ObjectId.toString(revCommit.id)
-            gitCommitDto.number = pageable.offset + index + 1
+            gitCommitDto.number = totalCommitsQuantity - (pageable.offset + index)
             gitCommitDto.id = commitId
             gitCommitDto.author = revCommit.authorIdent.name
             gitCommitDto.email = revCommit.authorIdent.emailAddress
             gitCommitDto.message = revCommit.shortMessage
-            gitCommitDto.date = Instant.ofEpochSecond(revCommit.commitTime.toLong())
+            gitCommitDto.date = Date(revCommit.commitTime.toLong() * 1000)
             gitCommitDto.link = getCommitLink(gitRepository.url, commitId)
             gitCommitDto
         }
-        return PageImpl(gitCommitDtoList, pageable, gitRepository.lastCommitNumber.toLong())
+        return PageImpl(gitCommitDtoList, pageable, totalCommitsQuantity.toLong())
     }
 
     @Transactional
@@ -118,10 +121,13 @@ class GitRepositoryManagementService {
             }
             val commitResult = jgitService.gitCommit(gitRepository)
             jgitService.gitPush(gitRepository)
-            return saveGitReportByCommitResult(start, gitRepository, commitResult)
+            return gitRepositoryPersistenceService.saveGitReportByCommitResult(start, gitRepository, commitResult)
         } catch (ex: Exception) {
-            if (ex is GitAPIException || ex is FileException) {
-                return saveGitReportByException(start, gitRepository, ex)
+            logError(ex) { "Exception while performing Git commit" }
+            val extractedException = tryToExtractException(ex, FileException::class.java, GitAPIException::class.java)
+            if (extractedException != null) {
+                extractedException as Exception
+                return gitRepositoryPersistenceService.saveGitReportByException(start, gitRepository, extractedException)
             }
             throw ex
         }
@@ -133,45 +139,6 @@ class GitRepositoryManagementService {
                 REPOS_DIRECTORY, fileService.getRepositoryDirectoryName(repositoryId))
     }
 
-    private fun saveGitReportByCommitResult(start: Instant, gitRepository: GitRepository,
-                                            commitResult: CommitResult): GitReport {
-        val gitReport = GitReport()
-        var commitNumberIncrement = 1
-        when (commitResult) {
-            COMMITED_SUCCESSFULLY -> {
-                gitReport.message = "Commit was performed successfully"
-            }
-            COMMITED_NOT_COMPLETELY -> {
-                gitReport.type = WARNING
-                gitReport.message = "Commit was performed with warning: uncommitted changed after commit!"
-            }
-            NOTHING_TO_COMMIT -> {
-                gitReport.message = "Nothing to commit"
-                commitNumberIncrement = 0
-            }
-        }
-        gitReport.timeInMilliseconds = gitReport.date.time - start.toEpochMilli()
-        gitRepository.lastCommitDate = gitReport.date
-        gitRepository.lastCommitNumber = gitRepository.lastCommitNumber + commitNumberIncrement
-        gitRepository.isErroreuos = false
-        gitRepositoryPersistenceService.saveGitRepository(gitRepository)
-        gitRepositoryPersistenceService.saveGitReportToGitRepository(gitReport, gitRepository)
-        return gitReport
-    }
-
-    private fun saveGitReportByException(start: Instant, gitRepository: GitRepository,
-                                         ex: Exception): GitReport {
-        val gitReport = GitReport()
-        gitReport.type = ERROR
-        gitReport.message = ex.message ?: ""
-        gitReport.exception = ex.javaClass.name
-        gitReport.timeInMilliseconds = gitReport.date.time - start.toEpochMilli()
-        gitRepository.isErroreuos = true
-        gitRepositoryPersistenceService.saveGitRepository(gitRepository)
-        gitRepositoryPersistenceService.saveGitReportToGitRepository(gitReport, gitRepository)
-        return gitReport
-    }
-
     private fun getCommitLink(url: String, commitId: String): String {
         URL_PREFIX_TO_COMMIT_LINK_FORMAT_MAP.entries.forEach { (urlPrefix, commitLinkFormat) ->
             if (url.startsWith(urlPrefix)) {
@@ -179,6 +146,16 @@ class GitRepositoryManagementService {
             }
         }
         return ""
+    }
+
+    private fun tryToExtractException(ex: Throwable, vararg expectedExceptionClasses: Class<out Throwable>): Throwable? {
+        if (expectedExceptionClasses.any { exceptionClass -> exceptionClass.isAssignableFrom(ex.javaClass) }) {
+            return ex
+        }
+        if (expectedExceptionClasses.any { exceptionClass -> exceptionClass.isAssignableFrom(ex.cause?.javaClass) }) {
+            return ex.cause
+        }
+        return null
     }
 
 }

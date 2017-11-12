@@ -20,6 +20,7 @@ import com.ran.kolibri.security.UserData
 import com.ran.kolibri.service.financial.OperationService
 import com.ran.kolibri.service.project.ProjectService
 import com.ran.kolibri.service.user.UserService
+import com.ran.kolibri.service.vcs.GitRepositoryManagementService
 import ma.glasnost.orika.MapperFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
@@ -67,6 +68,8 @@ class DebugDataPopulator {
     lateinit var projectService: ProjectService
     @Autowired
     lateinit var operationService: OperationService
+    @Autowired
+    lateinit var gitRepositoryManagementService: GitRepositoryManagementService
     @Autowired
     lateinit var orikaMapperFacade: MapperFacade
 
@@ -155,13 +158,11 @@ class DebugDataPopulator {
     }
 
     private fun fillGitRepository(project: Project): GitRepository {
-        val user = userService.getAdminUser()
-        val repository = GitRepository(TEST_REPOSITORY_NAME, DEFAULT_DESCRIPTION,
+        val gitRepository = gitRepositoryManagementService.createGitRepository(TEST_REPOSITORY_NAME, DEFAULT_DESCRIPTION,
                 TEST_REPOSITORY_URL, TEST_REPOSITORY_USERNAME, TEST_REPOSITORY_PASSWORD)
-        repository.owner = user
-        repository.projects.add(project)
-        gitRepositoryRepository.save(repository)
-        return repository
+        gitRepository.projects.add(project)
+        gitRepositoryRepository.save(gitRepository)
+        return gitRepository
     }
 
 }

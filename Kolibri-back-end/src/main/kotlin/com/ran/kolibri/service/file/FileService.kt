@@ -7,6 +7,7 @@ import com.ran.kolibri.extension.logError
 import com.ran.kolibri.extension.logInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.io.File
 import java.io.PrintWriter
 import java.nio.file.Files.*
 import java.nio.file.Path
@@ -22,7 +23,7 @@ class FileService {
         private val APP_DIRECTORY_SUBDIRECTORIES_NAMES = listOf(REPOS_DIRECTORY)
 
         private val REPOSITORY_DIRECTORY_NAME_FORMAT = "repository-%s"
-        private val EXPORTED_PROJECT_FILE_NAME_FORMAT = "project-%s"
+        private val EXPORTED_PROJECT_FILE_NAME_FORMAT = "project-%s.json"
     }
 
     @Value(APP_DIRECTORY_ROOT)
@@ -66,7 +67,8 @@ class FileService {
     fun deleteDirectoryIfExists(vararg pathDirectories: String) {
         val directoryPath = getDirectoryPath(*pathDirectories)
         if (exists(directoryPath) && isDirectory(directoryPath)) {
-            delete(directoryPath)
+            logInfo { "Deleting directory $directoryPath" }
+            deleteRecursively(directoryPath.toFile())
         }
     }
 
@@ -97,6 +99,19 @@ class FileService {
 
     fun getExportedProjectFileName(projectId: Long): String {
         return EXPORTED_PROJECT_FILE_NAME_FORMAT.format(projectId)
+    }
+
+    private fun deleteRecursively(path: File) {
+        logInfo { "Deleting for path: $path" }
+        val content = path.listFiles()
+        if (content != null) {
+            logInfo { "Path $path is a directory with content, deleting content" }
+            for (subPath in content) {
+                deleteRecursively(subPath)
+            }
+        }
+        path.delete()
+        logInfo { "Path $path was deleted" }
     }
 
 }
