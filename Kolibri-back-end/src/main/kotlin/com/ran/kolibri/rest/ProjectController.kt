@@ -9,6 +9,7 @@ import com.ran.kolibri.dto.response.project.ProjectDto
 import com.ran.kolibri.extension.map
 import com.ran.kolibri.extension.mapAsPage
 import com.ran.kolibri.component.aspect.annotation.ProjectId
+import com.ran.kolibri.dto.export.project.ExportDto
 import com.ran.kolibri.service.export.ExportService
 import com.ran.kolibri.service.export.ImportService
 import com.ran.kolibri.service.project.ProjectService
@@ -83,7 +84,7 @@ class ProjectController {
     }
 
     @RequestMapping(value = "{projectId}/export", method = arrayOf(POST))
-    fun exportProject(@PathVariable("projectId") @ProjectId projectId: Long): ProjectExportDto {
+    fun exportProject(@PathVariable("projectId") @ProjectId projectId: Long): ExportDto {
         return exportService.exportProject(projectId)
     }
 
