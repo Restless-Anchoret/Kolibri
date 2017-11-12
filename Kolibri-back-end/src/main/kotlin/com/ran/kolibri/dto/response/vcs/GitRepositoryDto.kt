@@ -13,6 +13,7 @@ class GitRepositoryDto : NamedEntityDto() {
     var daysPerCommit: Int? = null
     var daysForReportsStoring: Int? = null
     var lastCommitDate: Date? = null
+    var lastCommitNumber: Int? = null
     var isErroreuos: Boolean? = null
     var projects: List<ProjectBriefDto>? = null
 
