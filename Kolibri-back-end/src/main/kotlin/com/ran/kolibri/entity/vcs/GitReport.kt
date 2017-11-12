@@ -14,11 +14,17 @@ class GitReport(
         var type: GitReportType = SUCCESS,
         @NotEmpty
         var message: String = "",
-        var exception: String? = null,
+        var exception: String = "",
+        @Column(length = MAX_STACKTRACE_LENGTH)
+        var stacktrace: String = "",
         @Temporal(TIMESTAMP)
         var date: Date = Date(),
         var timeInMilliseconds: Long = 0
 ) : BaseEntity() {
+
+    companion object {
+        const val MAX_STACKTRACE_LENGTH = 2000
+    }
 
     @ManyToOne
     var repository: GitRepository? = null
