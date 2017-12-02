@@ -32,5 +32,6 @@ object Config {
     const val JWT_EXPIRE_DAYS = "\${jwt.expire-days}"
     const val JWT_REFRESH_DAYS = "\${jwt.refresh-days}"
     const val JWT_SECRET = "\${jwt.secret}"
+    const val JWT_IGNORED_URLS = "\${jwt.ignored-urls}"
 
 }

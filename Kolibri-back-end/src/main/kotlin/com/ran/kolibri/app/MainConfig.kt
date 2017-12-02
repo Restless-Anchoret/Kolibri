@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @SpringBootApplication
 @ComponentScan(basePackages = arrayOf("com.ran.kolibri"))
@@ -13,4 +14,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EntityScan(basePackages = arrayOf("com.ran.kolibri.entity"))
 @EnableTransactionManagement
 @EnableScheduling
+@EnableSwagger2
 class MainConfig

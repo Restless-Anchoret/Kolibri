@@ -19,6 +19,7 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.1.4-3</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <springifox.version>2.6.1</springifox.version>
     </properties>
 
     <dependencies>
@@ -83,6 +84,19 @@
             <groupId>org.liquibase.ext</groupId>
             <artifactId>liquibase-postgresql</artifactId>
             <version>3.0</version>
+        </dependency>
+
+        <!-- Swagger dependencies -->
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springifox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springifox.version}</version>
         </dependency>
 
         <!-- Other dependencies -->

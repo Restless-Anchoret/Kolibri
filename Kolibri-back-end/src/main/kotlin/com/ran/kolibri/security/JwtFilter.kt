@@ -1,9 +1,12 @@
 package com.ran.kolibri.security
 
+import com.ran.kolibri.app.Config.JWT_IGNORED_URLS
 import com.ran.kolibri.exception.GlobalExceptionHandler
 import com.ran.kolibri.exception.UnauthorizedException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.stereotype.Component
 import java.time.Instant
 import javax.servlet.*
@@ -13,12 +16,14 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class JwtFilter : Filter {
 
-    companion object {
-        private val LOGIN_END_POINT_URL = "/users/login"
-    }
-
     @Autowired
     lateinit var jwtGenerator: JwtGenerator
+    @Value(JWT_IGNORED_URLS)
+    lateinit var jwtIgnoredUrls: Array<String>
+
+    private val ignoredUrlMatchers: List<AntPathRequestMatcher> by lazy {
+        jwtIgnoredUrls.map { url -> AntPathRequestMatcher(url) }
+    }
 
     override fun init(filterConfig: FilterConfig) { }
 
@@ -26,7 +31,7 @@ class JwtFilter : Filter {
         val httpServletRequest = request as HttpServletRequest
         val httpServletResponse = response as HttpServletResponse
 
-        if (httpServletRequest.requestURI == LOGIN_END_POINT_URL) {
+        if (ignoredUrlMatchers.any { it.matches(request) }) {
             chain.doFilter(request, response)
             return
         }
